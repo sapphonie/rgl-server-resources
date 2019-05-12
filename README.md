@@ -15,10 +15,10 @@ These are for use in the relaunch of TFCL. *Do not use them for TFCL matches unt
 
 Todo: 
 
-* add golden cap for all modes
-* add stopwatch
-* add ?ctf?
-* add ultiduo?
-* ????
+* ~~add golden cap for all modes~~ **done**
+* ~~add stopwatch~~ **done**
+* ~~add ?ctf?~~ **probably will never happen**
+* ~~add ultiduo~~ **done**
+* ~~add highlander~~ **done**
 
 
