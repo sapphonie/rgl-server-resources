@@ -6,7 +6,7 @@ I tried my best to remove extraneous commands while minimizing the ability for c
 
 my steam id is / thesqrtminus1 / and my twitter is @ thesqrtminus1 .
 
-To use these, exec tfcl_\<gamemode\>.cfg and it'll do the rest. 
+To use these, exec tfcl_\<gamemode\>_\<6s/HL/UD\>.cfg and it'll do the rest. 
 
 These are still being updated, please be patient while I add missing modes.
 
