@@ -28,7 +28,9 @@ Here are the configs you need to exec for specific modes/map types.
 * 5cp Match Golden Cap: `(rcon) exec tfcl_5cp_6s_GOLD` *exec for golden cap in matches*
 
 5cp Scrim: `(rcon) exec tfcl_5cp_6s_scrim` *exec for 5cp scrims*
+
 KoTH (Match/Scrim): `(rcon) exec tfcl_koth_6s` *exec for any koth maps*
+
 Stopwatch (Match/Scrim): `(rcon) exec tfcl_stopwatch_6s` *exec for any stopwatch style maps*
 
 
@@ -39,7 +41,9 @@ Stopwatch (Match/Scrim): `(rcon) exec tfcl_stopwatch_6s` *exec for any stopwatch
 * 5cp Match Golden Cap: `(rcon) exec tfcl_5cp_HL_GOLD` *exec for golden cap in matches*
 
 5cp Scrim: `(rcon) exec tfcl_5cp_HL_scrim` *exec for 5cp scrims*
+
 KoTH (Match/Scrim): `(rcon) exec tfcl_koth_HL` *exec for any koth maps*
+
 Stopwatch (Match/Scrim): `(rcon) exec tfcl_stopwatch_HL` *exec for any stopwatch style maps*
 
 **Ultiduo:**
