@@ -50,7 +50,9 @@ Stopwatch (Match/Scrim): `(rcon) exec tfcl_stopwatch_HL` *exec for any stopwatch
 
 `(rcon) exec tfcl_ultiduo_UD`
 
+**Reset Config:**
 
+`(rcon) exec tfcl_off`
 
 ## Todo: 
 
