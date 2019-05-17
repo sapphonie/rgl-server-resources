@@ -17,7 +17,7 @@ These are for use in the relaunch of TFCL. *Do not use them for TFCL matches unt
 
 ## !!Read this section if you're not going to read anything else!!
 
-There are different configs for scrims and matches.
+There are different configs for scrims and matches, if you're playing 5cp. Every other mode is the same, regardless of it being a scrim or a match.
 
 Here are the configs you need to exec for specific modes/map types.
 
