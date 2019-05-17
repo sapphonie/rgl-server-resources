@@ -8,17 +8,24 @@ I tried my best to remove extraneous commands while minimizing the ability for c
 
 my steam id is / thesqrtminus1 / and my twitter is @ thesqrtminus1 .
 
-There are different configs for scrims and matches. ***
+
+These are still being updated, please be patient while I add missing modes.
+
+These are for use in the relaunch of TFCL. *Do not use them for TFCL matches until they are live on the tfcleague domain.*
+
+
 
 ## !!Read this section if you're not going to read anything else!!
+
+There are different configs for scrims and matches.
 
 Here are the configs you need to exec for specific modes/map types.
 
 **6s:**
 
-5cp Match: `(rcon) exec tfcl_5cp_6s_match` < exec for 5cp matches >
-* 5cp Match Overtime: `(rcon) exec tfcl_5cp_6s_OT` < exec for overtime in matches >
-* 5cp Match Golden Cap: `(rcon) exec tfcl_5cp_6s_GOLD` < exec for golden cap in matches
+5cp Match: `(rcon) exec tfcl_5cp_6s_match` *exec for 5cp matches*
+* 5cp Match Overtime: `(rcon) exec tfcl_5cp_6s_OT` *exec for overtime in matches*
+* 5cp Match Golden Cap: `(rcon) exec tfcl_5cp_6s_GOLD` *exec for golden cap in matches*
 
 5cp Scrim: `(rcon) exec tfcl_5cp_6s_scrim` *exec for 5cp scrims*
 KoTH (Match/Scrim): `(rcon) exec tfcl_koth_6s` *exec for any koth maps*
@@ -27,9 +34,9 @@ Stopwatch (Match/Scrim): `(rcon) exec tfcl_stopwatch_6s` *exec for any stopwatch
 
 **HL:**
 
-5cp Match: `(rcon) exec tfcl_5cp_HL_match` < exec for 5cp matches >
-* 5cp Match Overtime: `(rcon) exec tfcl_5cp_HL_OT` < exec for overtime in matches >
-* 5cp Match Golden Cap: `(rcon) exec tfcl_5cp_HL_GOLD` < exec for golden cap in matches
+5cp Match: `(rcon) exec tfcl_5cp_HL_match` *exec for 5cp matches*
+* 5cp Match Overtime: `(rcon) exec tfcl_5cp_HL_OT` < *exec for overtime in matches*
+* 5cp Match Golden Cap: `(rcon) exec tfcl_5cp_HL_GOLD` *exec for golden cap in matches*
 
 5cp Scrim: `(rcon) exec tfcl_5cp_HL_scrim` *exec for 5cp scrims*
 KoTH (Match/Scrim): `(rcon) exec tfcl_koth_HL` *exec for any koth maps*
@@ -40,12 +47,8 @@ Stopwatch (Match/Scrim): `(rcon) exec tfcl_stopwatch_HL` *exec for any stopwatch
 `(rcon) exec tfcl_ultiduo_UD`
 
 
-These are still being updated, please be patient while I add missing modes.
 
-These are for use in the relaunch of TFCL. *Do not use them for TFCL matches until they are live on the tfcleague domain.*
-
-
-Todo: 
+## Todo: 
 
 * ~~add golden cap for all modes~~ **done**
 * ~~add stopwatch~~ **done**
