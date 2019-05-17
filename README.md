@@ -37,7 +37,7 @@ Stopwatch (Match/Scrim): `(rcon) exec tfcl_stopwatch_6s` *exec for any stopwatch
 **HL:**
 
 5cp Match: `(rcon) exec tfcl_5cp_HL_match` *exec for 5cp matches*
-* 5cp Match Overtime: `(rcon) exec tfcl_5cp_HL_OT` < *exec for overtime in matches*
+* 5cp Match Overtime: `(rcon) exec tfcl_5cp_HL_OT` *exec for overtime in matches*
 * 5cp Match Golden Cap: `(rcon) exec tfcl_5cp_HL_GOLD` *exec for golden cap in matches*
 
 5cp Scrim: `(rcon) exec tfcl_5cp_HL_scrim` *exec for 5cp scrims*
