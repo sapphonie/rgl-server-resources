@@ -23,32 +23,32 @@ Here are the configs you need to exec for specific modes/map types.
 
 **6s:**
 
-5cp Match: `(rcon) exec tfcl_5cp_6s_match` *exec for 5cp matches*
-* 5cp Match Overtime: `(rcon) exec tfcl_5cp_6s_OT` *exec for overtime in matches*
-* 5cp Match Golden Cap: `(rcon) exec tfcl_5cp_6s_GOLD` *exec for golden cap in matches*
+5cp Match: `(rcon) exec tfcl_6s_5cp_match` *exec for 5cp matches*
+* 5cp Match Overtime: `(rcon) exec tfcl_6s_5cp_OT` *exec for overtime in matches*
+* 5cp Match Golden Cap: `(rcon) exec tfcl_6s_5cp_GOLD` *exec for golden cap in matches*
 
-5cp Scrim: `(rcon) exec tfcl_5cp_6s_scrim` *exec for 5cp scrims*
+5cp Scrim: `(rcon) exec tfcl_6s_5cp_scrim` *exec for 5cp scrims*
 
-KoTH (Match/Scrim): `(rcon) exec tfcl_koth_6s` *exec for any koth maps*
+KoTH (Match/Scrim): `(rcon) exec tfcl_6s_koth` *exec for any koth maps*
 
-Stopwatch (Match/Scrim): `(rcon) exec tfcl_stopwatch_6s` *exec for any stopwatch style maps*
+Stopwatch (Match/Scrim): `(rcon) exec tfcl_6s_stopwatch` *exec for any stopwatch style maps*
 
 
 **HL:**
 
-5cp Match: `(rcon) exec tfcl_5cp_HL_match` *exec for 5cp matches*
-* 5cp Match Overtime: `(rcon) exec tfcl_5cp_HL_OT` *exec for overtime in matches*
-* 5cp Match Golden Cap: `(rcon) exec tfcl_5cp_HL_GOLD` *exec for golden cap in matches*
+5cp Match: `(rcon) exec tfcl_HL_5cp_match` *exec for 5cp matches*
+* 5cp Match Overtime: `(rcon) exec tfcl_HL_5cp_OT` *exec for overtime in matches*
+* 5cp Match Golden Cap: `(rcon) exec tfcl_HL_5cp_GOLD` *exec for golden cap in matches*
 
-5cp Scrim: `(rcon) exec tfcl_5cp_HL_scrim` *exec for 5cp scrims*
+5cp Scrim: `(rcon) exec tfcl_HL_5cp_scrim` *exec for 5cp scrims*
 
-KoTH (Match/Scrim): `(rcon) exec tfcl_koth_HL` *exec for any koth maps*
+KoTH (Match/Scrim): `(rcon) exec tfcl_HL_koth` *exec for any koth maps*
 
-Stopwatch (Match/Scrim): `(rcon) exec tfcl_stopwatch_HL` *exec for any stopwatch style maps*
+Stopwatch (Match/Scrim): `(rcon) exec tfcl_HL_stopwatch` *exec for any stopwatch style maps*
 
 **Ultiduo:**
 
-`(rcon) exec tfcl_ultiduo_UD`
+`(rcon) exec tfcl_UD_ultiduo`
 
 **Reset Config:**
 
