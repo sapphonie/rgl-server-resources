@@ -54,6 +54,8 @@ Stopwatch (Match/Scrim): `(rcon) exec tfcl_HL_stopwatch` *exec for any stopwatch
 
 `(rcon) exec tfcl_off`
 
+Note: this will restart your server immediately. Please wait 90 seconds to exec this after the game ends, to preserve STV.
+
 ## Todo: 
 
 * ~~add golden cap for all modes~~ **done**
