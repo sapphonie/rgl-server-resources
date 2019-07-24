@@ -5,7 +5,7 @@ Hi! These are the configs for TFCL, otherwise known as the Team Fortress Competi
 
 I tried my best to remove extraneous commands while minimizing the ability for cheating, exploitation, and unfair play due to preexisting client and/or server settings. If you find that I missed something, or if something doesn't work the way it should, or you have a suggestion, *please add and message me on Steam or Twitter*.
 
-my steam id is / thesqrtminus1 / and my twitter is @ thesqrtminus1 .
+my steam id is / stephanielgbt / and my twitter is @ stephanielgbt .
 
 
 These are for use in the relaunch of TFCL. *Do not use them directly off github for TFCL matches. Use the ones on the tfcleague domain.*
