@@ -21,34 +21,32 @@ There are different configs for scrims and matches, if you're playing 5cp. Every
 
 Here are the configs you need to exec for specific modes/map types:
 
-**6s:**
+### 6v6
 
-5cp Match: `(rcon) exec tfcl_6s_5cp_match` *exec for 5cp matches*
-* 5cp Match Golden Cap: `(rcon) exec tfcl_6s_5cp_GOLD` *exec for golden cap in 5cp matches*
-
-5cp Scrim: `(rcon) exec tfcl_6s_5cp_scrim` *exec for 5cp scrims*
-
-KoTH: `(rcon) exec tfcl_6s_koth` *exec for any koth maps*
-
-Stopwatch: `(rcon) exec tfcl_6s_stopwatch` *exec for any stopwatch style maps*
-
-
-**HL:**
-
-5cp Match: `(rcon) exec tfcl_HL_5cp_match` *exec for 5cp matches*
+* 5cp Match: `(rcon) exec tfcl_HL_5cp_match` *exec for 5cp matches*
 * 5cp Match Golden Cap: `(rcon) exec tfcl_HL_5cp_GOLD` *exec for golden cap in 5cp matches*
+* 5cp Scrim: `(rcon) exec tfcl_HL_5cp_scrim` *exec for 5cp scrims*
+######
+* KoTH: `(rcon) exec tfcl_HL_koth` *exec for any koth maps*
+######
+* Stopwatch: `(rcon) exec tfcl_HL_stopwatch` *exec for any stopwatch style maps*
 
-5cp Scrim: `(rcon) exec tfcl_HL_5cp_scrim` *exec for 5cp scrims*
 
-KoTH: `(rcon) exec tfcl_HL_koth` *exec for any koth maps*
+### Highlander
 
-Stopwatch: `(rcon) exec tfcl_HL_stopwatch` *exec for any stopwatch style maps*
+* 5cp Match: `(rcon) exec tfcl_HL_5cp_match` *exec for 5cp matches*
+* 5cp Match Golden Cap: `(rcon) exec tfcl_HL_5cp_GOLD` *exec for golden cap in 5cp matches*
+* 5cp Scrim: `(rcon) exec tfcl_HL_5cp_scrim` *exec for 5cp scrims*
+######
+* KoTH: `(rcon) exec tfcl_HL_koth` *exec for any koth maps*
+######
+* Stopwatch: `(rcon) exec tfcl_HL_stopwatch` *exec for any stopwatch style maps*
 
-**Ultiduo:**
+### Ultiduo
 
 `(rcon) exec tfcl_UD_ultiduo`
 
-**Reset Config:**
+### Reset Config
 
 `(rcon) exec tfcl_off`
 
