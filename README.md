@@ -52,7 +52,7 @@ Stopwatch: `(rcon) exec tfcl_HL_stopwatch` *exec for any stopwatch style maps*
 
 `(rcon) exec tfcl_off`
 
-This will reset your server to default settings, plus whatever you have set in server.cfg. It *will not* unload the STV bot (though it will stop recording). A more detailed explaination is below.
+This will reset your server to default settings, plus whatever you have set in server.cfg. It *will not* unload the STV bot (though it will stop recording). A more detailed explanation is below.
 
 
 ## On tfcl_off and STV bugginess
