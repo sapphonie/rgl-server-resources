@@ -7,10 +7,13 @@ I tried my best to remove extraneous commands while minimizing the ability for c
 
 my steam id is / stephanielgbt / and my twitter is @ stephanielgbt .
 
-
 These are for use in the relaunch of TFCL. *Do not use them directly off github for TFCL matches. Use the ones on the tfcleague domain.*
 
+## Install Instructions
 
+1. Download zip or clone repo
+2. Navigate to your server install folder
+3. Place contents of `NEW-tfcl-configs/cfg/` into `tf/cfg/`
 
 ## !!Please read this section if you're not going to read anything else!!
 
