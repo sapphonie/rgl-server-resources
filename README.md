@@ -1,3 +1,7 @@
+name pending as TFCL has shut down
+stay tuned
+
+
 
 # Team Fortress Competitive League Configs
 
