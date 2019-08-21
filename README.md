@@ -1,5 +1,4 @@
-name pending as TFCL has shut down
-stay tuned
+(The following is an archive of the last version of the now defunct TFCL's league configs. These are being actively developed under the RGL branch.)
 
 
 
