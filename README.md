@@ -1,6 +1,4 @@
-name pending as TFCL has shut down
-stay tuned
-
+(The following is an archive of the last version of the now defunct TFCL's server confgs. This project is still being actively developed under the "rgl" branch)
 
 
 # Team Fortress Competitive League Configs
