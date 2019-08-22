@@ -12,6 +12,6 @@
 	
 	"Files"
 	{
-		"Plugin"	"/cfg/rgl_test.cfg"
+		"Plugin"	"/cfg/test.cfg"
 	}
 }
