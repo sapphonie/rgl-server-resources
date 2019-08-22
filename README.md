@@ -1,4 +1,4 @@
-(The following is an archive of the last version of the now defunct TFCL's server confgs. This project is still being actively developed under the "rgl" branch)
+(The following is an archive of the last version of the now defunct TFCL's server confgs. This project is still being actively developed under the "master" branch)
 
 
 # Team Fortress Competitive League Configs
