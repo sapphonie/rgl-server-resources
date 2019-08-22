@@ -1,22 +1,19 @@
-(The following is an archive of the last version of the now defunct TFCL's league configs. These are being actively developed under the RGL branch.)
+# Better TF2 Server Configs for RGL.gg
 
+Hi! These are the configs for RGL, a competitive Team Fortress 2 league. These configs were created from scratch, though the UGC, ETF2L, and CEVO configs must be mentioned as inspirations. 
 
+They were originally for use in the relaunch of another league, TFCL, but have been rebranded and updated to be more tuned for RGL.
 
-# Team Fortress Competitive League Configs
-
-Hi! These are the configs for TFCL, otherwise known as the Team Fortress Competitive League, a competitive Team Fortress 2 league. These configs were created from scratch, though the UGC, ETF2L, and CEVO configs must be mentioned as inspirations. 
-
-I tried my best to remove extraneous commands while minimizing the ability for cheating, exploitation, and unfair play due to preexisting client and/or server settings. If you find that I missed something, or if something doesn't work the way it should, or you have a suggestion, *please add and message me on Steam or Twitter*.
+I tried my best to remove extraneous commands from these configs while minimizing the ability for cheating, exploitation, and unfair play due to preexisting client and/or server settings. If you find that I missed something, or if something doesn't work the way it should, or you have a suggestion, *please add and message me on Steam or Twitter*.
 
 my steam id is / stephanielgbt / and my twitter is @ stephanielgbt .
-
-These are for use in the relaunch of TFCL. *Do not use them directly off github for TFCL matches. Use the ones on the tfcleague domain.*
 
 ## Install Instructions
 
 1. Download zip or clone repo
 2. Navigate to your server install folder
-3. Place contents of `NEW-tfcl-configs/cfg/` into `tf/cfg/`
+3. Place folders into the root `/tf/` folder, overwrite any files that you haven't personally changed
+4. Done!
 
 ## !!Please read this section if you're not going to read anything else!!
 
@@ -26,37 +23,53 @@ Here are the configs you need to exec for specific modes/map types:
 
 ### 6v6
 
-* 5cp Match: `(rcon) exec tfcl_HL_5cp_match` *exec for 5cp matches*
-* 5cp Match Golden Cap: `(rcon) exec tfcl_HL_5cp_GOLD` *exec for golden cap in 5cp matches*
-* 5cp Scrim: `(rcon) exec tfcl_HL_5cp_scrim` *exec for 5cp scrims*
+* 5cp Match: `(rcon) exec rgl_HL_5cp_match` *exec for 5cp matches*
+* 5cp Match Golden Cap: `(rcon) exec rgl_HL_5cp_gc` *exec for golden cap in 5cp matches*
+* 5cp Scrim: `(rcon) exec rgl_HL_5cp_scrim` *exec for 5cp scrims*
 ######
-* KoTH: `(rcon) exec tfcl_HL_koth` *exec for any koth maps*
+* KoTH: `(rcon) exec rgl_HL_koth` *exec for any koth maps*
 ######
-* Stopwatch: `(rcon) exec tfcl_HL_stopwatch` *exec for any stopwatch style maps*
+* Stopwatch: `(rcon) exec rgl_HL_stopwatch` *exec for any stopwatch style maps*
 
 
 ### Highlander
 
-* 5cp Match: `(rcon) exec tfcl_HL_5cp_match` *exec for 5cp matches*
-* 5cp Match Golden Cap: `(rcon) exec tfcl_HL_5cp_GOLD` *exec for golden cap in 5cp matches*
-* 5cp Scrim: `(rcon) exec tfcl_HL_5cp_scrim` *exec for 5cp scrims*
+* 5cp Match: `(rcon) exec rgl_HL_5cp_match` *exec for 5cp matches*
+* 5cp Match Golden Cap: `(rcon) exec rgl_HL_5cp_GOLD` *exec for golden cap in 5cp matches*
+* 5cp Scrim: `(rcon) exec rgl_HL_5cp_scrim` *exec for 5cp scrims*
 ######
-* KoTH: `(rcon) exec tfcl_HL_koth` *exec for any koth maps*
+* KoTH: `(rcon) exec rgl_HL_koth` *exec for any koth maps*
 ######
-* Stopwatch: `(rcon) exec tfcl_HL_stopwatch` *exec for any stopwatch style maps*
+* Stopwatch: `(rcon) exec rgl_HL_stopwatch` *exec for any stopwatch style maps*
 
-### Ultiduo
+### Prolander
 
-`(rcon) exec tfcl_UD_ultiduo`
+* 5cp Match: `(rcon) exec rgl_7s_5cp_match` *exec for 5cp matches*
+* 5cp Match Golden Cap: `(rcon) exec rgl_7s_5cp_gc` *exec for golden cap in 5cp matches*
+* 5cp Scrim: `(rcon) exec rgl_7s_5cp_scrim` *exec for 5cp scrims*
+######
+* KoTH: `(rcon) exec rgl_7s_koth` *exec for any koth maps*
+######
+* Stopwatch: `(rcon) exec rgl_7s_stopwatch` *exec for any stopwatch style maps*
+
+### No Restrictions 6s
+
+* 5cp Match: `(rcon) exec rgl_mm_5cp_match` *exec for 5cp matches*
+* 5cp Match Golden Cap: `(rcon) exec rgl_mm_5cp_gc` *exec for golden cap in 5cp matches*
+* 5cp Scrim: `(rcon) exec rgl_mm_5cp_scrim` *exec for 5cp scrims*
+######
+* KoTH: `(rcon) exec rgl_mm_koth` *exec for any koth maps*
+######
+* Stopwatch: `(rcon) exec rgl_mm_stopwatch` *exec for any stopwatch style maps*
 
 ### Reset Config
 
-`(rcon) exec tfcl_off`
+`(rcon) exec rgl_off`
 
 This will reset your server to default settings, plus whatever you have set in server.cfg. It *will not* unload the STV bot (though it will stop recording). A more detailed explanation is below.
 
 
-## On tfcl_off and STV bugginess
+## On the off config and STV bugginess
 
 There is something seriously wrong with STV in TF2. For no apparent reason, when you start it up, it eats a player slot by incrementing the value of your server's `maxplayers` by 1. This isn't a problem, typically, because TF2 can technically handle 33 "players", aka 32 + STV. If you were to set +maxplayers to 33 and then add stv, things would get ugly, really quickly.
 
@@ -70,7 +83,7 @@ The bug report for this issue is [here](https://github.com/ValveSoftware/Source-
 
 * ~~add golden cap for all modes~~ **done**
 * ~~add stopwatch~~ **done**
-* ~~add ?ctf?~~ **probably will never happen**
-* ~~add ultiduo~~ **done**
+* ~~add ?ctf?~~ **done** (THIS IS IN THE TFCL BRANCH UNDER BBALL)
+* ~~add ultiduo~~ **done** (THIS IS IN THE TFCL BRANCH)
 * ~~add highlander~~ **done**
 * ~~add overtime/gc~~ **done**

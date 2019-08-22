@@ -1,0 +1,17 @@
+"Updater"
+{
+	"Information"
+	{
+		"Version"
+		{
+			"Latest"	"1.1"
+		}
+		
+		"Notes"	"TESTING"
+	}
+	
+	"Files"
+	{
+		"Plugin"	"/cfg/rgl_test.cfg"
+	}
+}
