@@ -2,7 +2,9 @@
 
 Hi! These are the configs for RGL, a competitive Team Fortress 2 league. These configs were created from scratch, though the UGC, ETF2L, and CEVO configs must be mentioned as inspirations. 
 
-I tried my best to remove extraneous commands while minimizing the ability for cheating, exploitation, and unfair play due to preexisting client and/or server settings. If you find that I missed something, or if something doesn't work the way it should, or you have a suggestion, *please add and message me on Steam or Twitter*.
+They were originally for use in the relaunch of another league, TFCL, but have been rebranded and updated to be more tuned for RGL.
+
+I tried my best to remove extraneous commands from these configs while minimizing the ability for cheating, exploitation, and unfair play due to preexisting client and/or server settings. If you find that I missed something, or if something doesn't work the way it should, or you have a suggestion, *please add and message me on Steam or Twitter*.
 
 my steam id is / stephanielgbt / and my twitter is @ stephanielgbt .
 
