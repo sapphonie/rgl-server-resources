@@ -5,7 +5,7 @@
 		"Version"
 		{
 			"Previous"	"1.0"
-			"Latest"	"1.0.1"
+			"Latest"	"1.1"
 		}
 
 		"Notes"	"Check the github for the latest updates!"
@@ -15,7 +15,6 @@
 	{
 		"Patch"
 		{
-
 			"Plugin"	"/cfg/test.cfg"
 		}
 		
