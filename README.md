@@ -39,9 +39,6 @@ Here are the configs you need to exec for specific modes/map types:
 
 * KoTH: `(rcon) exec rgl_6s_koth` *exec for any koth maps*
 
-* Stopwatch: `(rcon) exec rgl_6s_stopwatch` *exec for any stopwatch style maps*
-
-
 ### Highlander
 
 * KoTH: `(rcon) exec rgl_HL_koth` *exec for any koth maps*
@@ -57,7 +54,7 @@ Here are the configs you need to exec for specific modes/map types:
 ### No Restrictions 6s
 
 * 5cp: `(rcon) exec rgl_mm_5cp_match` *exec for any 5cp map*
-######
+
 * KoTH: `(rcon) exec rgl_mm_koth` *exec for any koth maps*
 
 * Stopwatch: `(rcon) exec rgl_mm_stopwatch` *exec for any stopwatch style maps*
