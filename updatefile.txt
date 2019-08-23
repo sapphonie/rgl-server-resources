@@ -15,8 +15,8 @@
 	{
 		"Patch"
 		{
-			"Plugin"	"/cfg/rgl_6s_custom.cfg"
-			"Plugin"	"/cfg/rgl_HL_custom.cfg"
+
+			"Plugin"	"/cfg/test.cfg"
 		}
 		
 		"Plugin"	"/cfg/rgl_6s_5cp_gc.cfg"
@@ -36,7 +36,8 @@
 		"Plugin"	"/cfg/rgl_HL_stopwatch.cfg"
 		"Plugin"	"/cfg/rgl_base.cfg"
 		"Plugin"	"/cfg/rgl_off.cfg"
-		"Plugin"	"/cfg/test.cfg"
+		"Plugin"	"/cfg/rgl_6s_custom.cfg"
+		"Plugin"	"/cfg/rgl_HL_custom.cfg"
 		"Plugin"	"/cfg/competitive_6v6.txt"
 	}
 }
