@@ -4,12 +4,12 @@
 	{
 		"Version"
 		{
-			"Latest"	"1.1"
+			"Latest"	"1.0.1"
 		}
-		
+
 		"Notes"	"Check the github for the latest updates!"
 	}
-	
+
 	"Files"
 	{
 		"Plugin"	"/cfg/rgl_6s_5cp_gc.cfg"
@@ -31,7 +31,7 @@
 		"Plugin"	"/cfg/rgl_HL_stopwatch.cfg"
 		"Plugin"	"/cfg/rgl_base.cfg"
 		"Plugin"	"/cfg/rgl_off.cfg"
-		"Plugin"	"/cfg/test.cfg"
+		"Config"	"/cfg/test.cfg"
 		"Plugin"	"/cfg/competitive_6v6.txt"
 	}
 }
