@@ -31,6 +31,7 @@
 		"Plugin"	"/cfg/rgl_HL_stopwatch.cfg"
 		"Plugin"	"/cfg/rgl_base.cfg"
 		"Plugin"	"/cfg/rgl_off.cfg"
+		"Plugin"	"/cfg/test.cfg"
 		"Plugin"	"/cfg/competitive_6v6.txt"
 	}
 }
