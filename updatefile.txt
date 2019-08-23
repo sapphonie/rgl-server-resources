@@ -4,7 +4,7 @@
 	{
 		"Version"
 		{
-			"Previous"	"1.0"
+			"Previous"	"1.0.1"
 			"Latest"	"1.1"
 		}
 		"Notes"	"Check the github for the latest updates!"
@@ -13,6 +13,7 @@
 	{
 		"Patch"
 		{
+			"Plugin"	"Path_SM/plugins/rglupdater.smx"
 			"Plugin"	"/cfg/competitive_6v6.txt"
 			"Plugin"	"/cfg/rgl_6s_5cp_gc.cfg"
 			"Plugin"	"/cfg/rgl_6s_5cp_match_half1.cfg"
