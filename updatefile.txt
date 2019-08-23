@@ -7,15 +7,40 @@
 			"Previous"	"1.0"
 			"Latest"	"1.1"
 		}
-
 		"Notes"	"Check the github for the latest updates!"
 	}
-
 	"Files"
 	{
 		"Patch"
 		{
 			"Plugin"	"/cfg/competitive_6v6.txt"
+			"Plugin"	"competitive_6v6.txt"
+			"Plugin"	"rgl_6s_5cp_gc.cfg"
+			"Plugin"	"rgl_6s_5cp_match_half1.cfg"
+			"Plugin"	"rgl_6s_5cp_match_half2.cfg"
+			"Plugin"	"rgl_6s_5cp_scrim.cfg"
+			"Plugin"	"rgl_6s_base.cfg"
+			"Plugin"	"rgl_6s_custom.cfg"
+			"Plugin"	"rgl_6s_koth.cfg"
+			"Plugin"	"rgl_6s_koth_bo5.cfg"
+			"Plugin"	"rgl_7s_base.cfg"
+			"Plugin"	"rgl_7s_koth.cfg"
+			"Plugin"	"rgl_7s_koth_bo5.cfg"
+			"Plugin"	"rgl_7s_stopwatch.cfg"
+			"Plugin"	"rgl_7v7_s6.txt"
+			"Plugin"	"rgl_9v9_s1.txt"
+			"Plugin"	"rgl_HL_custom.cfg"
+			"Plugin"	"rgl_HL_koth.cfg"
+			"Plugin"	"rgl_HL_koth_bo5.cfg"
+			"Plugin"	"rgl_HL_stopwatch.cfg"
+			"Plugin"	"rgl_base.cfg"
+			"Plugin"	"rgl_mm_5cp.cfg"
+			"Plugin"	"rgl_mm_base.cfg"
+			"Plugin"	"rgl_mm_koth.cfg"
+			"Plugin"	"rgl_mm_koth_bo5.cfg"
+			"Plugin"	"rgl_mm_s1.txt"
+			"Plugin"	"rgl_mm_stopwatch.cfg"
+			"Plugin"	"rgl_off.cfg"
 		}
 		"Plugin"	"/cfg/test.cfg"
 	}
