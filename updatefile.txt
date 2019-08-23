@@ -4,7 +4,7 @@
 	{
 		"Version"
 		{
-			"Previous"	"1.01" // CURRENT VERSION
+			"Previous"	"1.0.1" // CURRENT VERSION
 			"Latest"	"999" // NOT REAL VERSION THAT FORCES UPDATE TO PREVENT MODIFYING NON CUSTOM CFGS
 		}
 		"Notes"	"Check the github for the latest updates!"
@@ -13,7 +13,6 @@
 	{
 		"Patch"
 		{
-			"Plugin"	"Path_SM/plugins/rglupdater.smx"
 			"Plugin"	"/cfg/competitive_6v6.txt"
 			"Plugin"	"/cfg/rgl_6s_5cp_gc.cfg"
 			"Plugin"	"/cfg/rgl_6s_5cp_match_half1.cfg"
