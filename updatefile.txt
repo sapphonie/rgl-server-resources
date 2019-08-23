@@ -4,8 +4,8 @@
 	{
 		"Version"
 		{
-			"Previous"	"1.0.1"
-			"Latest"	"1.1"
+			"Previous"	"1.01" // CURRENT VERSION
+			"Latest"	"999" // NOT REAL VERSION THAT FORCES UPDATE TO PREVENT MODIFYING NON CUSTOM CFGS
 		}
 		"Notes"	"Check the github for the latest updates!"
 	}
@@ -40,6 +40,7 @@
 			"Plugin"	"/cfg/rgl_mm_stopwatch.cfg"
 			"Plugin"	"/cfg/rgl_off.cfg"
 		}
+		"Plugin"	"Path_SM/plugins/rglupdater.smx"
 		"Plugin"	"/cfg/test.cfg"
 		"Plugin"	"/cfg/rgl_6s_custom.cfg"
 		"Plugin"	"/cfg/rgl_HL_custom.cfg"
