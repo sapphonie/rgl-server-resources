@@ -4,6 +4,7 @@
 	{
 		"Version"
 		{
+			"Previous"	"1.0"
 			"Latest"	"1.1"
 		}
 		
@@ -12,12 +13,17 @@
 	
 	"Files"
 	{
+		"Patch"
+		{
+			"Plugin"	"/cfg/rgl_6s_custom.cfg"
+			"Plugin"	"/cfg/rgl_HL_custom.cfg"
+		}
+		
 		"Plugin"	"/cfg/rgl_6s_5cp_gc.cfg"
 		"Plugin"	"/cfg/rgl_6s_5cp_match_half1.cfg"
 		"Plugin"	"/cfg/rgl_6s_5cp_match_half2.cfg"
 		"Plugin"	"/cfg/rgl_6s_5cp_scrim.cfg"
 		"Plugin"	"/cfg/rgl_6s_base.cfg"
-		"Plugin"	"/cfg/rgl_6s_custom.cfg"
 		"Plugin"	"/cfg/rgl_6s_koth.cfg"
 		"Plugin"	"/cfg/rgl_6s_stopwatch.cfg"
 		"Plugin"	"/cfg/rgl_9v9_s1.txt"
@@ -26,7 +32,6 @@
 		"Plugin"	"/cfg/rgl_HL_5cp_match_half2.cfg"
 		"Plugin"	"/cfg/rgl_HL_5cp_scrim.cfg"
 		"Plugin"	"/cfg/rgl_HL_base.cfg"
-		"Plugin"	"/cfg/rgl_HL_custom.cfg"
 		"Plugin"	"/cfg/rgl_HL_koth.cfg"
 		"Plugin"	"/cfg/rgl_HL_stopwatch.cfg"
 		"Plugin"	"/cfg/rgl_base.cfg"
