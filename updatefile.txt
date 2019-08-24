@@ -4,10 +4,11 @@
 	{
 		"Version"
 		{
-			"Previous"	"1.0.1" // CURRENT PLUGIN VERSION (DOESN'T CHANGE WITH CFG UPDATES)
+			"Previous"	"1.0.1" // CURRENT PLUGIN VERSION (DOESN'T CHANGE WITH CFG UPDATES, ONLY WITH MAIN PLUGIN UPDATES)
 			"Latest"	"999" // FAKE VERSION THAT FORCES UPDATE EVERY SERVER BOOT TO PREVENT MODIFYING NON CUSTOM CFGS
 		}
 		"Notes"	"Check the github for the latest updates!"
+		"Notes"	"https://github.com/stephanieLGBT/rgl-server-resources"
 	}
 	"Files"
 	{
@@ -40,11 +41,10 @@
 			"Plugin"	"/cfg/rgl_off.cfg"
 			"Plugin"	"/addons/sourcemod/plugins/rglupdater.smx"
 			"Plugin"	"/addons/sourcemod/plugins/pause.smx"
-			"Source"	"/addons/sourcemod/scripting/pause.sp"
 			"Source"	"/addons/sourcemod/scripting/rglupdater.sp"
+			"Source"	"/addons/sourcemod/scripting/pause.sp"
 			"Source"	"/addons/sourcemod/scripting/swag.sp"
 			"Source"	"/addons/sourcemod/scripting/include/SteamWorks.inc"
-
 		}
 		"Plugin"	"/cfg/rgl_6s_custom.cfg"
 		"Plugin"	"/cfg/rgl_HL_custom.cfg"
