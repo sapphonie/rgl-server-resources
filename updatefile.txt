@@ -38,17 +38,17 @@
 			"Plugin"	"/cfg/rgl_mm_stopwatch.cfg"
 			"Plugin"	"/cfg/rgl_base.cfg"
 			"Plugin"	"/cfg/rgl_off.cfg"
-			"Plugin"	"/Path_SM/plugins/rglupdater.smx"
+			"Plugin"	"/addons/sourcemod/plugins/rglupdater.smx"
 		}
-		"Plugin"	"Path_SM/plugins/pause.smx"
+		"Plugin"	"/addons/sourcemod/plugins/pause.smx"
 		"Plugin"	"/cfg/rgl_6s_custom.cfg"
 		"Plugin"	"/cfg/rgl_HL_custom.cfg"
 		"Plugin"	"/cfg/rgl_7s_custom.cfg"
 		"Plugin"	"/cfg/rgl_mm_custom.cfg"
 
-		"Source"	"Path_SM/scripting/pause.sp"
-		"Source"	"Path_SM/scripting/rglupdater.sp"
-		"Source"	"Path_SM/scripting/swag.sp"
-		"Source"	"Path_SM/scripting/include/SteamWorks.inc"
+		"Source"	"/addons/sourcemod/scripting/pause.sp"
+		"Source"	"/addons/sourcemod/scripting/rglupdater.sp"
+		"Source"	"/addons/sourcemod/scripting/swag.sp"
+		"Source"	"/addons/sourcemod/scripting/include/SteamWorks.inc"
 	}
 }
