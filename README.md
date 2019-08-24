@@ -199,11 +199,19 @@ The bug report for this issue is [here](https://github.com/ValveSoftware/Source-
 ## Special Thanks
 
 thank you to Mastercomms for helping me out with net settings
+
 thank you to Arie from serveme for letting me run some things by him for the configs
+
 thank you to Aad for making the plugin
+
 thank you to JarateKing for adding a .gitattributes file and fixing typos and grammar because I suck with github and english
+
 thank you to Sigafoo for running RGL
+
 thank you to GoD_tony for making the original updater.smx plugin
+
 thank you to F2 for making the original pause plugin, and others
+
 thank you to Miggy for being a cool anticheat admin who inspired me to make the configs in the first place
+
 and shoutouts to plenty of other people for helping me with miscellaneous other stuff
