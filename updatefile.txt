@@ -38,8 +38,8 @@
 			"Plugin"	"/cfg/rgl_mm_stopwatch.cfg"
 			"Plugin"	"/cfg/rgl_base.cfg"
 			"Plugin"	"/cfg/rgl_off.cfg"
-			"Plugin"	"Path_SM/plugins/pause.smx"
 		}
+		"Plugin"	"Path_SM/plugins/pause.smx"
 		"Plugin"	"Path_SM/plugins/rglupdater.smx"
 		"Plugin"	"Path_SM/extensions/SteamWorks.ext.dll"
 		"Plugin"	"Path_SM/extensions/SteamWorks.ext.so"
