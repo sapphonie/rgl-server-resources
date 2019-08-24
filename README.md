@@ -186,7 +186,7 @@ Here are the configs you need to exec for specific modes and map types:
 This will reset your server to default settings, plus whatever you have set in server.cfg. It *will not* unload the STV bot (though it will stop recording). A more detailed explanation is below.
 
 
-## On the off config and STV bugginess
+#### On the off config and STV bugginess
 
 There is something seriously wrong with STV in TF2. For no apparent reason, when you start it up, it eats a player slot by incrementing the value of your server's `maxplayers` by 1. This isn't a problem, typically, because TF2 can technically handle 33 "players", aka 32 + STV. If you were to set +maxplayers to 33 and then add stv, things would get ugly, really quickly.
 
@@ -195,3 +195,15 @@ But that's not all. When the bot is unloaded, it, for no apparent reason, reads 
 For this reason, and on the advice of some server network operators, I have decided to not shut down stv with tfcl_off. If you need to disable the STV, please restart your server.
 
 The bug report for this issue is [here](https://github.com/ValveSoftware/Source-1-Games/issues/2778).
+
+## Special Thanks
+
+thank you to Mastercomms for helping me out with net settings
+thank you to Arie from serveme for letting me run some things by him for the configs
+thank you to Aad for making the plugin
+thank you to JarateKing for adding a .gitattributes file and fixing typos and grammar because I suck with github and english
+thank you to Sigafoo for running RGL
+thank you to GoD_tony for making the original updater.smx plugin
+thank you to F2 for making the original pause plugin, and others
+thank you to Miggy for being a cool anticheat admin who inspired me to make the configs in the first place
+and shoutouts to plenty of other people for helping me with miscellaneous other stuff
