@@ -23,44 +23,50 @@ If you have problems with the plugin, or if you have a suggestion, please messag
 
 ## !!Please read this section if you're not going to read anything else!!
 
-There are different configs for scrims and matches, if you're playing 5cp in 6s. Everything else has the same config, in terms of it being for a scrim or a match.
+There are different configs for scrims and matches if you're playing 5cp in 6s. Everything else has the same config for scrims and matches.
 
-Here are the configs you need to exec for specific modes/map types:
-
-### 6v6
-
-* 5cp Match 1st Half: `(rcon) exec rgl_6s_5cp_match_half1` *exec for starting a 5cp match*
-
-* 5cp Match 2nd Half: `(rcon) exec rgl_6s_5cp_match_half2` *exec for the 2nd half of a 5cp match*
-
-* 5cp Match Golden Cap: `(rcon) exec rgl_6s_5cp_gc` *exec for golden cap in 5cp matches*
-
-* 5cp Scrim: `(rcon) exec rgl_6s_5cp_scrim` *exec for 5cp scrims*
-
-* KoTH: `(rcon) exec rgl_6s_koth` *exec for any koth maps*
-
-### Highlander
-
-* KoTH: `(rcon) exec rgl_HL_koth` *exec for any koth maps*
-
-* Stopwatch: `(rcon) exec rgl_HL_stopwatch` *exec for any stopwatch style maps*
-
-### Prolander
-
-* KoTH: `(rcon) exec rgl_7s_koth` *exec for any koth maps*
-
-* Stopwatch: `(rcon) exec rgl_7s_stopwatch` *exec for any stopwatch style maps*
-
-### No Restrictions 6s
-
-* 5cp: `(rcon) exec rgl_mm_5cp_match` *exec for any 5cp map*
-
-* KoTH: `(rcon) exec rgl_mm_koth` *exec for any koth maps*
-
-* Stopwatch: `(rcon) exec rgl_mm_stopwatch` *exec for any stopwatch style maps*
+Here are the configs you need to exec for specific modes and map types:
 
 
+| 6s    |                        |                           |                                                                                         |
+|:-----:|:----------------------:|:-------------------------:|:---------------------------------------------------------------------------------------:|
+|       | **type of game**       | **config to exec**        | **notes**                                                                               |
+|       | 5cp Match 1st Half     | rgl_6s_5cp_match_half1    | winlimit 3, timelimit 30                                                                |
+|       | 5cp Match 2nd Half     | rgl_6s_5cp_match_half2    | winlimit 5, timelimit 30, reexec after one team has won 5 total rounds                  |
+|       | 5cp Scrim              | rgl_6s_5cp_scrim          | winlimit, timelimit 30, for scrims only                                                 |
+|       | 5cp Match Golden Cap   | rgl_6s_5cp_gc             | winlimit 1, no timelimit                                                                |
+|       | Regular Season KoTH    | rgl_6s_koth               | winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds        |
+|       | Playoffs KoTH          | rgl_6s_koth_bo5           | winlimit 3, no timelimit                                                                |
 
+<br>
+
+| HL    |                        |                           |                                                                                         |
+|:-----:|:----------------------:|:-------------------------:|:---------------------------------------------------------------------------------------:|
+|       | **type of game**       | **config to exec**        | **notes**                                                                               |
+|       | Stopwatch              | rgl_HL_stopwatch          | winlimit 2 (best of 3)                                                                  |
+|       | Regular Season KoTH    | rgl_6s_koth               | winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds        |
+|       | Playoffs KoTH          | rgl_6s_koth_bo5           | winlimit 3, no timelimit                                                                |
+
+<br>
+
+| 7s    |                        |                           |                                                                                         |
+|:-----:|:----------------------:|:-------------------------:|:---------------------------------------------------------------------------------------:|
+|       | **type of game**       | **config to exec**        | **notes**                                                                               |
+|       | Stopwatch              | rgl_7s_stopwatch          | winlimit 2 (best of 3)                                                                  |
+|       | Regular Season KoTH    | rgl_7s_koth               | winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds        |
+|       | Playoffs KoTH          | rgl_7s_koth_bo5           | winlimit 3, no timelimit                                                                |
+
+<br>
+
+| NR 6s |                        |                           |                                                                                         |
+|:-----:|:----------------------:|:-------------------------:|:---------------------------------------------------------------------------------------:|
+|       | **type of game**       | **config to exec**        | **notes**                                                                               |
+|       | Any 5cp                | rgl_mm_5cp                | winlimit 3, no timelimit                                                                |
+|       | Stopwatch              | rgl_mm_stopwatch          | winlimit 2 (best of 3)                                                                  |
+|       | Regular Season KoTH    | rgl_mm_koth               | winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds        |
+|       | Playoffs KoTH          | rgl_mm_koth_bo5           | winlimit 3, no timelimit                                                                |
+
+<br>
 
 ### Reset Config
 
