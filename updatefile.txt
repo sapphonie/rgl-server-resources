@@ -46,6 +46,7 @@
 			"Source"	"/addons/sourcemod/scripting/swag.sp"
 			"Source"	"/addons/sourcemod/scripting/include/SteamWorks.inc"
 		}
+		"Plugin"	"/addons/sourcemod/plugins/rglupdater.smx"
 		"Plugin"	"/cfg/rgl_6s_custom.cfg"
 		"Plugin"	"/cfg/rgl_HL_custom.cfg"
 		"Plugin"	"/cfg/rgl_7s_custom.cfg"
