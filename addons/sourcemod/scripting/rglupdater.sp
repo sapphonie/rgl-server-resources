@@ -5,7 +5,7 @@
 #include <updater>
 
 #define PLUGIN_NAME         "RGL.gg Server Resources Updater"
-#define PLUGIN_VERSION         "1.0"
+#define PLUGIN_VERSION         "1.0.1"
 #define UPDATE_URL    "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt"
 #define authors
 public Plugin:myinfo =
