@@ -28,45 +28,147 @@ There are different configs for scrims and matches if you're playing 5cp in 6s. 
 Here are the configs you need to exec for specific modes and map types:
 
 
-| 6s    |                        |                           |                                                                                         |
-|:-----:|:----------------------:|:-------------------------:|:---------------------------------------------------------------------------------------:|
-|       | **type of game**       | **config to exec**        | **notes**                                                                               |
-|       | 5cp Scrim              | rgl_6s_5cp_scrim          | winlimit 5, timelimit 30, for scrims only                                               |
-|       | 5cp Match 1st Half     | rgl_6s_5cp_match_half1    | winlimit 3, timelimit 30                                                                |
-|       | 5cp Match 2nd Half     | rgl_6s_5cp_match_half2    | winlimit 5, timelimit 30, reexec after one team has won 5 total rounds                  |
-|       | 5cp Match Golden Cap   | rgl_6s_5cp_gc             | winlimit 1, no timelimit                                                                |
-|       | Regular Season KoTH    | rgl_6s_koth               | winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds        |
-|       | Playoffs KoTH          | rgl_6s_koth_bo5           | winlimit 3, no timelimit                                                                |
-
+<table>
+<thead>
+<tr>
+<th align="center" colspan="3">6s</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><b>type of game</b></td>
+<td align="center"><b>config to exec</b></td>
+<td align="center"><b>notes</b></td>
+</tr>
+<tr>
+<td align="center">5cp Scrim</td>
+<td align="center">rgl_6s_5cp_scrim</td>
+<td align="center">winlimit 5, timelimit 30, for scrims only</td>
+</tr>
+<tr>
+<td align="center">5cp Match 1st Half</td>
+<td align="center">rgl_6s_5cp_match_half1</td>
+<td align="center">winlimit 3, timelimit 30</td>
+</tr>
+<tr>
+<td align="center">5cp Match 2nd Half</td>
+<td align="center">rgl_6s_5cp_match_half2</td>
+<td align="center">winlimit 5, timelimit 30, reexec after one team has won 5 total rounds</td>
+</tr>
+<tr>
+<td align="center">5cp Match Golden Cap</td>
+<td align="center">rgl_6s_5cp_gc</td>
+<td align="center">winlimit 1, no timelimit</td>
+</tr>
+<tr>
+<td align="center">Regular Season KoTH</td>
+<td align="center">rgl_6s_koth</td>
+<td align="center">winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds</td>
+</tr>
+<tr>
+<td align="center">Playoffs KoTH</td>
+<td align="center">rgl_6s_koth_bo5</td>
+<td align="center">winlimit 3, no timelimit</td>
+</tr>
+</tbody>
+</table>
+<br>
+<table>
+<thead>
+<tr>
+<th align="center" colspan="3">HL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><b>type of game</b></td>
+<td align="center"><b>config to exec</b></td>
+<td align="center"><b>notes</b></td>
+</tr>
+<tr>
+<td align="center">Stopwatch</td>
+<td align="center">rgl_HL_stopwatch</td>
+<td align="center">winlimit 2 (best of 3)</td>
+</tr>
+<tr>
+<td align="center">Regular Season KoTH</td>
+<td align="center">rgl_6s_koth</td>
+<td align="center">winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds</td>
+</tr>
+<tr>
+<td align="center">Playoffs KoTH</td>
+<td align="center">rgl_6s_koth_bo5</td>
+<td align="center">winlimit 3, no timelimit</td>
+</tr>
+</tbody>
+</table>
+<br>
+<table>
+<thead>
+<tr>
+<th align="center" colspan="3">7s</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><b>type of game</b></td>
+<td align="center"><b>config to exec</b></td>
+<td align="center"><b>notes</b></td>
+</tr>
+<tr>
+<td align="center">Stopwatch</td>
+<td align="center">rgl_7s_stopwatch</td>
+<td align="center">winlimit 2 (best of 3)</td>
+</tr>
+<tr>
+<td align="center">Regular Season KoTH</td>
+<td align="center">rgl_7s_koth</td>
+<td align="center">winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds</td>
+</tr>
+<tr>
+<td align="center">Playoffs KoTH</td>
+<td align="center">rgl_7s_koth_bo5</td>
+<td align="center">winlimit 3, no timelimit</td>
+</tr>
+</tbody>
+</table>
+<br>
+<table>
+<thead>
+<tr>
+<th align="center" colspan="3">NR 6s</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><b>type of game</b></td>
+<td align="center"><b>config to exec</b></td>
+<td align="center"><b>notes</b></td>
+</tr>
+<tr>
+<td align="center">Any 5cp</td>
+<td align="center">rgl_mm_5cp</td>
+<td align="center">winlimit 3, no timelimit</td>
+</tr>
+<tr>
+<td align="center">Stopwatch</td>
+<td align="center">rgl_mm_stopwatch</td>
+<td align="center">winlimit 2 (best of 3)</td>
+</tr>
+<tr>
+<td align="center">Regular Season KoTH</td>
+<td align="center">rgl_mm_koth</td>
+<td align="center">winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds</td>
+</tr>
+<tr>
+<td align="center">Playoffs KoTH</td>
+<td align="center">rgl_mm_koth_bo5</td>
+<td align="center">winlimit 3, no timelimit</td>
+</tr>
+</tbody>
+</table>
 <br>
 
-| HL    |                        |                           |                                                                                         |
-|:-----:|:----------------------:|:-------------------------:|:---------------------------------------------------------------------------------------:|
-|       | **type of game**       | **config to exec**        | **notes**                                                                               |
-|       | Stopwatch              | rgl_HL_stopwatch          | winlimit 2 (best of 3)                                                                  |
-|       | Regular Season KoTH    | rgl_6s_koth               | winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds        |
-|       | Playoffs KoTH          | rgl_6s_koth_bo5           | winlimit 3, no timelimit                                                                |
-
-<br>
-
-| 7s    |                        |                           |                                                                                         |
-|:-----:|:----------------------:|:-------------------------:|:---------------------------------------------------------------------------------------:|
-|       | **type of game**       | **config to exec**        | **notes**                                                                               |
-|       | Stopwatch              | rgl_7s_stopwatch          | winlimit 2 (best of 3)                                                                  |
-|       | Regular Season KoTH    | rgl_7s_koth               | winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds        |
-|       | Playoffs KoTH          | rgl_7s_koth_bo5           | winlimit 3, no timelimit                                                                |
-
-<br>
-
-| NR 6s |                        |                           |                                                                                         |
-|:-----:|:----------------------:|:-------------------------:|:---------------------------------------------------------------------------------------:|
-|       | **type of game**       | **config to exec**        | **notes**                                                                               |
-|       | Any 5cp                | rgl_mm_5cp                | winlimit 3, no timelimit                                                                |
-|       | Stopwatch              | rgl_mm_stopwatch          | winlimit 2 (best of 3)                                                                  |
-|       | Regular Season KoTH    | rgl_mm_koth               | winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds        |
-|       | Playoffs KoTH          | rgl_mm_koth_bo5           | winlimit 3, no timelimit                                                                |
-
-<br>
 
 ### Reset Config
 
