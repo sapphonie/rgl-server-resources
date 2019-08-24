@@ -21,6 +21,15 @@ If you have problems with the plugin, or if you have a suggestion, please messag
 3. Place *only the folders* into the root `/tf/` folder, overwrite any files that you get prompted for
 4. Done!
 
+## Updating Instructions
+
+The plugin updates itself, along with the RGL configs, after every exec and changelevel. You should never manually edit any config that isn't a gamemode specific custom.cfg, because it will get automatically overwritten. This is to prevent cheating and ensure each server is running the same settings.
+
+You will have to add new maps to your server manually as RGL introduces them to each gamemode's map pool. This is to prevent lengthly download times with the updater plugin.
+
+Simply download the new map and place it in the /tf/maps/ folder, through an (S)FTP client of your choice, and you're done.
+
+
 ## !!Please read this section if you're not going to read anything else!!
 
 There are different configs for scrims and matches if you're playing 5cp in 6s. Everything else has the same config for scrims and matches.
