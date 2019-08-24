@@ -1,7 +1,7 @@
 
 # Server Resources for RGL.gg
 
-Hi! This github repository contains all of the **required** plugins, configs, maps, etc. for RGL league play. The configs were created from scratch, though they were inspired by the UGC, ETF2L, and CEVO configs, and the autoupdater plugin was also created from scratch, but heavily inspired by Miggy's (RIP) [UGCUpdate](https://github.com/Miggthulu/UGCUpdate) and [IntegriTF2](https://github.com/Miggthulu/IntegriTF2) plugins.
+Hi! This github repository contains all of the **required** plugins, configs, maps, etc. for RGL league play. The configs were created from scratch, though they were inspired by the UGC, ETF2L, and CEVO configs. The autoupdater plugin was also created from scratch, but heavily inspired by Miggy's (RIP) [UGCUpdate](https://github.com/Miggthulu/UGCUpdate) and [IntegriTF2](https://github.com/Miggthulu/IntegriTF2) plugins.
 
 
 In creating the configs, I tried my best to prevent extra and/or useless commands while also minimizing the ability for cheating, exploitation, and unfair play due to preexisting client and/or server settings.
@@ -16,9 +16,9 @@ If you have problems with the plugin, or if you have a suggestion, please messag
 
 ## Install Instructions
 
-1. Download zip or clone repo
-2. Navigate to your server install folder
-3. Place *only the folders* into the root `/tf/` folder, overwrite any files that you get prompted for
+1. Download the [zip](https://github.com/stephanieLGBT/rgl-server-resources/archive/master.zip) (or clone the [repository](https://github.com/stephanieLGBT/rgl-server-resources) if you know how git works)
+2. Navigate to your server install folder in an (S)FTP client of your choice
+3. Place *only the folders* into the root `/tf/` folder. Overwrite any and all files that you get prompted for.
 4. Done!
 
 ## Updating Instructions
