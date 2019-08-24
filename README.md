@@ -146,7 +146,7 @@ Here are the configs you need to exec for specific modes and map types:
 <td align="left"><b>notes</b></td>
 </tr>
 <tr>
-<td align="left">Any 5cp</td>
+<td align="left">5cp</td>
 <td align="left">rgl_mm_5cp</td>
 <td align="left">winlimit 3, no timelimit</td>
 </tr>
