@@ -29,7 +29,7 @@ Here are the configs you need to exec for specific modes and map types:
 
 
 | 6s    |                        |                           |                                                                                         |
-|:-----:|:----------------------:|:-------------------------:|:---------------------------------------------------------------------------------------:|
+|:-----:|:----------------------|:-------------------------|:---------------------------------------------------------------------------------------|
 |       | **type of game**       | **config to exec**        | **notes**                                                                               |
 |       | 5cp Match 1st Half     | rgl_6s_5cp_match_half1    | winlimit 3, timelimit 30                                                                |
 |       | 5cp Match 2nd Half     | rgl_6s_5cp_match_half2    | winlimit 5, timelimit 30, reexec after one team has won 5 total rounds                  |
@@ -41,7 +41,7 @@ Here are the configs you need to exec for specific modes and map types:
 <br>
 
 | HL    |                        |                           |                                                                                         |
-|:-----:|:----------------------:|:-------------------------:|:---------------------------------------------------------------------------------------:|
+|:-----:|:----------------------|:-------------------------|:---------------------------------------------------------------------------------------|
 |       | **type of game**       | **config to exec**        | **notes**                                                                               |
 |       | Stopwatch              | rgl_HL_stopwatch          | winlimit 2 (best of 3)                                                                  |
 |       | Regular Season KoTH    | rgl_6s_koth               | winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds        |
@@ -50,7 +50,7 @@ Here are the configs you need to exec for specific modes and map types:
 <br>
 
 | 7s    |                        |                           |                                                                                         |
-|:-----:|:----------------------:|:-------------------------:|:---------------------------------------------------------------------------------------:|
+|:-----:|:----------------------|:-------------------------|:---------------------------------------------------------------------------------------|
 |       | **type of game**       | **config to exec**        | **notes**                                                                               |
 |       | Stopwatch              | rgl_7s_stopwatch          | winlimit 2 (best of 3)                                                                  |
 |       | Regular Season KoTH    | rgl_7s_koth               | winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds        |
@@ -59,7 +59,7 @@ Here are the configs you need to exec for specific modes and map types:
 <br>
 
 | NR 6s |                        |                           |                                                                                         |
-|:-----:|:----------------------:|:-------------------------:|:---------------------------------------------------------------------------------------:|
+|:-----:|:----------------------|:-------------------------|:---------------------------------------------------------------------------------------|
 |       | **type of game**       | **config to exec**        | **notes**                                                                               |
 |       | Any 5cp                | rgl_mm_5cp                | winlimit 3, no timelimit                                                                |
 |       | Stopwatch              | rgl_mm_stopwatch          | winlimit 2 (best of 3)                                                                  |
