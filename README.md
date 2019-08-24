@@ -27,7 +27,7 @@ The plugin updates itself, along with the RGL configs, after every exec and chan
 
 You will have to add new maps to your server manually as RGL introduces them to each gamemode's map pool. This is to prevent lengthly download times with the updater plugin.
 
-Simply download the new map and place it in the /tf/maps/ folder, through an (S)FTP client of your choice, and you're done.
+Simply download the new map and place it in the `/tf/maps/` folder, through an (S)FTP client of your choice, and you're done.
 
 
 ## !!Please read this section if you're not going to read anything else!!
