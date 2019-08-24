@@ -29,9 +29,9 @@ Here are the configs you need to exec for specific modes/map types:
 
 ### 6v6
 
-* 5cp Match: `(rcon) exec rgl_6s_5cp_match_half1` *exec for starting a 5cp match*
+* 5cp Match 1st Half: `(rcon) exec rgl_6s_5cp_match_half1` *exec for starting a 5cp match*
 
-* 5cp Match: `(rcon) exec rgl_6s_5cp_match_half2` *exec for the 2nd half of a 5cp match*
+* 5cp Match 2nd Half: `(rcon) exec rgl_6s_5cp_match_half2` *exec for the 2nd half of a 5cp match*
 
 * 5cp Match Golden Cap: `(rcon) exec rgl_6s_5cp_gc` *exec for golden cap in 5cp matches*
 
