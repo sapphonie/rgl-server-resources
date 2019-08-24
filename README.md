@@ -36,39 +36,39 @@ Here are the configs you need to exec for specific modes and map types:
 </thead>
 <tbody>
 <tr>
-<td align="center"><b>type of game</b></td>
-<td align="center"><b>config to exec</b></td>
-<td align="center"><b>notes</b></td>
+<td align="left"><b>type of game</b></td>
+<td align="left"><b>config to exec</b></td>
+<td align="left"><b>notes</b></td>
 </tr>
 <tr>
-<td align="center">5cp Scrim</td>
-<td align="center">rgl_6s_5cp_scrim</td>
-<td align="center">winlimit 5, timelimit 30, for scrims only</td>
+<td align="left">5cp Scrim</td>
+<td align="left">rgl_6s_5cp_scrim</td>
+<td align="left">winlimit 5, timelimit 30, for scrims only</td>
 </tr>
 <tr>
-<td align="center">5cp Match 1st Half</td>
-<td align="center">rgl_6s_5cp_match_half1</td>
-<td align="center">winlimit 3, timelimit 30</td>
+<td align="left">5cp Match 1st Half</td>
+<td align="left">rgl_6s_5cp_match_half1</td>
+<td align="left">winlimit 3, timelimit 30</td>
 </tr>
 <tr>
-<td align="center">5cp Match 2nd Half</td>
-<td align="center">rgl_6s_5cp_match_half2</td>
-<td align="center">winlimit 5, timelimit 30, reexec after one team has won 5 total rounds</td>
+<td align="left">5cp Match 2nd Half</td>
+<td align="left">rgl_6s_5cp_match_half2</td>
+<td align="left">winlimit 5, timelimit 30, reexec after one team has won 5 total rounds</td>
 </tr>
 <tr>
-<td align="center">5cp Match Golden Cap</td>
-<td align="center">rgl_6s_5cp_gc</td>
-<td align="center">winlimit 1, no timelimit</td>
+<td align="left">5cp Match Golden Cap</td>
+<td align="left">rgl_6s_5cp_gc</td>
+<td align="left">winlimit 1, no timelimit</td>
 </tr>
 <tr>
-<td align="center">Regular Season KoTH</td>
-<td align="center">rgl_6s_koth</td>
-<td align="center">winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds</td>
+<td align="left">Regular Season KoTH</td>
+<td align="left">rgl_6s_koth</td>
+<td align="left">winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds</td>
 </tr>
 <tr>
-<td align="center">Playoffs KoTH</td>
-<td align="center">rgl_6s_koth_bo5</td>
-<td align="center">winlimit 3, no timelimit</td>
+<td align="left">Playoffs KoTH</td>
+<td align="left">rgl_6s_koth_bo5</td>
+<td align="left">winlimit 3, no timelimit</td>
 </tr>
 </tbody>
 </table>
@@ -81,24 +81,24 @@ Here are the configs you need to exec for specific modes and map types:
 </thead>
 <tbody>
 <tr>
-<td align="center"><b>type of game</b></td>
-<td align="center"><b>config to exec</b></td>
-<td align="center"><b>notes</b></td>
+<td align="left"><b>type of game</b></td>
+<td align="left"><b>config to exec</b></td>
+<td align="left"><b>notes</b></td>
 </tr>
 <tr>
-<td align="center">Stopwatch</td>
-<td align="center">rgl_HL_stopwatch</td>
-<td align="center">winlimit 2 (best of 3)</td>
+<td align="left">Stopwatch</td>
+<td align="left">rgl_HL_stopwatch</td>
+<td align="left">winlimit 2 (best of 3)</td>
 </tr>
 <tr>
-<td align="center">Regular Season KoTH</td>
-<td align="center">rgl_6s_koth</td>
-<td align="center">winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds</td>
+<td align="left">Regular Season KoTH</td>
+<td align="left">rgl_6s_koth</td>
+<td align="left">winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds</td>
 </tr>
 <tr>
-<td align="center">Playoffs KoTH</td>
-<td align="center">rgl_6s_koth_bo5</td>
-<td align="center">winlimit 3, no timelimit</td>
+<td align="left">Playoffs KoTH</td>
+<td align="left">rgl_6s_koth_bo5</td>
+<td align="left">winlimit 3, no timelimit</td>
 </tr>
 </tbody>
 </table>
@@ -111,24 +111,24 @@ Here are the configs you need to exec for specific modes and map types:
 </thead>
 <tbody>
 <tr>
-<td align="center"><b>type of game</b></td>
-<td align="center"><b>config to exec</b></td>
-<td align="center"><b>notes</b></td>
+<td align="left"><b>type of game</b></td>
+<td align="left"><b>config to exec</b></td>
+<td align="left"><b>notes</b></td>
 </tr>
 <tr>
-<td align="center">Stopwatch</td>
-<td align="center">rgl_7s_stopwatch</td>
-<td align="center">winlimit 2 (best of 3)</td>
+<td align="left">Stopwatch</td>
+<td align="left">rgl_7s_stopwatch</td>
+<td align="left">winlimit 2 (best of 3)</td>
 </tr>
 <tr>
-<td align="center">Regular Season KoTH</td>
-<td align="center">rgl_7s_koth</td>
-<td align="center">winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds</td>
+<td align="left">Regular Season KoTH</td>
+<td align="left">rgl_7s_koth</td>
+<td align="left">winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds</td>
 </tr>
 <tr>
-<td align="center">Playoffs KoTH</td>
-<td align="center">rgl_7s_koth_bo5</td>
-<td align="center">winlimit 3, no timelimit</td>
+<td align="left">Playoffs KoTH</td>
+<td align="left">rgl_7s_koth_bo5</td>
+<td align="left">winlimit 3, no timelimit</td>
 </tr>
 </tbody>
 </table>
@@ -141,29 +141,29 @@ Here are the configs you need to exec for specific modes and map types:
 </thead>
 <tbody>
 <tr>
-<td align="center"><b>type of game</b></td>
-<td align="center"><b>config to exec</b></td>
-<td align="center"><b>notes</b></td>
+<td align="left"><b>type of game</b></td>
+<td align="left"><b>config to exec</b></td>
+<td align="left"><b>notes</b></td>
 </tr>
 <tr>
-<td align="center">Any 5cp</td>
-<td align="center">rgl_mm_5cp</td>
-<td align="center">winlimit 3, no timelimit</td>
+<td align="left">Any 5cp</td>
+<td align="left">rgl_mm_5cp</td>
+<td align="left">winlimit 3, no timelimit</td>
 </tr>
 <tr>
-<td align="center">Stopwatch</td>
-<td align="center">rgl_mm_stopwatch</td>
-<td align="center">winlimit 2 (best of 3)</td>
+<td align="left">Stopwatch</td>
+<td align="left">rgl_mm_stopwatch</td>
+<td align="left">winlimit 2 (best of 3)</td>
 </tr>
 <tr>
-<td align="center">Regular Season KoTH</td>
-<td align="center">rgl_mm_koth</td>
-<td align="center">winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds</td>
+<td align="left">Regular Season KoTH</td>
+<td align="left">rgl_mm_koth</td>
+<td align="left">winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds</td>
 </tr>
 <tr>
-<td align="center">Playoffs KoTH</td>
-<td align="center">rgl_mm_koth_bo5</td>
-<td align="center">winlimit 3, no timelimit</td>
+<td align="left">Playoffs KoTH</td>
+<td align="left">rgl_mm_koth_bo5</td>
+<td align="left">winlimit 3, no timelimit</td>
 </tr>
 </tbody>
 </table>
