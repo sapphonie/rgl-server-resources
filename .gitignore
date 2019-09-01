@@ -1,5 +1,7 @@
 # TF2 general mod gitignore
 
 sound/sound.cache
+
+# zip + readme that goes in the zip
 rgl-server-resources.zip
 README.txt
