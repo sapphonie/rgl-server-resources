@@ -16,10 +16,11 @@ If you have problems with the plugin, or if you have a suggestion, please messag
 
 ## Install Instructions
 
-1. Download the latest zip from the [releases tab](https://github.com/stephanieLGBT/rgl-server-resources/releases/)
-2. Navigate to your server install folder in an (S)FTP client of your choice
-3. Place everything in the zip (except this Readme) into the root `/tf/` folder. Overwrite any and all files that you get prompted for.
-4. Done!
+1. Remove all old RGL.gg configs from your server.
+2. Download the latest zip from the [releases tab](https://github.com/stephanieLGBT/rgl-server-resources/releases/)
+3. Navigate to your server install folder in an (S)FTP client of your choice
+4. Place everything inside the zip into the root `/tf/` folder. Overwrite any and all files that you get prompted for.
+5. Done!
 
 ## Updating Instructions
 
