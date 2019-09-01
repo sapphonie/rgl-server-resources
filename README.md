@@ -16,9 +16,9 @@ If you have problems with the plugin, or if you have a suggestion, please messag
 
 ## Install Instructions
 
-1. Download the [zip](https://github.com/stephanieLGBT/rgl-server-resources/archive/master.zip) (or clone the [repository](https://github.com/stephanieLGBT/rgl-server-resources) if you know how git works)
+1. Download the latest zip from the [releases tab](https://github.com/stephanieLGBT/rgl-server-resources/releases/)
 2. Navigate to your server install folder in an (S)FTP client of your choice
-3. Place *only the folders* into the root `/tf/` folder. Overwrite any and all files that you get prompted for.
+3. Place everything in the zip (except this Readme) into the root `/tf/` folder. Overwrite any and all files that you get prompted for.
 4. Done!
 
 ## Updating Instructions
@@ -101,12 +101,12 @@ Here are the configs you need to exec for specific modes and map types:
 </tr>
 <tr>
 <td align="left">Regular Season KoTH</td>
-<td align="left">rgl_6s_koth</td>
+<td align="left">rgl_HL_koth</td>
 <td align="left">winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds</td>
 </tr>
 <tr>
 <td align="left">Playoffs KoTH</td>
-<td align="left">rgl_6s_koth_bo5</td>
+<td align="left">rgl_HL_koth_bo5</td>
 <td align="left">winlimit 3, no timelimit</td>
 </tr>
 </tbody>
