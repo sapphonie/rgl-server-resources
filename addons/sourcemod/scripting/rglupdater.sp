@@ -5,7 +5,7 @@
 #include <morecolors>
 
 #define PLUGIN_NAME			"RGL.gg Server Resources Updater"
-#define PLUGIN_VERSION		   "1.0.3"
+#define PLUGIN_VERSION		   "1.0.4"
 #define UPDATE_URL	  "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt"
 
 public Plugin:myinfo =
@@ -19,7 +19,7 @@ public Plugin:myinfo =
 
 public OnPluginStart()
 {
-	CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} has been unloaded.{default}");
+	CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} has been {green}loaded{default}.");
 	if (LibraryExists("updater"))
 	{
 		Updater_AddPlugin(UPDATE_URL);
@@ -51,5 +51,5 @@ public OnLibraryAdded(const String:name[])
 
 public void OnPluginEnd()
 {
-	CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} has been unloaded.{default}");
+	CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} has been {red}unloaded{default}.");
 }
