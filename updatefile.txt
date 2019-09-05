@@ -48,4 +48,5 @@
 			"Source"	"/addons/sourcemod/scripting/include/morecolors.inc"
 		}
 	}
+	"Plugin"	"/addons/sourcemod/plugins/rglupdater.smx"
 }
