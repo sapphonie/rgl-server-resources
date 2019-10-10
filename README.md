@@ -191,9 +191,9 @@ This will reset your server to default settings, plus whatever you have set in s
 
 There is something seriously wrong with STV in TF2. For no apparent reason, when you start it up, it eats a player slot by incrementing the value of your server's `maxplayers` by 1. This isn't a problem, typically, because TF2 can technically handle 33 "players", aka 32 + STV. If you were to set +maxplayers to 33 and then add stv, things would get ugly, really quickly.
 
-But that's not all. When the bot is unloaded, it, for no apparent reason, reads the value of `tv_maxplayers` and sets your server's visible player count to *that* number. Why? Who knows. `sv_visiblemaxplayers` has ZERO effect on this. For that reason, I decided to *not* unload the STV bot in the `tfcl_off` config, as things would get broken quickly if players didn't set `tv_maxplayers` AND `sv_visiblemaxplayers` to the same value, which also has to be at or under the server's slot limit.
+But that's not all. When the bot is unloaded, it, for no apparent reason, reads the value of `tv_maxplayers` and sets your server's visible player count to *that* number. Why? Who knows. `sv_visiblemaxplayers` has ZERO effect on this. For that reason, I decided to *not* unload the STV bot in the `rgl_off` config, as things would get broken quickly if players didn't set `tv_maxplayers` AND `sv_visiblemaxplayers` to the same value, which also has to be at or under the server's slot limit.
 
-For this reason, and on the advice of some server network operators, I have decided to not shut down stv with tfcl_off. If you need to disable the STV, please restart your server.
+For this reason, and on the advice of some server network operators, I have decided to not shut down stv with rgl_off. If you need to disable the STV, please restart your server.
 
 The bug report for this issue is [here](https://github.com/ValveSoftware/Source-1-Games/issues/2778).
 
