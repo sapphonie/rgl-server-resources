@@ -23,6 +23,7 @@
 		"Plugin"	"/cfg/rgl_HL_koth.cfg"
 		"Plugin"	"/cfg/rgl_HL_koth_bo5.cfg"
 		"Plugin"	"/cfg/rgl_HL_stopwatch.cfg"
+		"Plugin"	"/cfg/rgl_HL_base.cfg"
 		"Plugin"	"/cfg/rgl_7v7_s6.txt"
 		"Plugin"	"/cfg/rgl_7s_base.cfg"
 		"Plugin"	"/cfg/rgl_7s_koth.cfg"
