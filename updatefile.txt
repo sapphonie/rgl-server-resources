@@ -39,7 +39,7 @@
 		"Plugin"	"/cfg/rgl_mm_base.cfg"
 		"Plugin"	"/cfg/rgl_base.cfg"
 		"Plugin"	"/cfg/rgl_off.cfg"
-		"Plugin"	"/addons/sourcemod/plugins/updater.smx"
+		"Plugin"	"/addons/sourcemod/plugins/updater.smx" // source for this plugin is here: https://git.empiresmod.com/sourcemod/Updater/tree/master
 		"Plugin"	"/addons/sourcemod/plugins/rglupdater.smx"
 		"Plugin"	"/addons/sourcemod/plugins/pause.smx"
 		"Plugin"	"/addons/sourcemod/plugins/disabled/tf2Halftime.smx"
