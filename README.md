@@ -16,11 +16,13 @@ If you have problems with the plugin, or if you have a suggestion, please messag
 
 ## Install Instructions
 
-1. Remove all old RGL.gg configs from your server.
+1. **Remove all old RGL.gg configs from your server.** (THIS IS IMPORTANT, if you do not do this things will break!)
 2. Download the latest zip from the [releases tab](https://github.com/stephanieLGBT/rgl-server-resources/releases/latest)
 3. Navigate to your server install folder in an (S)FTP client of your choice
 4. Place everything inside the zip into the root `/tf/` folder. Overwrite any and all files that you get prompted for.
 5. Done!
+
+If you're still having trouble, there's step by step instructions with pictures over in the [wiki](https://github.com/stephanieLGBT/tf2-halftime/wiki)!
 
 ## Updating Instructions
 
@@ -33,7 +35,9 @@ Simply download the new map and place it in the `/tf/maps/` folder, through an (
 
 ## !!Please read this section if you're not going to read anything else!!
 
-There are different configs for scrims and matches if you're playing 5cp in 6s. Everything else has the same config for scrims and matches.
+There are different configs and plugins for scrims and matches if you're playing 5cp and koth in 6s. Halftimes in 5cp and koth are handled by the tf2Halftime plugin, mirrored from [here](https://github.com/stephanieLGBT/tf2-halftime).
+
+Every other gamemode and type has the same config for scrims and matches.
 
 Here are the configs you need to exec for specific modes and map types:
 
@@ -56,9 +60,14 @@ Here are the configs you need to exec for specific modes and map types:
 <td align="left">winlimit 5, timelimit 30, for scrims only</td>
 </tr>
 <tr>
+<td align="left">5cp Match</td>
+<td align="left">rgl_6s_5cp_match</td>
+<td align="left">First half: winlimit 3, timelimit 30, 2nd half: first to 5 or timelimit</td>
+</tr>
+<tr>
 <td align="left">5cp Match 1st Half</td>
 <td align="left">rgl_6s_5cp_match_half1</td>
-<td align="left">winlimit 3, timelimit 30</td>
+<td align="left">winlimit 3, timelimit 30 (this and half2 can be used if plugin isn't available)</td>
 </tr>
 <tr>
 <td align="left">5cp Match 2nd Half</td>
@@ -71,9 +80,14 @@ Here are the configs you need to exec for specific modes and map types:
 <td align="left">winlimit 1, no timelimit</td>
 </tr>
 <tr>
-<td align="left">Regular Season KoTH</td>
+<td align="left">KoTH Match</td>
 <td align="left">rgl_6s_koth</td>
-<td align="left">winlimit 2, no timelimit, 2 halves. reexec after one team has won 4 total rounds</td>
+<td align="left">winlimit 2, no timelimit, 2 halves.</td>
+</tr>
+<tr>
+<td align="left">KoTH Scrim</td>
+<td align="left">rgl_6s_koth</td>
+<td align="left">winlimit 2, no timelimit, 2 halves. (can be used for matches and reexeced if plugin is not available, reexec after one team has won 4 total rounds)</td>
 </tr>
 <tr>
 <td align="left">Playoffs KoTH</td>
