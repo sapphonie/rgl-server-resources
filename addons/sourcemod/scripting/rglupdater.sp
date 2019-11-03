@@ -1,11 +1,12 @@
 #pragma semicolon 1
 #include <sourcemod>
-#undef REQUIRE_PLUGIN
 #include <updater>
 #include <morecolors>
+#define REQUIRE_EXTENSIONS
+#include <SteamWorks>
 
 #define PLUGIN_NAME			"RGL.gg Server Resources Updater"
-#define PLUGIN_VERSION		   "1.0.4"
+#define PLUGIN_VERSION		   "1.0.5"
 #define UPDATE_URL	  "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt"
 
 public Plugin:myinfo =
@@ -29,17 +30,15 @@ public OnPluginStart()
 
 public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcast)
 {
-	CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} This Server is running RGL Updater version {lightsalmon}%s{default}", PLUGIN_VERSION);
+	CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} This server is running RGL Updater version {lightsalmon}%s{default}", PLUGIN_VERSION);
 	return Plugin_Continue;
 }
 
 
 public OnClientPutInServer(client)
 {
-//	  CPrintToChat(client, "{lightsalmon}[RGLUpdater]{white} This server is running RGL Updater version {lightsalmon}%s{default}", PLUGIN_VERSION);
 	PrintToChat(client, "[RGLUpdater] This server is running RGL Updater version %s", PLUGIN_VERSION);
 }
-
 
 public OnLibraryAdded(const String:name[])
 {
