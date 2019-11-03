@@ -6,8 +6,8 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME			"RGL.gg Server Resources Updater"
-#define PLUGIN_VERSION		   "1.0.4.4"
-#define UPDATE_URL	  "https://raw.githubusercontent.com/stephanieLGBT/rgl-server-resources/beta/addons/sourcemod/scripting/rglupdater.sp"
+#define PLUGIN_VERSION		   "1.0.5"
+#define UPDATE_URL	  "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt"
 
 public Plugin:myinfo =
 {
