@@ -22,7 +22,7 @@ If you have problems with the plugin, or if you have a suggestion, please messag
 4. Place everything inside the zip into the root `/tf/` folder. Overwrite any and all files that you get prompted for.
 5. Done!
 
-If you're still having trouble, there's step by step instructions with pictures over in the [wiki](https://github.com/stephanieLGBT/tf2-halftime/wiki)!
+If you're still having trouble, there's step by step instructions with pictures over in the [wiki](https://github.com/stephanieLGBT/rgl-server-resources/wiki/Installation-Tutorial)!
 
 ## Updating Instructions
 
