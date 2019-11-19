@@ -31,7 +31,7 @@ public void OnPluginStart()
     HookEvent("teamplay_round_win", EventRoundEnd);                 // hooks round win events
     HookEvent("teamplay_round_start", EventRoundStart);             // hooks round start events
     SetConVarInt(FindConVar("mp_winlimit"), 0, true);               // finds and sets winlimit to 0, as this plugin handles it instead
-    SetConVarInt(FindConVar("mp_tournament_readymode"), 1, true);   // sets readymode to per player
+//  SetConVarInt(FindConVar("mp_tournament_readymode"), 1, true);   // sets readymode to per player (currently disabled because of a bug where players can't ready up after a mp_tournament_restart)
 }
 
 public void OnMapStart()
@@ -194,7 +194,6 @@ int printScore(client)
 
 public void EventRoundStart(Event event, const char[] name, bool dontBroadcast)  // Round Start Event
 {
-    CPrintToChatAll("{mediumpurple}[tf2Halftime] {white}This server is running tf2Halftime version {mediumpurple}%s", PLUGIN_VERSION);
     if (gameIsLive)                     // if the game is live, display the score on round start
     {
         for (                           // for loop for getting client ids. rewritten from integritf2
@@ -217,6 +216,7 @@ public void EventRoundStart(Event event, const char[] name, bool dontBroadcast) 
     {
         CPrintToChatAll("{mediumpurple}[tf2Halftime] {white}To see the score at any time during the game, type {mediumpurple}!score");
     }
+    CPrintToChatAll("{mediumpurple}[tf2Halftime] {white}This server is running tf2Halftime version {mediumpurple}%s", PLUGIN_VERSION);
 }
 
 public Action OnClientSayCommand(int client, const char[] command, const char[] clTxt)

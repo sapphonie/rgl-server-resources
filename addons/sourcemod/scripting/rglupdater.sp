@@ -117,14 +117,6 @@ public void autoStuff()
     {
         CfgExecuted = false;
     }
-            /*
-            FAIL SAFE!
-            i'd rather have this plugin bug out, and
-            *not* restart a server with nobody on it, and
-            have it be a minor inconvience instead of having
-            this plugin bug out and it then restarting a server
-            with ppl on it, screwing things up real badly
-            */
     else
     {
         CfgExecuted = false;
