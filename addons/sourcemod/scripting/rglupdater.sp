@@ -7,7 +7,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME         "RGL.gg Server Resources Updater"
-#define PLUGIN_VERSION      "1.1"
+#define PLUGIN_VERSION      "1.1.1"
 #define UPDATE_URL          "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt"
 
 new bool:CfgExecuted = false;
@@ -102,6 +102,13 @@ public void OnConVarChanged(ConVar convar, char[] oldValue, char[] newValue)
     if (antiTroll == 1)
     {
         autoStuff();
+    }
+    else if (antiTroll == 0)
+    {
+        SetConVarInt(FindConVar("sm_reserved_slots"), 0, true);                 // zeros reserved slots value
+        ServerCommand("sm plugins unload reservedslots");                       // unloads reserved slots
+        ServerCommand("sm plugins unload disabled/reservedslots");              // ^
+        SetConVarInt(FindConVar("sv_visiblemaxplayers"), -1, true);             // resets visible slots
     }
 }
 
