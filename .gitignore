@@ -3,6 +3,5 @@
 sound/sound.cache
 
 # zip + readme that goes in the zip
-rgl-server-resources.zip
-rgl-server-resources_nomaps.zip
+*.zip
 README.txt
