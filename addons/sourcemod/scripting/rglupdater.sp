@@ -8,7 +8,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME         "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION      "1.2.2beta"
+#define PLUGIN_VERSION      "1.2.3beta"
 
 // yes this is the same variable name from tf2Halftime
 new String:UPDATE_URL[128] =     "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
@@ -213,11 +213,13 @@ public rglBetaCheck()
     if (isBeta)
     {
         UPDATE_URL = "https://raw.githubusercontent.com/stephanieLGBT/rgl-server-resources/beta/updatefile.txt";
+        LogMessage("url is %s", UPDATE_URL);
         return;
     }
     else if (!isBeta)
     {
         UPDATE_URL = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
+        LogMessage("url is %s", UPDATE_URL);
         return;
     }
     // this is the actual "updater" part of this plugin
