@@ -7,11 +7,10 @@
 #define REQUIRE_EXTENSIONS
 #include <SteamWorks>
 
-#define PLUGIN_NAME         "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION      "1.2.3beta"
+#define PLUGIN_NAME             "RGL.gg Server Resources Updater & More"
+#define PLUGIN_VERSION          "1.2.0b"
 
-// yes this is the same variable name from tf2Halftime
-new String:UPDATE_URL[128] =     "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
+new String:UPDATE_URL[128] =    "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:gameIsLive;
 new bool:CfgExecuted;
 new bool:antiTroll;
@@ -63,10 +62,10 @@ public OnPluginStart()
         );
     HookConVarChange(FindConVar("rgl_cast"), OnRGLChanged);
     HookConVarChange(FindConVar("rgl_beta"), OnRGLBetaChanged);
-    HookConVarChange(FindConVar("tv_enable"), OnSTVChanged);
     rglBetaCheck();
+    HookConVarChange(FindConVar("tv_enable"), OnSTVChanged);
     LogMessage("[RGLUpdater] Initializing RGLUpdater version %s", PLUGIN_VERSION);
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} has been {green}loaded{default}.");
+    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} version{lightsalmon}%s{white} has been {green}loaded{default}.", PLUGIN_VERSION);
     // hooks round start events
     HookEvent("teamplay_round_start", EventRoundStart);
     // hooks round win events for determining auto restart
@@ -93,7 +92,8 @@ public OnLibraryAdded(const String:name[])
     }
 }
 
-public OnMapStart() {
+public OnMapStart()
+{
     // kill the changelevel timer if its running
     if (g_hForceChange != INVALID_HANDLE)
     {
@@ -169,7 +169,7 @@ public Action checkStuff(Handle timer)
     else
     {
         LogMessage("[RGLUpdater] Server empty. Waiting ~95 seconds for stv and issuing sv_shutdown.");
-        // wait 90 seconds + 5 (just in case the server is really  slow) for stv
+        // wait 90 seconds + 5 (just in case the server is really slow) for stv
         CreateTimer(95.0, yeetServ);
     }
 }
@@ -202,7 +202,7 @@ public OnRGLChanged(ConVar convar, char[] oldValue, char[] newValue)
         ServerCommand("sm plugins unload disabled/reservedslots");
         // resets visible slots
         SetConVarInt(FindConVar("sv_visiblemaxplayers"), -1, true);
-        LogMessage("[RGLUpdater] Casting antiTroll stuff has been turned off!");
+        LogMessage("[RGLUpdater] Cast AntiTroll has been turned off!");
         return;
     }
 }
@@ -213,14 +213,12 @@ public rglBetaCheck()
     if (isBeta)
     {
         UPDATE_URL = "https://raw.githubusercontent.com/stephanieLGBT/rgl-server-resources/beta/updatefile.txt";
-        LogMessage("url is %s", UPDATE_URL);
-        return;
+        LogMessage("[RGLUpdater] Update url changed to %s. You will need to changelevel at least once to apply this.", UPDATE_URL);
     }
     else if (!isBeta)
     {
         UPDATE_URL = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
-        LogMessage("url is %s", UPDATE_URL);
-        return;
+        LogMessage("[RGLUpdater] Update url changed to %s. You will need to changelevel at least once to apply this.", UPDATE_URL);
     }
     // this is the actual "updater" part of this plugin
     if (LibraryExists("updater"))
@@ -250,7 +248,7 @@ public OnSTVChanged(ConVar convar, char[] oldValue, char[] newValue)
     else if (stvOn == 0)
     {
         LogMessage("[RGLUpdater] tv_enable changed to 0!");
-        CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} tv_enable changed to 0! You must restart your server to unload STV properly!");
+        CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} tv_enable changed to 0! You must reenable it or restart your server to unload STV properly!");
         return;
     }
 }
@@ -292,11 +290,11 @@ public Action ForceChange(Handle timer)
     {
         return;
     }
-    LogMessage("[RGLUpdater] Changing level to fix STV");
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} tv_enable changed to 1! Changing level to fix STV");
+    LogMessage("[RGLUpdater] Changing level to fix STV.");
+    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} tv_enable changed to 1! Changing level to fix STV.");
     new String:mapName[128];
     GetCurrentMap(mapName, sizeof(mapName));
-    ForceChangeLevel(mapName, "Changing level to fix STV");
+    ForceChangeLevel(mapName, "Changing level to fix STV.");
 }
 
 public AntiTrollStuff()
@@ -316,7 +314,7 @@ public AntiTrollStuff()
         CfgExecuted = false;
     }
 
-    // ANTI TROLLING STUFF (prevents extra users from joining the server, useful for casts)
+    // ANTI TROLLING STUFF (prevents extra users from joining the server, used for casts)
 
     antiTroll = GetConVarBool(FindConVar("rgl_cast"));
 
@@ -360,13 +358,13 @@ public AntiTrollStuff()
         SetConVarInt(FindConVar("sv_visiblemaxplayers"), formatVal, true);
 
         // players can still join if they have password and connect thru console but they will be instantly kicked due to the slot reservation we just made
-        // obviously this can backfire if there's an collaborative effort by a player and a troll where the player leaves, and the troll joins in their place...
-        // ...but if that's happening the player will almost certainly face severe punishments and a probable league ban.
+        // obviously this can go wrong if there's an collaborative effort by a player and a troll where the player leaves, and the troll joins in their place...
+        // ...but if that's happening the players involved will almost certainly face severe punishments and a probable league ban.
         LogMessage("[RGLUpdater] Cast AntiTroll has been turned on!");
     }
 }
 
 public OnPluginEnd()
 {
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} has been {red}unloaded{default}.");
+    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} version{lightsalmon}%s{white} has been {red}unloaded{default}.", PLUGIN_VERSION);
 }
