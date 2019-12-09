@@ -8,7 +8,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME             "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION          "1.2.0b"
+#define PLUGIN_VERSION          "1.2.1b"
 
 new String:UPDATE_URL[128] =    "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:gameIsLive;
@@ -65,7 +65,7 @@ public OnPluginStart()
     rglBetaCheck();
     HookConVarChange(FindConVar("tv_enable"), OnSTVChanged);
     LogMessage("[RGLUpdater] Initializing RGLUpdater version %s", PLUGIN_VERSION);
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} version{lightsalmon}%s{white} has been {green}loaded{default}.", PLUGIN_VERSION);
+    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} version {lightsalmon}%s{white} has been {green}loaded{default}.", PLUGIN_VERSION);
     // hooks round start events
     HookEvent("teamplay_round_start", EventRoundStart);
     // hooks round win events for determining auto restart
@@ -94,14 +94,7 @@ public OnLibraryAdded(const String:name[])
 
 public OnMapStart()
 {
-    // kill the changelevel timer if its running
-    if (g_hForceChange != INVALID_HANDLE)
-    {
-        KillTimer(g_hForceChange);
-        g_hForceChange = INVALID_HANDLE;
-    }
-    // double assign this just in case because sometimes invalid handles don't get read properly as invalid
-    g_hForceChange = INVALID_HANDLE;
+    delete g_hForceChange;
     gameIsLive = false;
 }
 
@@ -113,13 +106,7 @@ public OnClientPostAdminCheck(client)
 public OnClientPutInServer(client)
 {
     LogMessage("[RGLUpdater] Player joined. Killing player checker timer.");
-    if (g_hCheckPlayers != INVALID_HANDLE)
-    {
-        KillTimer(g_hCheckPlayers);
-        g_hCheckPlayers = INVALID_HANDLE;
-    }
-    // double assign this just in case because sometimes invalid handles don't get read properly as invalid
-    g_hCheckPlayers = INVALID_HANDLE;
+    delete g_hCheckPlayers;
 }
 
 public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcast)
@@ -138,14 +125,7 @@ public EventRoundEnd(Event event, const char[] name, bool dontBroadcast)
 public Action EventPlayerLeft(Handle event, const char[] name, bool dontBroadcast)
 {
     LogMessage("[RGLUpdater] Player left. Waiting 30 seconds and then checking if server is empty.");
-    // kill the player check timer if its running
-    if (g_hCheckPlayers != INVALID_HANDLE)
-    {
-        KillTimer(g_hCheckPlayers);
-        g_hCheckPlayers = INVALID_HANDLE;
-    }
-    // double assign this just in case because sometimes invalid handles don't get read properly as invalid
-    g_hCheckPlayers = INVALID_HANDLE;
+    delete g_hCheckPlayers;
     g_hCheckPlayers = CreateTimer(30.0, checkStuff);
 }
 
@@ -366,5 +346,5 @@ public AntiTrollStuff()
 
 public OnPluginEnd()
 {
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} version{lightsalmon}%s{white} has been {red}unloaded{default}.", PLUGIN_VERSION);
+    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} version {lightsalmon}%s{white} has been {red}unloaded{default}.", PLUGIN_VERSION);
 }
