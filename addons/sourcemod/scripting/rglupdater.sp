@@ -8,7 +8,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME             "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION          "1.2.1b"
+#define PLUGIN_VERSION          "1.2.0"
 
 new String:UPDATE_URL[128] =    "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:gameIsLive;
@@ -16,12 +16,13 @@ new bool:CfgExecuted;
 new bool:antiTroll;
 new bool:isBeta;
 new bool:levelChanged = false;
+new bool:alreadyRestarting = false;
 new isStvDone = -1;
 new stvOn;
 new formatVal;
 new slotVal;
 new curplayers;
-new Handle:g_hCheckPlayers = INVALID_HANDLE;
+//new Handle:g_hCheckPlayers = INVALID_HANDLE;
 new Handle:g_hForceChange = INVALID_HANDLE;
 
 public Plugin:myinfo =
@@ -73,7 +74,7 @@ public OnPluginStart()
     // hooks player fully disconnected events
     HookEvent("player_disconnect", EventPlayerLeft);
 
-    // shoutouts to lange, borrowed this from soap_tournament.smx here: https://github.com/Lange/SOAP-TF2DM/blob/master/addons/sourcemod/scripting/soap_tournament.sp#L49
+    // shoutouts to lange, borrowed this from soap_tournament.smx here: https://github.com/Lange/SOAP-TF2DM/blob/master/addons/sourcemod/scripting/soap_tournament.sp#L48
 
     // Win conditions met (maxrounds, timelimit)
     HookEvent("teamplay_game_over", GameOverEvent);
@@ -105,8 +106,8 @@ public OnClientPostAdminCheck(client)
 
 public OnClientPutInServer(client)
 {
-    LogMessage("[RGLUpdater] Player joined. Killing player checker timer.");
-    delete g_hCheckPlayers;
+//  LogMessage("[RGLUpdater] Player joined. Killing player checker timer.");
+//  delete g_hCheckPlayers;
 }
 
 public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcast)
@@ -125,8 +126,9 @@ public EventRoundEnd(Event event, const char[] name, bool dontBroadcast)
 public Action EventPlayerLeft(Handle event, const char[] name, bool dontBroadcast)
 {
     LogMessage("[RGLUpdater] Player left. Waiting 30 seconds and then checking if server is empty.");
-    delete g_hCheckPlayers;
-    g_hCheckPlayers = CreateTimer(30.0, checkStuff);
+//  delete g_hCheckPlayers;
+//  g_hCheckPlayers =
+    CreateTimer(30.0, checkStuff, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
 }
 
 public Action checkStuff(Handle timer)
@@ -148,9 +150,17 @@ public Action checkStuff(Handle timer)
     // ok. the game is over. the last person has left. restart the server
     else
     {
-        LogMessage("[RGLUpdater] Server empty. Waiting ~95 seconds for stv and issuing sv_shutdown.");
-        // wait 90 seconds + 5 (just in case the server is really slow) for stv
-        CreateTimer(95.0, yeetServ);
+        if (alreadyRestarting)
+        {
+            return;
+        }
+        else if (!alreadyRestarting)
+        {
+            LogMessage("[RGLUpdater] Server empty. Waiting ~95 seconds for stv and issuing sv_shutdown.");
+            // wait 90 seconds + 5 (just in case the server is really slow) for stv
+            CreateTimer(95.0, yeetServ);
+            alreadyRestarting = true;
+        }
     }
 }
 
