@@ -8,7 +8,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME             "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION          "1.2.0"
+#define PLUGIN_VERSION          "1.2.6b"
 
 new String:UPDATE_URL[128] =    "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:gameIsLive;
@@ -22,7 +22,7 @@ new stvOn;
 new formatVal;
 new slotVal;
 new curplayers;
-//new Handle:g_hCheckPlayers = INVALID_HANDLE;
+new Handle:g_hCheckPlayers = INVALID_HANDLE;
 new Handle:g_hForceChange = INVALID_HANDLE;
 
 public Plugin:myinfo =
@@ -106,8 +106,12 @@ public OnClientPostAdminCheck(client)
 
 public OnClientPutInServer(client)
 {
-//  LogMessage("[RGLUpdater] Player joined. Killing player checker timer.");
-//  delete g_hCheckPlayers;
+    LogMessage("[RGLUpdater] Player joined. Killing player checker timer.");
+    if (g_hCheckPlayers != INVALID_HANDLE)
+    {
+        CloseHandle(g_hCheckPlayers);
+        g_hCheckPlayers = INVALID_HANDLE;
+    }
 }
 
 public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcast)
@@ -126,9 +130,12 @@ public EventRoundEnd(Event event, const char[] name, bool dontBroadcast)
 public Action EventPlayerLeft(Handle event, const char[] name, bool dontBroadcast)
 {
     LogMessage("[RGLUpdater] Player left. Waiting 30 seconds and then checking if server is empty.");
-//  delete g_hCheckPlayers;
-//  g_hCheckPlayers =
-    CreateTimer(30.0, checkStuff, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
+    if (g_hCheckPlayers != INVALID_HANDLE)
+    {
+        CloseHandle(g_hCheckPlayers);
+        g_hCheckPlayers = INVALID_HANDLE;
+    }
+    g_hCheckPlayers = CreateTimer(30.0, checkStuff, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
 }
 
 public Action checkStuff(Handle timer)
@@ -232,7 +239,7 @@ public OnSTVChanged(ConVar convar, char[] oldValue, char[] newValue)
         CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} tv_enable changed to 1! Changing level in 30 seconds unless manual map change occurs before then.");
 
         // we wait 30 seconds in case the server owner changes the level on their own
-        CreateTimer(30.0, ForceChange);
+        CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
         return;
     }
     else if (stvOn == 0)
