@@ -8,7 +8,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME             "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION          "1.2.6b"
+#define PLUGIN_VERSION          "1.2.7b"
 
 new String:UPDATE_URL[128] =    "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:gameIsLive;
@@ -23,7 +23,7 @@ new formatVal;
 new slotVal;
 new curplayers;
 new Handle:g_hCheckPlayers = INVALID_HANDLE;
-new Handle:g_hForceChange = INVALID_HANDLE;
+new Handle:g_hForceChange  = INVALID_HANDLE;
 
 public Plugin:myinfo =
 {
@@ -84,6 +84,16 @@ public OnPluginStart()
     RegServerCmd("changelevel", changeLvl);
 }
 
+//Stock to Clear Timer (stolen from https://forums.alliedmods.net/showthread.php?t=185779 )
+stock ClearTimer(&Handle:timer)
+{
+    if (timer != INVALID_HANDLE)
+    {
+        KillTimer(timer);
+        timer = INVALID_HANDLE;
+    }
+}
+
 public OnLibraryAdded(const String:name[])
 {
     if (StrEqual(name, "updater"))
@@ -95,7 +105,8 @@ public OnLibraryAdded(const String:name[])
 
 public OnMapStart()
 {
-    delete g_hForceChange;
+    ClearTimer(g_hForceChange);
+    g_hForceChange = INVALID_HANDLE;
     gameIsLive = false;
 }
 
@@ -107,11 +118,8 @@ public OnClientPostAdminCheck(client)
 public OnClientPutInServer(client)
 {
     LogMessage("[RGLUpdater] Player joined. Killing player checker timer.");
-    if (g_hCheckPlayers != INVALID_HANDLE)
-    {
-        CloseHandle(g_hCheckPlayers);
-        g_hCheckPlayers = INVALID_HANDLE;
-    }
+    ClearTimer(g_hCheckPlayers);
+    g_hCheckPlayers = INVALID_HANDLE;
 }
 
 public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcast)
@@ -130,11 +138,8 @@ public EventRoundEnd(Event event, const char[] name, bool dontBroadcast)
 public Action EventPlayerLeft(Handle event, const char[] name, bool dontBroadcast)
 {
     LogMessage("[RGLUpdater] Player left. Waiting 30 seconds and then checking if server is empty.");
-    if (g_hCheckPlayers != INVALID_HANDLE)
-    {
-        CloseHandle(g_hCheckPlayers);
-        g_hCheckPlayers = INVALID_HANDLE;
-    }
+    ClearTimer(g_hCheckPlayers);
+    g_hCheckPlayers = INVALID_HANDLE;
     g_hCheckPlayers = CreateTimer(30.0, checkStuff, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
 }
 
