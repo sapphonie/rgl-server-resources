@@ -8,7 +8,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME             "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION          "1.2.3beta"
+#define PLUGIN_VERSION          "1.2.3.5beta"
 
 new String:UPDATE_URL[128] =    "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:gameIsLive;
@@ -205,7 +205,7 @@ public Action yeetServ(Handle timer)
 
 public OnRGLChanged(ConVar convar, char[] oldValue, char[] newValue)
 {
-    alreadyChanging = true;
+    // alreadyChanging = true;
     antiTroll = GetConVarBool(FindConVar("rgl_cast"));
     if (antiTroll)
     {
@@ -358,7 +358,7 @@ public Action changeLvl(int args)
 
 public Action ForceChange(Handle timer)
 {
-    if (levelChanged || isStvDone != 1)
+    if (levelChanged || isStvDone == 0)
     {
         return;
     }
