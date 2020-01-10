@@ -72,7 +72,9 @@ public OnPluginStart()
     HookConVarChange(FindConVar("rgl_beta"), OnRGLBetaChanged);
     rglBetaCheck();
     HookConVarChange(FindConVar("tv_enable"), OnSTVChanged);
-    HookConVarChange(FindConVar("sv_pure"), OnPureChanged);
+    // HookConVarChange(FindConVar("sv_pure"), OnPureChanged);
+    AddCommandListener(OnPureChanged, "sv_pure");
+
     LogMessage("[RGLUpdater] Initializing RGLUpdater version %s", PLUGIN_VERSION);
     CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} version {lightsalmon}%s{white} has been {green}loaded{default}.", PLUGIN_VERSION);
     // hooks round start events
@@ -292,7 +294,8 @@ public OnSTVChanged(ConVar convar, char[] oldValue, char[] newValue)
     }
 }
 
-public OnPureChanged(ConVar convar, char[] oldValue, char[] newValue)
+//public Action OnPureChanged(ConVar convar, char[] oldValue, char[] newValue)
+public Action OnPureChanged(int client, const char[] command, int argc)
 {
     LogMessage("[RGLUpdater] sv_pure cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
     CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} sv_pure cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
