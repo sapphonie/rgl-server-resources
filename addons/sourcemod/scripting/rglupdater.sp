@@ -8,7 +8,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME             "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION          "1.2.3.6beta"
+#define PLUGIN_VERSION          "1.2.3.7beta"
 
 new String:UPDATE_URL[128] =    "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:gameIsLive;
@@ -255,6 +255,10 @@ public rglBetaCheck()
 
 public OnRGLBetaChanged(ConVar convar, char[] oldValue, char[] newValue)
 {
+    if (StrEqual(oldValue, newValue, false))
+    {
+        return;
+    }
     LogMessage("[RGLUpdater] rgl_beta cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
     CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} rgl_beta cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
     rglBetaCheck();
