@@ -8,9 +8,11 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME             "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION          "1.2.3.7beta"
+#define PLUGIN_VERSION          "1.2.3.8beta"
 
-new String:UPDATE_URL[128] =    "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
+new String:UPDATE_URL[128]      =    "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
+new String:pureOut1[8]          =    "";
+new String:pureOut2[8]          =    "";
 new bool:gameIsLive;
 new bool:CfgExecuted;
 new bool:antiTroll;
@@ -73,7 +75,7 @@ public OnPluginStart()
     rglBetaCheck();
     HookConVarChange(FindConVar("tv_enable"), OnSTVChanged);
     // HookConVarChange(FindConVar("sv_pure"), OnPureChanged);
-    AddCommandListener(OnPureChanged, "sv_pure");
+    AddCommandListener(OnPure, "sv_pure");
 
     LogMessage("[RGLUpdater] Initializing RGLUpdater version %s", PLUGIN_VERSION);
     CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} version {lightsalmon}%s{white} has been {green}loaded{default}.", PLUGIN_VERSION);
@@ -255,10 +257,6 @@ public rglBetaCheck()
 
 public OnRGLBetaChanged(ConVar convar, char[] oldValue, char[] newValue)
 {
-    if (StrEqual(oldValue, newValue, false))
-    {
-        return;
-    }
     LogMessage("[RGLUpdater] rgl_beta cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
     CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} rgl_beta cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
     rglBetaCheck();
@@ -298,15 +296,20 @@ public OnSTVChanged(ConVar convar, char[] oldValue, char[] newValue)
 }
 
 //public Action OnPureChanged(ConVar convar, char[] oldValue, char[] newValue)
-public Action OnPureChanged(int client, const char[] command, int argc)
+public Action OnPure(int client, const char[] command, int argc)
 {
-    LogMessage("[RGLUpdater] sv_pure cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} sv_pure cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
-    if (!alreadyChanging)
+    GetCmdArg(1, pureOut1, sizeof(pureOut1));
+    if (!StrEqual(pureOut1, pureOut2, false))
     {
-        delete g_hForceChange;
-        CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
-        alreadyChanging = true;
+        LogMessage("[RGLUpdater] sv_pure cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
+        CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} sv_pure cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
+        if (!alreadyChanging)
+        {
+            delete g_hForceChange;
+            CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
+            alreadyChanging = true;
+            GetCmdArg(1, pureOut2, sizeof(pureOut2));
+        }
     }
 }
 
