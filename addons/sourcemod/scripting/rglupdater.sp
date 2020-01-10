@@ -8,37 +8,37 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME             "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION          "1.2.2beta"
+#define PLUGIN_VERSION          "1.2.3beta"
 
 new String:UPDATE_URL[128] =    "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:gameIsLive;
 new bool:CfgExecuted;
 new bool:antiTroll;
 new bool:isBeta;
-new bool:levelChanged = false;
-new bool:alreadyRestarting = false;
-new bool:alreadyChanging = false;
-new bool:reloadPlug = false;
-new bool:IsSafe = false;
-new bool:warnedStv = false;
-new bool:firstStart = true;
-new isStvDone = -1;
+new bool:levelChanged           = false;
+new bool:alreadyRestarting      = false;
+new bool:alreadyChanging        = false;
+new bool:reloadPlug             = false;
+new bool:IsSafe                 = false;
+new bool:warnedStv              = false;
+new bool:firstStart             = true;
+new isStvDone                   = -1;
 new stvOn;
 new formatVal;
 new slotVal;
 new curplayers;
 new origTimelimit;
-//new Handle:g_hCheckPlayers = INVALID_HANDLE;
-new Handle:g_hForceChange = INVALID_HANDLE;
-new Handle:g_hyeetServ = INVALID_HANDLE;
+//new Handle:g_hCheckPlayers    = INVALID_HANDLE;
+new Handle:g_hForceChange       = INVALID_HANDLE;
+new Handle:g_hyeetServ          = INVALID_HANDLE;
 
 public Plugin:myinfo =
 {
-    name        =  PLUGIN_NAME,
-    author      = "Aad, Stephanie",
-    description = "Automatically updates RGL.gg plugins and files and adds QoL tweaks for server management",
-    version     =  PLUGIN_VERSION,
-    url         = "https://github.com/stephanieLGBT/rgl-server-resources"
+    name                        =  PLUGIN_NAME,
+    author                      = "Aad, Stephanie",
+    description                 = "Automatically updates RGL.gg plugins and files and adds QoL tweaks for server management",
+    version                     =  PLUGIN_VERSION,
+    url                         = "https://github.com/stephanieLGBT/rgl-server-resources"
 }
 
 public OnPluginStart()
@@ -105,14 +105,14 @@ public OnLibraryAdded(const String:libname[])
 
 public OnMapStart()
 {
-    gameIsLive = false;
-    origTimelimit = -1;
-    delete g_hForceChange;
     if (reloadPlug)
     {
         ServerCommand("sm plugins reload rglupdater");
         reloadPlug = false;
     }
+    gameIsLive = false;
+    origTimelimit = -1;
+    delete g_hForceChange;
 }
 
 public OnClientPostAdminCheck(client)
@@ -237,7 +237,6 @@ public rglBetaCheck()
         // ServerCommand("sm_updater_check");
         delete g_hForceChange;
         CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
-        reloadPlug = true;
     }
     else if (!isBeta)
     {
@@ -246,7 +245,6 @@ public rglBetaCheck()
         // ServerCommand("sm_updater_check");
         delete g_hForceChange;
         CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
-        reloadPlug = true;
     }
     // this is the actual "updater" part of this plugin
     if (LibraryExists("updater"))
@@ -266,6 +264,7 @@ public OnRGLBetaChanged(ConVar convar, char[] oldValue, char[] newValue)
         CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
         alreadyChanging = true;
     }
+    reloadPlug = true;
 }
 
 // this section was influenced by f2's broken FixSTV plugin
@@ -364,7 +363,7 @@ public Action ForceChange(Handle timer)
         return;
     }
     LogMessage("[RGLUpdater] Forcibly changing level.");
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} important cvar changed! Forcibly changing level to prevent bugs.");
+    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} Important cvar changed! Forcibly changing level to prevent bugs.");
     new String:mapName[128];
     GetCurrentMap(mapName, sizeof(mapName));
     ForceChangeLevel(mapName, "Forcibly changing level to prevent bugs with cvar change.");
