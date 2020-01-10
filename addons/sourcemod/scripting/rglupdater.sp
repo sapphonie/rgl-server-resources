@@ -8,7 +8,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME             "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION          "1.2.3.5beta"
+#define PLUGIN_VERSION          "1.2.3.6beta"
 
 new String:UPDATE_URL[128] =    "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:gameIsLive;
@@ -235,16 +235,16 @@ public rglBetaCheck()
         UPDATE_URL = "https://raw.githubusercontent.com/stephanieLGBT/rgl-server-resources/beta/updatefile.txt";
         LogMessage("[RGLUpdater] Update url set to %s.", UPDATE_URL);
         // ServerCommand("sm_updater_check");
-        delete g_hForceChange;
-        CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
+        // delete g_hForceChange;
+        // CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
     }
     else if (!isBeta)
     {
         UPDATE_URL = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
         LogMessage("[RGLUpdater] Update url set to %s.", UPDATE_URL);
         // ServerCommand("sm_updater_check");
-        delete g_hForceChange;
-        CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
+        // delete g_hForceChange;
+        // CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
     }
     // this is the actual "updater" part of this plugin
     if (LibraryExists("updater"))
