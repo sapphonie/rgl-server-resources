@@ -8,11 +8,9 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME             "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION          "1.2.3.8beta"
+#define PLUGIN_VERSION          "1.2.3.9beta"
 
 new String:UPDATE_URL[128]      =    "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
-new String:pureOut1[8]          =    "";
-new String:pureOut2[8]          =    "";
 new bool:gameIsLive;
 new bool:CfgExecuted;
 new bool:antiTroll;
@@ -295,11 +293,22 @@ public OnSTVChanged(ConVar convar, char[] oldValue, char[] newValue)
     }
 }
 
-//public Action OnPureChanged(ConVar convar, char[] oldValue, char[] newValue)
+// pure checking code below provided by nosoop ("top kekkeroni#4449" on discord) thank you i love you
+
 public Action OnPure(int client, const char[] command, int argc)
 {
-    GetCmdArg(1, pureOut1, sizeof(pureOut1));
-    if (!StrEqual(pureOut1, pureOut2, false))
+    if (argc > 0 && client == 0)
+    {
+        RequestFrame(InvokePureCommandCheck);
+    }
+    return Plugin_Continue;
+}
+
+public void InvokePureCommandCheck(any ignored)
+{
+    char pureOut[512];
+    ServerCommandEx(pureOut, sizeof(pureOut), "sv_pure");
+    if (StrContains(pureOut, "changelevel") != -1)
     {
         LogMessage("[RGLUpdater] sv_pure cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
         CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} sv_pure cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
@@ -308,7 +317,6 @@ public Action OnPure(int client, const char[] command, int argc)
             delete g_hForceChange;
             CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
             alreadyChanging = true;
-            GetCmdArg(1, pureOut2, sizeof(pureOut2));
         }
     }
 }
