@@ -1,3 +1,4 @@
+
 #pragma semicolon 1
 #include <sourcemod>
 #include <updater>
@@ -8,7 +9,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME                 "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION              "1.2.3.11beta"
+#define PLUGIN_VERSION              "1.2.3.12beta"
 
 new String:UPDATE_URL[128]          = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:gameIsLive;
@@ -120,6 +121,7 @@ public OnClientPostAdminCheck(client)
 {
     CPrintToChat(client, "{lightsalmon}[RGLUpdater]{white} This server is running RGL Updater version %s", PLUGIN_VERSION);
     CPrintToChat(client, "{lightsalmon}[RGLUpdater]{white} Remember, per RGL rules, players must record POV demos for every match!");
+    CPrintToChat(client, "{lightsalmon}[RGLUpdater]{white} Testing!");
     LogMessage("[RGLUpdater] Player joined. Killing restart timer.");
     delete g_hyeetServ;
 }
