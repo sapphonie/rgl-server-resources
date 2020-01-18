@@ -2,14 +2,16 @@
 #pragma semicolon 1
 #include <sourcemod>
 #include <updater>
-#include <morecolors>
+//#include <morecolors>
+#include <color_literals>
+#include <regex>
 #include <nextmap>
 
 #define REQUIRE_EXTENSIONS
 #include <SteamWorks>
 
 #define PLUGIN_NAME                 "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION              "1.2.3.12beta"
+#define PLUGIN_VERSION              "1.2.3.13beta"
 
 new String:UPDATE_URL[128]          = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:gameIsLive;
@@ -78,7 +80,7 @@ public OnPluginStart()
     AddCommandListener(OnPure, "sv_pure");
 
     LogMessage("[RGLUpdater] Initializing RGLUpdater version %s", PLUGIN_VERSION);
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} version {lightsalmon}%s{white} has been {green}loaded{default}.", PLUGIN_VERSION);
+    PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 version \x07FFA07A%s\x01 has been \x073EFF3Eloaded\x01.", PLUGIN_VERSION);
     // hooks round start events
     HookEvent("teamplay_round_start", EventRoundStart);
     HookEvent("teamplay_round_active", EventRoundActive);
@@ -119,26 +121,27 @@ public OnMapStart()
 
 public OnClientPostAdminCheck(client)
 {
-    CPrintToChat(client, "{lightsalmon}[RGLUpdater]{white} This server is running RGL Updater version %s", PLUGIN_VERSION);
-    CPrintToChat(client, "{lightsalmon}[RGLUpdater]{white} Remember, per RGL rules, players must record POV demos for every match!");
-    CreateTimer(25.0, testCprint, client);
+    CreateTimer(15.0, prWelcomeClient, GetClientUserId(client));
     LogMessage("[RGLUpdater] Player joined. Killing restart timer.");
     delete g_hyeetServ;
 }
 
-public Action testCprint(Handle timer, int client)
+public Action prWelcomeClient(Handle timer, int userid)
 {
-    CPrintToChat(client, "{lightsalmon}[RGLUpdater]{white} Testing!");
-    CPrintToChat(client, "{lightsalmon}[RGLUpdater]{white} Testing!");
+    int client = GetClientOfUserId(userid);
+    if (client) {
+    PrintColoredChat(client, "\x07FFA07A[RGLUpdater]\x01 This server is running RGL Updater version vers. \x07FFA07A%s\x01", PLUGIN_VERSION);
+    PrintColoredChat(client, "\x07FFA07A[RGLUpdater]\x01 Remember, per RGL rules, players must record POV demos for every match!", PLUGIN_VERSION);
+    }
 }
 
 public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcast)
 {
     if (firstStart)
     {
-        CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} Remember, per RGL rules, players must record POV demos for every match!");
+        PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 Remember, per RGL rules, players must record POV demos for every match!", PLUGIN_VERSION);
     }
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} This server is running RGL Updater version {lightsalmon}%s{default}", PLUGIN_VERSION);
+    PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 This server is running RGL Updater version vers. \x07FFA07A%s\x01", PLUGIN_VERSION);
     AntiTrollStuff();
 }
 
@@ -250,7 +253,6 @@ public rglBetaCheck()
 public OnRGLBetaChanged(ConVar convar, char[] oldValue, char[] newValue)
 {
     LogMessage("[RGLUpdater] rgl_beta cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
-    // CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} rgl_beta cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
     rglBetaCheck();
     change30();
     reloadPlug = true;
@@ -268,7 +270,6 @@ public OnSTVChanged(ConVar convar, char[] oldValue, char[] newValue)
     else if (stvOn == 0)
     {
         LogMessage("[RGLUpdater] tv_enable changed to 0!");
-        CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} tv_enable changed to 0! You must restart your server to unload STV properly!");
     }
 }
 
@@ -310,13 +311,13 @@ public Action GameOverEvent(Handle event, const char[] name, bool dontBroadcast)
 {
     isStvDone = 0;
     firstStart = false;
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} Match ended. Wait 90 seconds to changelevel to avoid cutting off actively broadcsating STV. This can be overridden with a second changelevel command.{default}");
+    PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 Match ended. Wait 90 seconds to changelevel to avoid cutting off actively broadcsating STV. This can be overridden with a second changelevel command.");
     CreateTimer(95.0, SafeToChangeLevel, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
 }
 
 public Action WarnServ(Handle timer)
 {
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} An important cvar has changed. Forcing a map change in 25 seconds unless the map is manually changed before then.{default}");
+    PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 An important cvar has changed. Forcing a map change in 25 seconds unless the map is manually changed before then.");
 }
 
 public Action SafeToChangeLevel(Handle timer)
@@ -324,7 +325,7 @@ public Action SafeToChangeLevel(Handle timer)
     isStvDone = 1;
     if (!IsSafe)
     {
-        CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} STV finished. It is now safe to changelevel. {default}");
+        PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 STV finished. It is now safe to changelevel.");
         // this is to prevent double printing
         IsSafe = true;
     }
@@ -362,7 +363,6 @@ public Action ForceChange(Handle timer)
         return;
     }
     LogMessage("[RGLUpdater] Forcibly changing level.");
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} Important cvar changed! Forcibly changing level to prevent bugs.");
     new String:mapName[128];
     GetCurrentMap(mapName, sizeof(mapName));
     ForceChangeLevel(mapName, "Important cvar changed! Forcibly changing level to prevent bugs.");
@@ -437,5 +437,5 @@ public AntiTrollStuff()
 
 public OnPluginEnd()
 {
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} version {lightsalmon}%s{white} has been {red}unloaded{default}.", PLUGIN_VERSION);
+    PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 version \x07FFA07A%s\x01 has been \x07FF4040unloaded\x01.", PLUGIN_VERSION);
 }
