@@ -11,7 +11,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME                 "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION              "1.2.3.13beta"
+#define PLUGIN_VERSION              "1.2.3.14beta"
 
 new String:UPDATE_URL[128]          = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:gameIsLive;
@@ -24,7 +24,6 @@ new bool:alreadyChanging;
 new bool:reloadPlug;
 new bool:IsSafe;
 new bool:warnedStv;
-new bool:firstStart                 = true;
 new isStvDone                       = -1;
 new stvOn;
 new formatVal;
@@ -117,6 +116,9 @@ public OnMapStart()
     }
     gameIsLive = false;
     delete g_hForceChange;
+    // this is to prevent server auto changing level
+    ServerCommand("sm plugins unload nextmap");
+    ServerCommand("sm plugins unload mapchooser");
 }
 
 public OnClientPostAdminCheck(client)
@@ -129,19 +131,15 @@ public OnClientPostAdminCheck(client)
 public Action prWelcomeClient(Handle timer, int userid)
 {
     int client = GetClientOfUserId(userid);
-    if (client) {
-    PrintColoredChat(client, "\x07FFA07A[RGLUpdater]\x01 This server is running RGL Updater version vers. \x07FFA07A%s\x01", PLUGIN_VERSION);
-    PrintColoredChat(client, "\x07FFA07A[RGLUpdater]\x01 Remember, per RGL rules, players must record POV demos for every match!", PLUGIN_VERSION);
+    if (client)
+    {
+        PrintColoredChat(client, "\x07FFA07A[RGLUpdater]\x01 This server is running RGL Updater version \x07FFA07A%s\x01", PLUGIN_VERSION);
+        PrintColoredChat(client, "\x07FFA07A[RGLUpdater]\x01 Remember, per RGL rules, players must record POV demos for every match!", PLUGIN_VERSION);
     }
 }
 
 public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcast)
 {
-    if (firstStart)
-    {
-        PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 Remember, per RGL rules, players must record POV demos for every match!", PLUGIN_VERSION);
-    }
-    PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 This server is running RGL Updater version vers. \x07FFA07A%s\x01", PLUGIN_VERSION);
     AntiTrollStuff();
 }
 
@@ -156,7 +154,6 @@ public EventRoundEnd(Event event, const char[] name, bool dontBroadcast)
 {
     // sets gamelive bool to true
     gameIsLive = true;
-    firstStart = false;
 }
 
 public Action EventPlayerLeft(Handle event, const char[] name, bool dontBroadcast)
@@ -310,9 +307,16 @@ public change30()
 public Action GameOverEvent(Handle event, const char[] name, bool dontBroadcast)
 {
     isStvDone = 0;
-    firstStart = false;
     PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 Match ended. Wait 90 seconds to changelevel to avoid cutting off actively broadcsating STV. This can be overridden with a second changelevel command.");
     CreateTimer(95.0, SafeToChangeLevel, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
+    // this is to prevent server auto changing level
+    CreateTimer(5.0, unloadMapChooserNextMap, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
+}
+
+public Action unloadMapChooserNextMap(Handle timer)
+{
+    ServerCommand("sm plugins unload nextmap");
+    ServerCommand("sm plugins unload mapchooser");
 }
 
 public Action WarnServ(Handle timer)
