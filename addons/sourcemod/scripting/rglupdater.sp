@@ -8,7 +8,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME                 "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION              "1.2.3.10beta"
+#define PLUGIN_VERSION              "1.2.3.11beta"
 
 new String:UPDATE_URL[128]          = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:gameIsLive;
@@ -113,13 +113,13 @@ public OnMapStart()
         reloadPlug = false;
     }
     gameIsLive = false;
-//    origTimelimit = -1;
-//    delete g_hForceChange;
+    delete g_hForceChange;
 }
 
 public OnClientPostAdminCheck(client)
 {
-    PrintToChat(client, "[RGLUpdater] This server is running RGL Updater version %s", PLUGIN_VERSION);
+    CPrintToChat(client, "{lightsalmon}[RGLUpdater]{white} This server is running RGL Updater version %s", PLUGIN_VERSION);
+    CPrintToChat(client, "{lightsalmon}[RGLUpdater]{white} Remember, per RGL rules, players must record POV demos for every match!");
     LogMessage("[RGLUpdater] Player joined. Killing restart timer.");
     delete g_hyeetServ;
 }
@@ -146,7 +146,6 @@ public EventRoundEnd(Event event, const char[] name, bool dontBroadcast)
     // sets gamelive bool to true
     gameIsLive = true;
     firstStart = false;
-    // this is to prevent tf2 forcibly changing the map
 }
 
 public Action EventPlayerLeft(Handle event, const char[] name, bool dontBroadcast)
@@ -201,12 +200,10 @@ public Action yeetServ(Handle timer)
 
 public OnRGLChanged(ConVar convar, char[] oldValue, char[] newValue)
 {
-    // alreadyChanging = true;
     antiTroll = GetConVarBool(FindConVar("rgl_cast"));
     if (antiTroll)
     {
         AntiTrollStuff();
-        return;
     }
     else if (!antiTroll)
     {
@@ -219,7 +216,6 @@ public OnRGLChanged(ConVar convar, char[] oldValue, char[] newValue)
         // resets visible slots
         SetConVarInt(FindConVar("sv_visiblemaxplayers"), -1, true);
         LogMessage("[RGLUpdater] Cast AntiTroll has been turned off!");
-        return;
     }
 }
 
@@ -230,17 +226,11 @@ public rglBetaCheck()
     {
         UPDATE_URL = "https://raw.githubusercontent.com/stephanieLGBT/rgl-server-resources/beta/updatefile.txt";
         LogMessage("[RGLUpdater] Update url set to %s.", UPDATE_URL);
-        // ServerCommand("sm_updater_check");
-        // delete g_hForceChange;
-        // CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
     }
     else if (!isBeta)
     {
         UPDATE_URL = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
         LogMessage("[RGLUpdater] Update url set to %s.", UPDATE_URL);
-        // ServerCommand("sm_updater_check");
-        // delete g_hForceChange;
-        // CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
     }
     // this is the actual "updater" part of this plugin
     if (LibraryExists("updater"))
@@ -254,14 +244,7 @@ public OnRGLBetaChanged(ConVar convar, char[] oldValue, char[] newValue)
     LogMessage("[RGLUpdater] rgl_beta cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
     // CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} rgl_beta cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
     rglBetaCheck();
-    if (!alreadyChanging)
-    {
-        delete g_hForceChange;
-        delete g_hWarnServ;
-        CreateTimer(5.0, WarnServ, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
-        CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
-        alreadyChanging = true;
-    }
+    change30();
     reloadPlug = true;
 }
 
@@ -272,23 +255,12 @@ public OnSTVChanged(ConVar convar, char[] oldValue, char[] newValue)
     if (stvOn == 1)
     {
         LogMessage("[RGLUpdater] tv_enable changed to 1! Changing level in 30 seconds unless manual map change occurs before then.");
-        // CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} tv_enable changed to 1! Changing level in 30 seconds unless manual map change occurs before then.");
-        // we wait 30 seconds in case the server owner changes the level on their own
-        if (!alreadyChanging)
-        {
-            delete g_hForceChange;
-            delete g_hWarnServ;
-            CreateTimer(5.0, WarnServ, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
-            CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
-            alreadyChanging = true;
-        }
-        return;
+        change30();
     }
     else if (stvOn == 0)
     {
         LogMessage("[RGLUpdater] tv_enable changed to 0!");
         CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} tv_enable changed to 0! You must restart your server to unload STV properly!");
-        return;
     }
 }
 
@@ -296,7 +268,7 @@ public OnSTVChanged(ConVar convar, char[] oldValue, char[] newValue)
 
 public Action OnPure(int client, const char[] command, int argc)
 {
-    if (argc > 0 && client == 0)
+    if (argc > 0)// && client == 0)
     {
         RequestFrame(InvokePureCommandCheck);
     }
@@ -310,15 +282,19 @@ public void InvokePureCommandCheck(any ignored)
     if (StrContains(pureOut, "changelevel") != -1)
     {
         LogMessage("[RGLUpdater] sv_pure cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
-        // CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} sv_pure cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
-        if (!alreadyChanging)
-        {
-            delete g_hForceChange;
-            delete g_hWarnServ;
-            CreateTimer(5.0, WarnServ, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
-            CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
-            alreadyChanging = true;
-        }
+        change30();
+    }
+}
+
+public change30()
+{
+    if (!alreadyChanging)
+    {
+        delete g_hForceChange;
+        delete g_hWarnServ;
+        CreateTimer(5.0, WarnServ, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
+        CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
+        alreadyChanging = true;
     }
 }
 
@@ -350,16 +326,14 @@ public Action changeLvl(int args)
 {
     if (warnedStv)
     {
-        ServerCommand("tv_delaymapchange 0");
-        ServerCommand("tv_delaymapchange_protect 0");
         return Plugin_Continue;
     }
-    if (isStvDone == -1)
+    else if (isStvDone == -1)
     {
         levelChanged = true;
         return Plugin_Continue;
     }
-    if (isStvDone == 1)
+    else if (isStvDone == 1)
     {
         return Plugin_Continue;
     }
@@ -367,6 +341,8 @@ public Action changeLvl(int args)
     {
         PrintToServer("*** Refusing to changelevel! STV is still broadcasting. If you don't care about STV, changelevel again to override this message and force a map change. ***");
         warnedStv = true;
+        ServerCommand("tv_delaymapchange 0");
+        ServerCommand("tv_delaymapchange_protect 0");
         return Plugin_Stop;
     }
 }
