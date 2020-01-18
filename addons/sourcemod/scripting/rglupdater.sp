@@ -122,6 +122,7 @@ public OnClientPostAdminCheck(client)
     CPrintToChat(client, "{lightsalmon}[RGLUpdater]{white} This server is running RGL Updater version %s", PLUGIN_VERSION);
     CPrintToChat(client, "{lightsalmon}[RGLUpdater]{white} Remember, per RGL rules, players must record POV demos for every match!");
     CPrintToChat(client, "{lightsalmon}[RGLUpdater]{white} Testing!");
+    CPrintToChat(client, "{lightsalmon}[RGLUpdater]{white} Testing!");
     LogMessage("[RGLUpdater] Player joined. Killing restart timer.");
     delete g_hyeetServ;
 }
