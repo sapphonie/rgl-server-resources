@@ -1,37 +1,47 @@
 #pragma semicolon 1
+
 #include <sourcemod>
 #include <updater>
-#include <morecolors>
+#include <color_literals>
+#include <regex>
 #include <nextmap>
 
 #define REQUIRE_EXTENSIONS
 #include <SteamWorks>
 
-#define PLUGIN_NAME             "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION          "1.2.0"
+#define PLUGIN_NAME                 "RGL.gg Server Resources Updater & More"
+#define PLUGIN_VERSION              "1.2.3"
 
-new String:UPDATE_URL[128] =    "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
+new String:UPDATE_URL[128]          = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:gameIsLive;
 new bool:CfgExecuted;
 new bool:antiTroll;
 new bool:isBeta;
-new bool:levelChanged = false;
-new bool:alreadyRestarting = false;
-new isStvDone = -1;
+new bool:levelChanged;
+new bool:alreadyRestarting;
+new bool:alreadyChanging;
+new bool:reloadPlug;
+new bool:IsSafe;
+new bool:warnedStv;
+new isStvDone                       = -1;
 new stvOn;
 new formatVal;
 new slotVal;
 new curplayers;
-//new Handle:g_hCheckPlayers = INVALID_HANDLE;
-new Handle:g_hForceChange = INVALID_HANDLE;
+// new origTimelimit;
+new Handle:g_hCheckPlayers          = INVALID_HANDLE;
+new Handle:g_hForceChange           = INVALID_HANDLE;
+new Handle:g_hWarnServ              = INVALID_HANDLE;
+new Handle:g_hyeetServ              = INVALID_HANDLE;
+new Handle:g_hSafeToChangeLevel     = INVALID_HANDLE;
 
 public Plugin:myinfo =
 {
-    name        =  PLUGIN_NAME,
-    author      = "Aad, Stephanie",
-    description = "Automatically updates RGL.gg plugins and files and adds QoL tweaks for server management",
-    version     =  PLUGIN_VERSION,
-    url         = "https://github.com/stephanieLGBT/rgl-server-resources"
+    name                            =  PLUGIN_NAME,
+    author                          = "Aad, Stephanie",
+    description                     = "Automatically updates RGL.gg plugins and files and adds QoL tweaks for competitive server management",
+    version                         =  PLUGIN_VERSION,
+    url                             = "https://github.com/stephanieLGBT/rgl-server-resources"
 }
 
 public OnPluginStart()
@@ -39,36 +49,39 @@ public OnPluginStart()
     // creates cvars for antitrolling stuff and beta opt in
     CreateConVar
         (
-        "rgl_cast",
-        "0.0",
-        "controls antitroll function of rglupdater",
-        // notify clients of cvar change
-        FCVAR_NOTIFY,
-        true,
-        0.0,
-        true,
-        1.0
+            "rgl_cast",
+            "0.0",
+            "controls antitroll function of rglupdater",
+            // notify clients of cvar change
+            FCVAR_NOTIFY,
+            true,
+            0.0,
+            true,
+            1.0
         );
     CreateConVar
         (
-        "rgl_beta",
-        "0.0",
-        "controls if rglupdater uses the beta branch on github",
-        // notify clients of cvar change
-        FCVAR_NOTIFY,
-        true,
-        0.0,
-        true,
-        1.0
+            "rgl_beta",
+            "0.0",
+            "controls if rglupdater uses the beta branch on github",
+            // notify clients of cvar change
+            FCVAR_NOTIFY,
+            true,
+            0.0,
+            true,
+            1.0
         );
     HookConVarChange(FindConVar("rgl_cast"), OnRGLChanged);
     HookConVarChange(FindConVar("rgl_beta"), OnRGLBetaChanged);
     rglBetaCheck();
     HookConVarChange(FindConVar("tv_enable"), OnSTVChanged);
+    AddCommandListener(OnPure, "sv_pure");
+
     LogMessage("[RGLUpdater] Initializing RGLUpdater version %s", PLUGIN_VERSION);
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} version {lightsalmon}%s{white} has been {green}loaded{default}.", PLUGIN_VERSION);
+    PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 version \x07FFA07A%s\x01 has been \x073EFF3Eloaded\x01.", PLUGIN_VERSION);
     // hooks round start events
     HookEvent("teamplay_round_start", EventRoundStart);
+    HookEvent("teamplay_round_active", EventRoundActive);
     // hooks round win events for determining auto restart
     HookEvent("teamplay_round_win", EventRoundEnd);
     // hooks player fully disconnected events
@@ -84,9 +97,9 @@ public OnPluginStart()
     RegServerCmd("changelevel", changeLvl);
 }
 
-public OnLibraryAdded(const String:name[])
+public OnLibraryAdded(const String:libname[])
 {
-    if (StrEqual(name, "updater"))
+    if (StrEqual(libname, "updater"))
     {
         // does updater stuff as well
         Updater_AddPlugin(UPDATE_URL);
@@ -95,25 +108,44 @@ public OnLibraryAdded(const String:name[])
 
 public OnMapStart()
 {
-    delete g_hForceChange;
+    if (reloadPlug)
+    {
+        ServerCommand("sm plugins reload rglupdater");
+        reloadPlug = false;
+    }
     gameIsLive = false;
+    delete g_hForceChange;
+    // this is to prevent server auto changing level
+    ServerCommand("sm plugins unload nextmap");
+    ServerCommand("sm plugins unload mapchooser");
 }
 
 public OnClientPostAdminCheck(client)
 {
-    PrintToChat(client, "[RGLUpdater] This server is running RGL Updater version %s", PLUGIN_VERSION);
+    CreateTimer(15.0, prWelcomeClient, GetClientUserId(client));
+    LogMessage("[RGLUpdater] Player joined. Killing restart timer.");
+    delete g_hyeetServ;
 }
 
-public OnClientPutInServer(client)
+public Action prWelcomeClient(Handle timer, int userid)
 {
-//  LogMessage("[RGLUpdater] Player joined. Killing player checker timer.");
-//  delete g_hCheckPlayers;
+    int client = GetClientOfUserId(userid);
+    if (client)
+    {
+        PrintColoredChat(client, "\x07FFA07A[RGLUpdater]\x01 This server is running RGL Updater version \x07FFA07A%s\x01", PLUGIN_VERSION);
+        PrintColoredChat(client, "\x07FFA07A[RGLUpdater]\x01 Remember, per RGL rules, players must record POV demos for every match!", PLUGIN_VERSION);
+    }
 }
 
 public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcast)
 {
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} This server is running RGL Updater version {lightsalmon}%s{default}", PLUGIN_VERSION);
     AntiTrollStuff();
+}
+
+public Action EventRoundActive(Handle event, const char[] name, bool dontBroadcast)
+{
+    // prevents stv done notif spam if teams play another round before 90 seconds have passed
+    delete g_hSafeToChangeLevel;
 }
 
 // hook the round end event for making sure that a game has occured before restarting the server
@@ -125,10 +157,9 @@ public EventRoundEnd(Event event, const char[] name, bool dontBroadcast)
 
 public Action EventPlayerLeft(Handle event, const char[] name, bool dontBroadcast)
 {
-    LogMessage("[RGLUpdater] Player left. Waiting 30 seconds and then checking if server is empty.");
-//  delete g_hCheckPlayers;
-//  g_hCheckPlayers =
-    CreateTimer(30.0, checkStuff, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
+    LogMessage("[RGLUpdater] Player left. Waiting 10 minutes and then checking if server is empty.");
+    delete g_hCheckPlayers;
+    CreateTimer(600.0, checkStuff, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
 }
 
 public Action checkStuff(Handle timer)
@@ -141,7 +172,7 @@ public Action checkStuff(Handle timer)
         LogMessage("[RGLUpdater] At least 1 player on server. Not restarting.");
         return;
     }
-    // ok if we get this far server's empty. but if a round hasnt been won OR the rgl config hasnt been execed then don't restart!
+    // ok if we get this far the server's empty. but if a round hasnt been won OR the rgl config hasnt been execed then don't restart!
     else if (!CfgExecuted || !gameIsLive)
     {
         LogMessage("[RGLUpdater] RGL config not executed and/or a round has not yet ended. Not restarting.");
@@ -157,7 +188,7 @@ public Action checkStuff(Handle timer)
         else if (!alreadyRestarting)
         {
             LogMessage("[RGLUpdater] Server empty. Waiting ~95 seconds for stv and issuing sv_shutdown.");
-            // wait 90 seconds + 5 (just in case the server is really slow) for stv
+            // wait 90 seconds + 5 (just in case) for stv
             CreateTimer(95.0, yeetServ);
             alreadyRestarting = true;
         }
@@ -180,7 +211,6 @@ public OnRGLChanged(ConVar convar, char[] oldValue, char[] newValue)
     if (antiTroll)
     {
         AntiTrollStuff();
-        return;
     }
     else if (!antiTroll)
     {
@@ -193,7 +223,6 @@ public OnRGLChanged(ConVar convar, char[] oldValue, char[] newValue)
         // resets visible slots
         SetConVarInt(FindConVar("sv_visiblemaxplayers"), -1, true);
         LogMessage("[RGLUpdater] Cast AntiTroll has been turned off!");
-        return;
     }
 }
 
@@ -203,12 +232,12 @@ public rglBetaCheck()
     if (isBeta)
     {
         UPDATE_URL = "https://raw.githubusercontent.com/stephanieLGBT/rgl-server-resources/beta/updatefile.txt";
-        LogMessage("[RGLUpdater] Update url changed to %s. You will need to changelevel at least once to apply this.", UPDATE_URL);
+        LogMessage("[RGLUpdater] Update url set to %s.", UPDATE_URL);
     }
     else if (!isBeta)
     {
         UPDATE_URL = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
-        LogMessage("[RGLUpdater] Update url changed to %s. You will need to changelevel at least once to apply this.", UPDATE_URL);
+        LogMessage("[RGLUpdater] Update url set to %s.", UPDATE_URL);
     }
     // this is the actual "updater" part of this plugin
     if (LibraryExists("updater"))
@@ -219,7 +248,10 @@ public rglBetaCheck()
 
 public OnRGLBetaChanged(ConVar convar, char[] oldValue, char[] newValue)
 {
+    LogMessage("[RGLUpdater] rgl_beta cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
     rglBetaCheck();
+    change30();
+    reloadPlug = true;
 }
 
 // this section was influenced by f2's broken FixSTV plugin
@@ -229,47 +261,100 @@ public OnSTVChanged(ConVar convar, char[] oldValue, char[] newValue)
     if (stvOn == 1)
     {
         LogMessage("[RGLUpdater] tv_enable changed to 1! Changing level in 30 seconds unless manual map change occurs before then.");
-        CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} tv_enable changed to 1! Changing level in 30 seconds unless manual map change occurs before then.");
-
-        // we wait 30 seconds in case the server owner changes the level on their own
-        CreateTimer(30.0, ForceChange);
-        return;
+        change30();
     }
     else if (stvOn == 0)
     {
         LogMessage("[RGLUpdater] tv_enable changed to 0!");
-        CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} tv_enable changed to 0! You must reenable it or restart your server to unload STV properly!");
-        return;
+    }
+}
+
+// pure checking code below provided by nosoop ("top kekkeroni#4449" on discord) thank you i love you
+
+public Action OnPure(int client, const char[] command, int argc)
+{
+    if (argc > 0)// && client == 0)
+    {
+        RequestFrame(InvokePureCommandCheck);
+    }
+    return Plugin_Continue;
+}
+
+public void InvokePureCommandCheck(any ignored)
+{
+    char pureOut[512];
+    ServerCommandEx(pureOut, sizeof(pureOut), "sv_pure");
+    if (StrContains(pureOut, "changelevel") != -1)
+    {
+        LogMessage("[RGLUpdater] sv_pure cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
+        change30();
+    }
+}
+
+public change30()
+{
+    if (!alreadyChanging)
+    {
+        delete g_hForceChange;
+        delete g_hWarnServ;
+        CreateTimer(5.0, WarnServ, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
+        CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
+        alreadyChanging = true;
     }
 }
 
 public Action GameOverEvent(Handle event, const char[] name, bool dontBroadcast)
 {
     isStvDone = 0;
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} Match ended. Wait 90 seconds to changelevel to avoid cutting off actively broadcasting STV. {default}", PLUGIN_VERSION);
-    CreateTimer(95.0, SafeToChangeLevel);
+    PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 Match ended. Wait 90 seconds to changelevel to avoid cutting off actively broadcsating STV. This can be overridden with a second changelevel command.");
+    CreateTimer(95.0, SafeToChangeLevel, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
+    // this is to prevent server auto changing level
+    CreateTimer(5.0, unloadMapChooserNextMap, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
+}
+
+public Action unloadMapChooserNextMap(Handle timer)
+{
+    ServerCommand("sm plugins unload nextmap");
+    ServerCommand("sm plugins unload mapchooser");
+}
+
+public Action WarnServ(Handle timer)
+{
+    PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 An important cvar has changed. Forcing a map change in 25 seconds unless the map is manually changed before then.");
 }
 
 public Action SafeToChangeLevel(Handle timer)
 {
     isStvDone = 1;
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} STV finished. It is now safe to changelevel. {default}", PLUGIN_VERSION);
+    if (!IsSafe)
+    {
+        PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 STV finished. It is now safe to changelevel.");
+        // this is to prevent double printing
+        IsSafe = true;
+    }
 }
 
 public Action changeLvl(int args)
 {
-    if (isStvDone == -1)
+    if (warnedStv)
+    {
+        return Plugin_Continue;
+    }
+    else if (isStvDone == -1)
     {
         levelChanged = true;
         return Plugin_Continue;
     }
-    if (isStvDone)
+    else if (isStvDone == 1)
     {
         return Plugin_Continue;
     }
     else
     {
-        PrintToServer("Refusing to changelevel! Please wait until STV is done broadcasting.");
+        PrintToServer("*** Refusing to changelevel! STV is still broadcasting. If you don't care about STV, changelevel again to override this message and force a map change. ***");
+        warnedStv = true;
+        ServerCommand("tv_delaymapchange 0");
+        ServerCommand("tv_delaymapchange_protect 0");
         return Plugin_Stop;
     }
 }
@@ -280,18 +365,17 @@ public Action ForceChange(Handle timer)
     {
         return;
     }
-    LogMessage("[RGLUpdater] Changing level to fix STV.");
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} tv_enable changed to 1! Changing level to fix STV.");
+    LogMessage("[RGLUpdater] Forcibly changing level.");
     new String:mapName[128];
     GetCurrentMap(mapName, sizeof(mapName));
-    ForceChangeLevel(mapName, "Changing level to fix STV.");
+    ForceChangeLevel(mapName, "Important cvar changed! Forcibly changing level to prevent bugs.");
 }
 
 public AntiTrollStuff()
 {
     char cfgVal[32];
     GetConVarString(FindConVar("servercfgfile"), cfgVal, 32);
-    if ((SimpleRegexMatch(cfgVal, "^rgl_.*$", 3)) > 0)
+    if ((SimpleRegexMatch(cfgVal, "^rgl.*$", 3)) > 0)
     {
         CfgExecuted = true;
     }
@@ -356,5 +440,5 @@ public AntiTrollStuff()
 
 public OnPluginEnd()
 {
-    CPrintToChatAll("{lightsalmon}[RGLUpdater]{white} version {lightsalmon}%s{white} has been {red}unloaded{default}.", PLUGIN_VERSION);
+    PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 version \x07FFA07A%s\x01 has been \x07FF4040unloaded\x01.", PLUGIN_VERSION);
 }
