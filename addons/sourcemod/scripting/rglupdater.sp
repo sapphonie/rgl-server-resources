@@ -10,7 +10,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME                 "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION              "1.2.3"
+#define PLUGIN_VERSION              "1.3.0"
 
 new String:UPDATE_URL[128]          = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:gameIsLive;
