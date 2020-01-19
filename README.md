@@ -6,7 +6,15 @@ Hi! This github repository contains all of the **required** plugins, configs, ma
 
 In creating the configs, I tried my best to prevent extra and/or useless commands while also minimizing the ability for cheating, exploitation, and unfair play due to preexisting client and/or server settings.
 
-The RGL updater plugin was created mostly by Aad, and it automatically updates itself and the rest of the files downloaded to your server as this repository gets updated.
+The RGL updater plugin was originally created mostly by Aad (though it is now developed by steph) and it automatically updates itself and the rest of the files downloaded to your server as this repository gets updated. It also contains Quality of Life tweaks for TF2 servers, such as:
+
+* Preventing servers from automatically changing level after a match
+
+* Warning server owners about cutting off STV before changing the level
+
+* Automatically restarting servers after all players have left
+
+* An automatic "Casting Antitroll" mode (enabled with `rgl_cast 1`) that locks your server's slot count at 12/12, 14/14, or 18/18, depending on what config is executed
 
 If you find that I missed something in the configs, or if something doesn't work the way it should, or you have a suggestion, *please add and message me on Steam or Discord*.
 
