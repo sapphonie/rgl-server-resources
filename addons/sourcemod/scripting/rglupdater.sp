@@ -1,8 +1,7 @@
-
 #pragma semicolon 1
+
 #include <sourcemod>
 #include <updater>
-//#include <morecolors>
 #include <color_literals>
 #include <regex>
 #include <nextmap>
@@ -11,7 +10,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME                 "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION              "1.2.3.14beta"
+#define PLUGIN_VERSION              "1.2.3"
 
 new String:UPDATE_URL[128]          = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:gameIsLive;

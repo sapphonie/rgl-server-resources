@@ -45,7 +45,7 @@
 		"Plugin"	"/addons/sourcemod/plugins/pause.smx"
 		"Plugin"	"/addons/sourcemod/plugins/disabled/tf2Halftime.smx"
 		"Plugin"	"/addons/sourcemod/scripting/include/SteamWorks.inc"
-		"Plugin"	"/addons/sourcemod/scripting/include/morecolors.inc"
+		"Plugin"	"/addons/sourcemod/scripting/include/color_literals.inc"
 		"Plugin"	"/addons/sourcemod/scripting/rglupdater.sp"
 		"Plugin"	"/addons/sourcemod/scripting/pause.sp"
 		"Plugin"	"/addons/sourcemod/scripting/swag.sp"
