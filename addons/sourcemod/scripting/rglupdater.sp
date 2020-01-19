@@ -10,17 +10,16 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME                 "RGL.gg Server Resources Updater & More"
-#define PLUGIN_VERSION              "1.3.0"
+#define PLUGIN_VERSION              "1.3.1"
 
 new String:UPDATE_URL[128]          = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
-new bool:gameIsLive;
+new bool:gameHasGoneLive;
 new bool:CfgExecuted;
 new bool:antiTroll;
 new bool:isBeta;
 new bool:levelChanged;
 new bool:alreadyRestarting;
 new bool:alreadyChanging;
-new bool:reloadPlug;
 new bool:IsSafe;
 new bool:warnedStv;
 new isStvDone                       = -1;
@@ -106,14 +105,13 @@ public OnLibraryAdded(const String:libname[])
     }
 }
 
+public Updater_OnPluginUpdated()
+{
+    ServerCommand("sm plugins reload rglupdater");
+}
+
 public OnMapStart()
 {
-    if (reloadPlug)
-    {
-        ServerCommand("sm plugins reload rglupdater");
-        reloadPlug = false;
-    }
-    gameIsLive = false;
     delete g_hForceChange;
     // this is to prevent server auto changing level
     ServerCommand("sm plugins unload nextmap");
@@ -151,8 +149,7 @@ public Action EventRoundActive(Handle event, const char[] name, bool dontBroadca
 // hook the round end event for making sure that a game has occured before restarting the server
 public EventRoundEnd(Event event, const char[] name, bool dontBroadcast)
 {
-    // sets gamelive bool to true
-    gameIsLive = true;
+    gameHasGoneLive = true;
 }
 
 public Action EventPlayerLeft(Handle event, const char[] name, bool dontBroadcast)
@@ -172,10 +169,16 @@ public Action checkStuff(Handle timer)
         LogMessage("[RGLUpdater] At least 1 player on server. Not restarting.");
         return;
     }
-    // ok if we get this far the server's empty. but if a round hasnt been won OR the rgl config hasnt been execed then don't restart!
-    else if (!CfgExecuted || !gameIsLive)
+    // ok if we get this far the server's empty. but if the cfg hasnt been exec'd DO NOT restart
+    else if (!CfgExecuted)
     {
-        LogMessage("[RGLUpdater] RGL config not executed and/or a round has not yet ended. Not restarting.");
+        LogMessage("[RGLUpdater] RGL config not executed. Not restarting.");
+        return;
+    }
+    // if a round hasn't ended AT LEAST ONCE we shouldn't restart either
+    else if (!gameHasGoneLive)
+    {
+        LogMessage("[RGLUpdater] A round has not yet ended. Not restarting.");
         return;
     }
     // ok. the game is over. the last person has left. restart the server
@@ -233,11 +236,13 @@ public rglBetaCheck()
     {
         UPDATE_URL = "https://raw.githubusercontent.com/stephanieLGBT/rgl-server-resources/beta/updatefile.txt";
         LogMessage("[RGLUpdater] Update url set to %s.", UPDATE_URL);
+        Updater_ForceUpdate();
     }
     else if (!isBeta)
     {
         UPDATE_URL = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
         LogMessage("[RGLUpdater] Update url set to %s.", UPDATE_URL);
+        Updater_ForceUpdate();
     }
     // this is the actual "updater" part of this plugin
     if (LibraryExists("updater"))
@@ -251,7 +256,6 @@ public OnRGLBetaChanged(ConVar convar, char[] oldValue, char[] newValue)
     LogMessage("[RGLUpdater] rgl_beta cvar changed! Changing level in 30 seconds unless manual map change occurs before then.");
     rglBetaCheck();
     change30();
-    reloadPlug = true;
 }
 
 // this section was influenced by f2's broken FixSTV plugin
