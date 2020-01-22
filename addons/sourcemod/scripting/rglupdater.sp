@@ -8,7 +8,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME                     "RGL.gg Server Resources Updater"
-#define PLUGIN_VERSION                  "1.0.0"
+#define PLUGIN_VERSION                  "1.0.1"
 new String:UPDATE_URL[128]          =   "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:isBeta;
 
@@ -44,7 +44,7 @@ public OnLibraryAdded(const String:name[])
 {
     if (StrEqual(name, "updater"))
     {
-        Updater_AddPlugin(UPDATE_URL);
+        rglBetaCheck();
     }
 }
 
@@ -55,17 +55,16 @@ public Action rglBetaCheck()
     {
         UPDATE_URL = "https://raw.githubusercontent.com/stephanieLGBT/rgl-server-resources/beta/updatefile.txt";
         LogMessage("[RGLUpdater] Update url set to %s.", UPDATE_URL);
-        Updater_AddPlugin(UPDATE_URL);
-        Updater_ForceUpdate();
     }
     else if (!isBeta)
     {
         UPDATE_URL = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
         LogMessage("[RGLUpdater] Update url set to %s.", UPDATE_URL);
-        Updater_AddPlugin(UPDATE_URL);
-        Updater_ForceUpdate();
     }
+    Updater_AddPlugin(UPDATE_URL);
+    Updater_ForceUpdate();
 }
+
 public OnRGLBetaChanged(ConVar convar, char[] oldValue, char[] newValue)
 {
     LogMessage("[RGLUpdater] rgl_beta cvar changed!");
