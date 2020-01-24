@@ -296,7 +296,7 @@ public Action changeLvl(int args)
     }
 }
 
-public Action ForceChange(Handle timer)
+public Action ForceChange(Handle:timer)
 {
     if (levelChanged || isStvDone == 0)
     {
