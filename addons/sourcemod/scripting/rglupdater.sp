@@ -8,9 +8,10 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME                     "RGL.gg Server Resources Updater"
-#define PLUGIN_VERSION                  "2.0.0.imgay"
+#define PLUGIN_VERSION                  "2.0.1.imgay"
 new String:UPDATE_URL[128]          =   "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:isBeta;
+new bool:updatePlug;
 
 public Plugin:myinfo =
 {
@@ -27,6 +28,7 @@ public OnMapStart()
     {
         Updater_AddPlugin(UPDATE_URL);
     }
+    LogMessage("[RGLUpdater] version %s has been loaded.", PLUGIN_VERSION);
     PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 version \x07FFA07A%s\x01 has been \x073EFF3Eloaded\x01.", PLUGIN_VERSION);
     CreateConVar
         (
@@ -70,15 +72,20 @@ public OnRGLBetaChanged(ConVar convar, char[] oldValue, char[] newValue)
         Updater_RemovePlugin();
         Updater_AddPlugin(UPDATE_URL);
         Updater_ForceUpdate();
+        updatePlug = true;
     }
 }
 
 public Updater_OnPluginUpdated()
 {
-    //
+    if (updatePlug)
+    {
+        ServerCommand("sm plugins reload rglupdater");
+    }
 }
 
 public void OnPluginEnd()
 {
+    LogMessage("[RGLUpdater] version %s has been unloaded.", PLUGIN_VERSION);
     PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 version \x07FFA07A%s\x01 has been \x07FF4040unloaded\x01.", PLUGIN_VERSION);
 }
