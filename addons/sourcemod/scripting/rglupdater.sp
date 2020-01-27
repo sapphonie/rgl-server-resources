@@ -8,7 +8,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME                     "RGL.gg Server Resources Updater"
-#define PLUGIN_VERSION                  "2.0.1.imgay"
+#define PLUGIN_VERSION                  "2.0.1b"
 new String:UPDATE_URL[128]          =   "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:isBeta;
 new bool:updatePlug;
