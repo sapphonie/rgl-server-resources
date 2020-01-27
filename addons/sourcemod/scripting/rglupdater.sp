@@ -8,7 +8,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME                     "RGL.gg Server Resources Updater"
-#define PLUGIN_VERSION                  "2.0.1b"
+#define PLUGIN_VERSION                  "2.0.2b"
 new String:UPDATE_URL[128]          =   "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:isBeta;
 new bool:updatePlug;
@@ -69,7 +69,7 @@ public OnRGLBetaChanged(ConVar convar, char[] oldValue, char[] newValue)
             LogMessage("[RGLUpdater] Update url is %s.", UPDATE_URL);
             LogMessage("[RGLUpdater] QUEUING UPDATE");
         }
-        Updater_RemovePlugin();
+        // Updater_RemovePlugin();
         Updater_AddPlugin(UPDATE_URL);
         Updater_ForceUpdate();
         updatePlug = true;
