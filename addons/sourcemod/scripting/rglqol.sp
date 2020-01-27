@@ -6,25 +6,25 @@
 #include <nextmap>
 
 #define PLUGIN_NAME                 "RGL.gg QoL Tweaks"
-#define PLUGIN_VERSION              "1.3.3b"
+#define PLUGIN_VERSION              "1.3.4b"
 
-new bool:CfgExecuted;
-new bool:antiTroll;
-new bool:levelChanged;
-new bool:alreadyRestarting;
-new bool:alreadyChanging;
-new bool:IsSafe;
-new bool:warnedStv;
-new isStvDone                       = -1;
-new stvOn;
-new formatVal;
-new slotVal;
-new curplayers;
-new Handle:g_hForceChange           = INVALID_HANDLE;
-new Handle:g_hWarnServ              = INVALID_HANDLE;
-new Handle:g_hyeetServ              = INVALID_HANDLE;
-new Handle:g_hcheckStuff            = INVALID_HANDLE;
-new Handle:g_hSafeToChangeLevel     = INVALID_HANDLE;
+bool:CfgExecuted;
+bool:antiTroll;
+bool:levelChanged;
+bool:alreadyRestarting;
+bool:alreadyChanging;
+bool:IsSafe;
+bool:warnedStv;
+isStvDone                       = -1;
+stvOn;
+formatVal;
+slotVal;
+curplayers;
+Handle:g_hForceChange;
+Handle:g_hWarnServ;
+Handle:g_hyeetServ;
+Handle:g_hcheckStuff;
+Handle:g_hSafeToChangeLevel;
 
 public Plugin:myinfo =
 {
@@ -109,7 +109,7 @@ public Action EventPlayerLeft(Handle event, const char[] name, bool dontBroadcas
 {
     LogMessage("[RGLQoL] Player left. Waiting 10 minutes and then checking if server is empty.");
     delete g_hcheckStuff;
-    CreateTimer(10.0, checkStuff, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
+    g_hcheckStuff = CreateTimer(15.0, checkStuff, _, TIMER_FLAG_NO_MAPCHANGE);
 }
 
 public Action checkStuff(Handle timer)
@@ -140,7 +140,7 @@ public Action checkStuff(Handle timer)
         {
             LogMessage("[RGLQoL] Server empty. Waiting ~95 seconds for STV and issuing sv_shutdown.");
             // wait 90 seconds + 5 (just in case) for stv
-            CreateTimer(95.0, yeetServ);
+            g_hyeetServ = CreateTimer(95.0, yeetServ);
             alreadyRestarting = true;
         }
     }
@@ -220,8 +220,8 @@ public change30()
     {
         delete g_hForceChange;
         delete g_hWarnServ;
-        CreateTimer(5.0, WarnServ, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
-        CreateTimer(30.0, ForceChange, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
+        g_hWarnServ = CreateTimer(5.0, WarnServ, _, TIMER_FLAG_NO_MAPCHANGE);
+        g_hForceChange = CreateTimer(30.0, ForceChange, _, TIMER_FLAG_NO_MAPCHANGE);
         alreadyChanging = true;
     }
 }
@@ -230,9 +230,9 @@ public Action GameOverEvent(Handle event, const char[] name, bool dontBroadcast)
 {
     isStvDone = 0;
     PrintColoredChatAll("\x07FFA07A[RGLQoL]\x01 Match ended. Wait 90 seconds to changelevel to avoid cutting off actively broadcsating STV. This can be overridden with a second changelevel command.");
-    CreateTimer(95.0, SafeToChangeLevel, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
+    g_hSafeToChangeLevel = CreateTimer(95.0, SafeToChangeLevel, _, TIMER_FLAG_NO_MAPCHANGE);
     // this is to prevent server auto changing level
-    CreateTimer(5.0, unloadMapChooserNextMap, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
+    CreateTimer(5.0, unloadMapChooserNextMap, _, TIMER_FLAG_NO_MAPCHANGE);
 }
 
 public Action unloadMapChooserNextMap(Handle timer)
@@ -290,7 +290,7 @@ public Action ForceChange(Handle:timer)
         return;
     }
     LogMessage("[RGLQoL] Forcibly changing level.");
-    new String:mapName[128];
+    char mapName[128];
     GetCurrentMap(mapName, sizeof(mapName));
     ForceChangeLevel(mapName, "Important cvar changed! Forcibly changing level to prevent bugs.");
 }
