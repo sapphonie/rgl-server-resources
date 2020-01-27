@@ -8,7 +8,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME                     "RGL.gg Server Resources Updater"
-#define PLUGIN_VERSION                  "2.0.2b"
+#define PLUGIN_VERSION                  "2.0.5b"
 new String:UPDATE_URL[128]          =   "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:isBeta;
 new bool:updatePlug;
@@ -22,7 +22,7 @@ public Plugin:myinfo =
     url         = "https://github.com/stephanieLGBT/rgl-server-resources"
 }
 
-public OnMapStart()
+public OnPluginStart()
 {
     if (LibraryExists("updater"))
     {

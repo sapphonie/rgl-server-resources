@@ -6,9 +6,8 @@
 #include <nextmap>
 
 #define PLUGIN_NAME                 "RGL.gg QoL Tweaks"
-#define PLUGIN_VERSION              "1.3.1"
+#define PLUGIN_VERSION              "1.3.3b"
 
-new bool:gameIsLive;
 new bool:CfgExecuted;
 new bool:antiTroll;
 new bool:levelChanged;
@@ -21,10 +20,10 @@ new stvOn;
 new formatVal;
 new slotVal;
 new curplayers;
-new Handle:g_hCheckPlayers          = INVALID_HANDLE;
 new Handle:g_hForceChange           = INVALID_HANDLE;
 new Handle:g_hWarnServ              = INVALID_HANDLE;
 new Handle:g_hyeetServ              = INVALID_HANDLE;
+new Handle:g_hcheckStuff            = INVALID_HANDLE;
 new Handle:g_hSafeToChangeLevel     = INVALID_HANDLE;
 
 public Plugin:myinfo =
@@ -60,9 +59,6 @@ public OnPluginStart()
     PrintColoredChatAll("\x07FFA07A[RGLQoL]\x01 version \x07FFA07A%s\x01 has been \x073EFF3Eloaded\x01.", PLUGIN_VERSION);
     // hooks round start events
     HookEvent("teamplay_round_start", EventRoundStart);
-    HookEvent("teamplay_round_active", EventRoundActive);
-    // hooks round win events for determining auto restart
-    HookEvent("teamplay_round_win", EventRoundEnd);
     // hooks player fully disconnected events
     HookEvent("player_disconnect", EventPlayerLeft);
 
@@ -78,7 +74,6 @@ public OnPluginStart()
 
 public OnMapStart()
 {
-    gameIsLive = false;
     delete g_hForceChange;
     // this is to prevent server auto changing level
     ServerCommand("sm plugins unload nextmap");
@@ -90,6 +85,7 @@ public OnClientPostAdminCheck(client)
     CreateTimer(15.0, prWelcomeClient, GetClientUserId(client));
     LogMessage("[RGLQoL] Player joined. Killing restart timer.");
     delete g_hyeetServ;
+    delete g_hcheckStuff;
 }
 
 public Action prWelcomeClient(Handle timer, int userid)
@@ -98,33 +94,22 @@ public Action prWelcomeClient(Handle timer, int userid)
     if (client)
     {
         PrintColoredChat(client, "\x07FFA07A[RGLQoL]\x01 This server is running RGL Updater version \x07FFA07A%s\x01", PLUGIN_VERSION);
-        PrintColoredChat(client, "\x07FFA07A[RGLQoL]\x01 Remember, per RGL rules, players must record POV demos for every match!", PLUGIN_VERSION);
+        PrintColoredChat(client, "\x07FFA07A[RGLQoL]\x01 Remember, per RGL rules, players must record POV demos for every match!");
     }
 }
 
 public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcast)
 {
     AntiTrollStuff();
-}
-
-public Action EventRoundActive(Handle event, const char[] name, bool dontBroadcast)
-{
     // prevents stv done notif spam if teams play another round before 90 seconds have passed
     delete g_hSafeToChangeLevel;
-}
-
-// hook the round end event for making sure that a game has occured before restarting the server
-public EventRoundEnd(Event event, const char[] name, bool dontBroadcast)
-{
-    // sets gamelive bool to true
-    gameIsLive = true;
 }
 
 public Action EventPlayerLeft(Handle event, const char[] name, bool dontBroadcast)
 {
     LogMessage("[RGLQoL] Player left. Waiting 10 minutes and then checking if server is empty.");
-    delete g_hCheckPlayers;
-    CreateTimer(600.0, checkStuff, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
+    delete g_hcheckStuff;
+    CreateTimer(10.0, checkStuff, TIMER_DATA_HNDL_CLOSE | TIMER_FLAG_NO_MAPCHANGE);
 }
 
 public Action checkStuff(Handle timer)
@@ -132,18 +117,19 @@ public Action checkStuff(Handle timer)
     stvOn = GetConVarBool(FindConVar("tv_enable"));
     curplayers = GetClientCount() - stvOn;
     LogMessage("[RGLQoL] %i players on server.", curplayers);
+    // if the server isnt empty, don't restart!
     if (curplayers > 0)
     {
         LogMessage("[RGLQoL] At least 1 player on server. Not restarting.");
         return;
     }
-    // ok if we get this far the server's empty. but if a round hasnt been won OR the rgl config hasnt been execed then don't restart!
-    else if (!CfgExecuted || !gameIsLive)
+    // if the rgl config hasnt been execed, don't restart!
+    else if (!CfgExecuted)
     {
-        LogMessage("[RGLQoL] RGL config not executed and/or a round has not yet ended. Not restarting.");
+        LogMessage("[RGLQoL] RGL config not executed. Not restarting.");
         return;
     }
-    // ok. the game is over. the last person has left. restart the server
+    // ok. the last person has left - restart the server
     else
     {
         if (alreadyRestarting)
@@ -152,7 +138,7 @@ public Action checkStuff(Handle timer)
         }
         else if (!alreadyRestarting)
         {
-            LogMessage("[RGLQoL] Server empty. Waiting ~95 seconds for stv and issuing sv_shutdown.");
+            LogMessage("[RGLQoL] Server empty. Waiting ~95 seconds for STV and issuing sv_shutdown.");
             // wait 90 seconds + 5 (just in case) for stv
             CreateTimer(95.0, yeetServ);
             alreadyRestarting = true;
@@ -257,6 +243,7 @@ public Action unloadMapChooserNextMap(Handle timer)
 
 public Action WarnServ(Handle timer)
 {
+    LogMessage("[RGLQoL] An important cvar has changed. Forcing a map change in 25 seconds unless the map is manually changed before then.");
     PrintColoredChatAll("\x07FFA07A[RGLQoL]\x01 An important cvar has changed. Forcing a map change in 25 seconds unless the map is manually changed before then.");
 }
 
