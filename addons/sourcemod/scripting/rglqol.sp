@@ -6,7 +6,7 @@
 #include <nextmap>
 
 #define PLUGIN_NAME                 "RGL.gg QoL Tweaks"
-#define PLUGIN_VERSION              "1.3.4b"
+#define PLUGIN_VERSION              "1.3.5b"
 
 bool:CfgExecuted;
 bool:antiTroll;
@@ -15,7 +15,7 @@ bool:alreadyRestarting;
 bool:alreadyChanging;
 bool:IsSafe;
 bool:warnedStv;
-isStvDone                       = -1;
+isStvDone                           = -1;
 stvOn;
 formatVal;
 slotVal;
@@ -109,7 +109,7 @@ public Action EventPlayerLeft(Handle event, const char[] name, bool dontBroadcas
 {
     LogMessage("[RGLQoL] Player left. Waiting 10 minutes and then checking if server is empty.");
     delete g_hcheckStuff;
-    g_hcheckStuff = CreateTimer(15.0, checkStuff, _, TIMER_FLAG_NO_MAPCHANGE);
+    g_hcheckStuff = CreateTimer(15.0, checkStuff);
 }
 
 public Action checkStuff(Handle timer)
@@ -144,6 +144,7 @@ public Action checkStuff(Handle timer)
             alreadyRestarting = true;
         }
     }
+    g_hcheckStuff = null;
 }
 
 // yeet
@@ -218,10 +219,8 @@ public change30()
 {
     if (!alreadyChanging)
     {
-        delete g_hForceChange;
-        delete g_hWarnServ;
-        g_hWarnServ = CreateTimer(5.0, WarnServ, _, TIMER_FLAG_NO_MAPCHANGE);
-        g_hForceChange = CreateTimer(30.0, ForceChange, _, TIMER_FLAG_NO_MAPCHANGE);
+        g_hWarnServ = CreateTimer(5.0, WarnServ);
+        g_hForceChange = CreateTimer(30.0, ForceChange);
         alreadyChanging = true;
     }
 }
@@ -230,9 +229,9 @@ public Action GameOverEvent(Handle event, const char[] name, bool dontBroadcast)
 {
     isStvDone = 0;
     PrintColoredChatAll("\x07FFA07A[RGLQoL]\x01 Match ended. Wait 90 seconds to changelevel to avoid cutting off actively broadcsating STV. This can be overridden with a second changelevel command.");
-    g_hSafeToChangeLevel = CreateTimer(95.0, SafeToChangeLevel, _, TIMER_FLAG_NO_MAPCHANGE);
+    g_hSafeToChangeLevel = CreateTimer(95.0, SafeToChangeLevel);
     // this is to prevent server auto changing level
-    CreateTimer(5.0, unloadMapChooserNextMap, _, TIMER_FLAG_NO_MAPCHANGE);
+    CreateTimer(5.0, unloadMapChooserNextMap);
 }
 
 public Action unloadMapChooserNextMap(Handle timer)
@@ -245,6 +244,7 @@ public Action WarnServ(Handle timer)
 {
     LogMessage("[RGLQoL] An important cvar has changed. Forcing a map change in 25 seconds unless the map is manually changed before then.");
     PrintColoredChatAll("\x07FFA07A[RGLQoL]\x01 An important cvar has changed. Forcing a map change in 25 seconds unless the map is manually changed before then.");
+    g_hWarnServ = null;
 }
 
 public Action SafeToChangeLevel(Handle timer)
@@ -256,6 +256,7 @@ public Action SafeToChangeLevel(Handle timer)
         // this is to prevent double printing
         IsSafe = true;
     }
+    delete g_hSafeToChangeLevel;
 }
 
 public Action changeLvl(int args)
@@ -283,7 +284,7 @@ public Action changeLvl(int args)
     }
 }
 
-public Action ForceChange(Handle:timer)
+public Action ForceChange(Handle timer)
 {
     if (levelChanged || isStvDone == 0)
     {
@@ -293,6 +294,7 @@ public Action ForceChange(Handle:timer)
     char mapName[128];
     GetCurrentMap(mapName, sizeof(mapName));
     ForceChangeLevel(mapName, "Important cvar changed! Forcibly changing level to prevent bugs.");
+    g_hForceChange = null;
 }
 
 public AntiTrollStuff()
