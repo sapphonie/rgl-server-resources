@@ -3,7 +3,7 @@
 #include <sourcemod>
 #include <color_literals>
 #include <regex>
-#include <nextmap>
+// #include <nextmap>
 
 #define PLUGIN_NAME                 "RGL.gg QoL Tweaks"
 #define PLUGIN_VERSION              "1.3.7b"

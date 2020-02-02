@@ -8,7 +8,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME                     "RGL.gg Server Resources Updater"
-#define PLUGIN_VERSION                  "2.0.6b"
+#define PLUGIN_VERSION                  "2.0.9b"
 new String:UPDATE_URL[128]          =   "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:isBeta;
 new bool:updatePlug;
@@ -24,10 +24,6 @@ public Plugin:myinfo =
 
 public OnPluginStart()
 {
-    if (LibraryExists("updater"))
-    {
-        Updater_AddPlugin(UPDATE_URL);
-    }
     LogMessage("[RGLUpdater] version %s has been loaded.", PLUGIN_VERSION);
     PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 version \x07FFA07A%s\x01 has been \x073EFF3Eloaded\x01.", PLUGIN_VERSION);
     CreateConVar
@@ -43,6 +39,14 @@ public OnPluginStart()
             1.0
         );
     HookConVarChange(FindConVar("rgl_beta"), OnRGLBetaChanged);
+}
+
+public OnLibraryAdded(const String:name[])
+{
+    if (StrEqual(name, "updater"))
+    {
+        Updater_AddPlugin(UPDATE_URL);
+    }
 }
 
 public OnRGLBetaChanged(ConVar convar, char[] oldValue, char[] newValue)
@@ -69,7 +73,7 @@ public OnRGLBetaChanged(ConVar convar, char[] oldValue, char[] newValue)
             LogMessage("[RGLUpdater] Update url is %s.", UPDATE_URL);
             LogMessage("[RGLUpdater] QUEUING UPDATE");
         }
-        // Updater_RemovePlugin();
+        Updater_RemovePlugin();
         Updater_AddPlugin(UPDATE_URL);
         Updater_ForceUpdate();
         updatePlug = true;
@@ -80,8 +84,16 @@ public Updater_OnPluginUpdated()
 {
     if (updatePlug)
     {
-        ServerCommand("sm plugins reload rglupdater");
+        RequestFrame(reloadPlug);
     }
+}
+
+public reloadPlug()
+{
+    ServerCommand("sm plugins reload disabled/tf2Halftime");
+    ServerCommand("sm plugins reload pause");
+    ServerCommand("sm plugins reload rglqol");
+    ServerCommand("sm plugins reload rglupdater");
 }
 
 public void OnPluginEnd()
