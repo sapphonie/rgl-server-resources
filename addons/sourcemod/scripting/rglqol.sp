@@ -6,11 +6,9 @@
 #include <nextmap>
 
 #define PLUGIN_NAME                 "RGL.gg QoL Tweaks"
-#define PLUGIN_VERSION              "1.3.5b"
+#define PLUGIN_VERSION              "1.3.7b"
 
 bool:CfgExecuted;
-bool:antiTroll;
-bool:levelChanged;
 bool:alreadyRestarting;
 bool:alreadyChanging;
 bool:IsSafe;
@@ -53,6 +51,7 @@ public OnPluginStart()
     // hooks stuff for auto changelevel
     HookConVarChange(FindConVar("rgl_cast"), OnRGLChanged);
     HookConVarChange(FindConVar("tv_enable"), OnSTVChanged);
+    HookConVarChange(FindConVar("servercfgfile"), OnServerCfgChanged);
     AddCommandListener(OnPure, "sv_pure");
 
     LogMessage("[RGLQoL] Initializing RGLQoL version %s", PLUGIN_VERSION);
@@ -60,7 +59,6 @@ public OnPluginStart()
     // hooks round start events
     HookEvent("teamplay_round_start", EventRoundStart);
     // hooks player fully disconnected events
-    HookEvent("player_disconnect", EventPlayerLeft);
 
     // shoutouts to lange, borrowed this from soap_tournament.smx here: https://github.com/Lange/SOAP-TF2DM/blob/master/addons/sourcemod/scripting/soap_tournament.sp#L48
 
@@ -72,9 +70,15 @@ public OnPluginStart()
     RegServerCmd("changelevel", changeLvl);
 }
 
+
+
 public OnMapStart()
 {
     delete g_hForceChange;
+    delete g_hWarnServ;
+    delete g_hyeetServ;
+    delete g_hSafeToChangeLevel;
+    alreadyChanging = false;
     // this is to prevent server auto changing level
     ServerCommand("sm plugins unload nextmap");
     ServerCommand("sm plugins unload mapchooser");
@@ -82,10 +86,9 @@ public OnMapStart()
 
 public OnClientPostAdminCheck(client)
 {
-    CreateTimer(15.0, prWelcomeClient, GetClientUserId(client));
-    LogMessage("[RGLQoL] Player joined. Killing restart timer.");
     delete g_hyeetServ;
-    delete g_hcheckStuff;
+    alreadyRestarting = false;
+    CreateTimer(15.0, prWelcomeClient, GetClientUserId(client));
 }
 
 public Action prWelcomeClient(Handle timer, int userid)
@@ -105,24 +108,39 @@ public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcas
     delete g_hSafeToChangeLevel;
 }
 
-public Action EventPlayerLeft(Handle event, const char[] name, bool dontBroadcast)
-{
-    LogMessage("[RGLQoL] Player left. Waiting 10 minutes and then checking if server is empty.");
-    delete g_hcheckStuff;
-    g_hcheckStuff = CreateTimer(15.0, checkStuff);
-}
-
 public Action checkStuff(Handle timer)
 {
-    stvOn = GetConVarBool(FindConVar("tv_enable"));
+    // we could use tv_enable value here but it wouldn't be accurate if stv hasn't joined yet
+    char tvStatusOut[512];
+    ServerCommandEx(tvStatusOut, sizeof(tvStatusOut), "tv_status");
+    if (StrContains(tvStatusOut, "SourceTV not active") != -1)
+    {
+        stvOn = 0;
+    }
+    else
+    {
+        stvOn = 1;
+    }
     curplayers = GetClientCount() - stvOn;
     LogMessage("[RGLQoL] %i players on server.", curplayers);
+    char cfgVal[128];
+    GetConVarString(FindConVar("servercfgfile"), cfgVal, sizeof(cfgVal));
+    if (StrContains(cfgVal, "rgl") != -1)
+    {
+        CfgExecuted = true;
+    }
+    else
+    {
+        CfgExecuted = false;
+    }
+
     // if the server isnt empty, don't restart!
     if (curplayers > 0)
     {
         LogMessage("[RGLQoL] At least 1 player on server. Not restarting.");
         return;
     }
+
     // if the rgl config hasnt been execed, don't restart!
     else if (!CfgExecuted)
     {
@@ -139,12 +157,11 @@ public Action checkStuff(Handle timer)
         else if (!alreadyRestarting)
         {
             LogMessage("[RGLQoL] Server empty. Waiting ~95 seconds for STV and issuing sv_shutdown.");
-            // wait 90 seconds + 5 (just in case) for stv
+            // wait 90 seconds + 5 (just in case) for stv  (worst case scenario)
             g_hyeetServ = CreateTimer(95.0, yeetServ);
             alreadyRestarting = true;
         }
     }
-    g_hcheckStuff = null;
 }
 
 // yeet
@@ -159,12 +176,11 @@ public Action yeetServ(Handle timer)
 
 public OnRGLChanged(ConVar convar, char[] oldValue, char[] newValue)
 {
-    antiTroll = GetConVarBool(FindConVar("rgl_cast"));
-    if (antiTroll)
+    if (StringToInt(newValue) == 1)
     {
         AntiTrollStuff();
     }
-    else if (!antiTroll)
+    else if (StringToInt(newValue) == 0)
     {
         // zeros reserved slots value
         SetConVarInt(FindConVar("sm_reserved_slots"), 0, true);
@@ -181,23 +197,27 @@ public OnRGLChanged(ConVar convar, char[] oldValue, char[] newValue)
 // this section was influenced by f2's broken FixSTV plugin
 public OnSTVChanged(ConVar convar, char[] oldValue, char[] newValue)
 {
-    stvOn = GetConVarBool(FindConVar("tv_enable"));
-    if (stvOn == 1)
+    if (StringToInt(newValue) == 1)
     {
         LogMessage("[RGLQoL] tv_enable changed to 1! Changing level in 30 seconds unless manual map change occurs before then.");
         change30();
     }
-    else if (stvOn == 0)
+    else if (StringToInt(newValue) == 0)
     {
         LogMessage("[RGLQoL] tv_enable changed to 0!");
     }
 }
 
-// pure checking code below provided by nosoop ("top kekkeroni#4449" on discord) thank you i love you
+// this section was influenced by f2's broken FixSTV plugin
+public OnServerCfgChanged(ConVar convar, char[] oldValue, char[] newValue)
+{
+    AntiTrollStuff();
+}
 
+// pure checking code below provided by nosoop ("top kekkeroni#4449" on discord) thank you i love you
 public Action OnPure(int client, const char[] command, int argc)
 {
-    if (argc > 0)// && client == 0)
+    if (argc > 0)
     {
         RequestFrame(InvokePureCommandCheck);
     }
@@ -215,10 +235,13 @@ public void InvokePureCommandCheck(any ignored)
     }
 }
 
+
 public change30()
 {
+    LogMessage("[RGLQoL] test test 1");
     if (!alreadyChanging)
     {
+        LogMessage("[RGLQoL] test test 2");
         g_hWarnServ = CreateTimer(5.0, WarnServ);
         g_hForceChange = CreateTimer(30.0, ForceChange);
         alreadyChanging = true;
@@ -232,6 +255,12 @@ public Action GameOverEvent(Handle event, const char[] name, bool dontBroadcast)
     g_hSafeToChangeLevel = CreateTimer(95.0, SafeToChangeLevel);
     // this is to prevent server auto changing level
     CreateTimer(5.0, unloadMapChooserNextMap);
+
+    // create a repeating timer for auto restart, checks every 10 minutes if players have left server and autorestarts if so
+    if (g_hcheckStuff == null)
+    {
+        g_hcheckStuff = CreateTimer(120.0, checkStuff, _, TIMER_REPEAT);
+    }
 }
 
 public Action unloadMapChooserNextMap(Handle timer)
@@ -243,6 +272,7 @@ public Action unloadMapChooserNextMap(Handle timer)
 public Action WarnServ(Handle timer)
 {
     LogMessage("[RGLQoL] An important cvar has changed. Forcing a map change in 25 seconds unless the map is manually changed before then.");
+    LogMessage("[RGLQoL] test test 3");
     PrintColoredChatAll("\x07FFA07A[RGLQoL]\x01 An important cvar has changed. Forcing a map change in 25 seconds unless the map is manually changed before then.");
     g_hWarnServ = null;
 }
@@ -261,16 +291,7 @@ public Action SafeToChangeLevel(Handle timer)
 
 public Action changeLvl(int args)
 {
-    if (warnedStv)
-    {
-        return Plugin_Continue;
-    }
-    else if (isStvDone == -1)
-    {
-        levelChanged = true;
-        return Plugin_Continue;
-    }
-    else if (isStvDone == 1)
+    if (warnedStv || isStvDone != 0)
     {
         return Plugin_Continue;
     }
@@ -286,10 +307,6 @@ public Action changeLvl(int args)
 
 public Action ForceChange(Handle timer)
 {
-    if (levelChanged || isStvDone == 0)
-    {
-        return;
-    }
     LogMessage("[RGLQoL] Forcibly changing level.");
     char mapName[128];
     GetCurrentMap(mapName, sizeof(mapName));
@@ -299,71 +316,60 @@ public Action ForceChange(Handle timer)
 
 public AntiTrollStuff()
 {
-    char cfgVal[32];
-    GetConVarString(FindConVar("servercfgfile"), cfgVal, 32);
-    if ((SimpleRegexMatch(cfgVal, "^rgl.*$", 3)) > 0)
+    if (!GetConVarBool(FindConVar("rgl_cast")))
     {
-        CfgExecuted = true;
-    }
-    else if ((SimpleRegexMatch(cfgVal, "^server.*$", 3)) > 0)
-    {
-        CfgExecuted = false;
+        LogMessage("[RGLQoL] Cast AntiTroll is OFF!");
+        return;
     }
     else
     {
-        CfgExecuted = false;
-    }
-
-    // ANTI TROLLING STUFF (prevents extra users from joining the server, used for casts)
-
-    antiTroll = GetConVarBool(FindConVar("rgl_cast"));
-
-    if (antiTroll)
-    {
-        if ((SimpleRegexMatch(cfgVal, "^.*_(6s|mm)_.*$", 3)) > 0)
+        // ANTI TROLLING STUFF (prevents extra users from joining the server, used for casts)
+        char cfgVal[128];
+        GetConVarString(FindConVar("servercfgfile"), cfgVal, 128);
+        if ((StrContains(cfgVal, "6s", false) != -1) ||
+            (StrContains(cfgVal, "mm", false) != -1))
         {
             formatVal = 12;
         }
-        else if ((SimpleRegexMatch(cfgVal, "^.*_HL_.*$", 3)) > 0)
+        else if (StrContains(cfgVal, "HL", false) != -1)
         {
             formatVal = 18;
         }
-        else if ((SimpleRegexMatch(cfgVal, "^.*_7s_.*$", 3)) > 0)
+        else if (StrContains(cfgVal, "7s", false) != -1)
         {
             formatVal = 14;
         }
         else
         {
             formatVal = 0;
-            LogMessage("[RGLQoL] Config not executed! Cast AntiTroll has not been enabled!");
+            LogMessage("[RGLQoL] Config not executed! Cast AntiTroll is OFF!");
         }
-    }
-
-    if (CfgExecuted && antiTroll && formatVal != 0)
-    {
-        // this calculates reserved slots to leave just enough space for 12/12, 14/14 or 18/18 players on server
-        slotVal = ((MaxClients - formatVal) - 1);
-
-        // loads reserved slots because it gets unloaded by soap tournament (thanks lange... -_-)
-        ServerCommand("sm plugins load reservedslots");
-        // loads it from disabled/ just in case it's disabled by the server owner
-        ServerCommand("sm plugins load disabled/reservedslots");
-        // set type 0 so as to not kick anyone ever
-        SetConVarInt(FindConVar("sm_reserve_type"), 0, true);
-        // hide slots is broken with stv so disable it
-        SetConVarInt(FindConVar("sm_hide_slots"), 0, true);
-        // sets reserved slots with above calculated value
-        SetConVarInt(FindConVar("sm_reserved_slots"), slotVal, true);
-        // manually override this because hide slots is broken
-        SetConVarInt(FindConVar("sv_visiblemaxplayers"), formatVal, true);
-
-        // players can still join if they have password and connect thru console but they will be instantly kicked due to the slot reservation we just made
-        // obviously this can go wrong if there's an collaborative effort by a player and a troll where the player leaves, and the troll joins in their place...
-        // ...but if that's happening the players involved will almost certainly face severe punishments and a probable league ban.
-        LogMessage("[RGLQoL] Cast AntiTroll has been turned on!");
+        LogMessage("%i %s", formatVal, cfgVal);
+        if (formatVal != 0)
+        {
+            // this calculates reserved slots to leave just enough space for 12/12, 14/14 or 18/18 players on server
+            slotVal = ((MaxClients - formatVal) - 1);
+            // loads reserved slots because it gets unloaded by soap tournament (thanks lange... -_-)
+            ServerCommand("sm plugins load reservedslots");
+            // loads it from disabled/ just in case it's disabled by the server owner
+            ServerCommand("sm plugins load disabled/reservedslots");
+            // set type 0 so as to not kick anyone ever
+            SetConVarInt(FindConVar("sm_reserve_type"), 0, true);
+            // hide slots is broken with stv so disable it
+            SetConVarInt(FindConVar("sm_hide_slots"), 0, true);
+            // sets reserved slots with above calculated value
+            SetConVarInt(FindConVar("sm_reserved_slots"), slotVal, true);
+            // manually override this because hide slots is broken
+            SetConVarInt(FindConVar("sv_visiblemaxplayers"), formatVal, true);
+            // players can still join if they have password and connect thru console but they will be instantly kicked due to the slot reservation we just made
+            // obviously this can go wrong if there's an collaborative effort by a player and a troll where the player leaves, and the troll joins in their place...
+            // ...but if that's happening the players involved will almost certainly face severe punishments and a probable league ban.
+            LogMessage("[RGLQoL] Cast AntiTroll is ON!");
+        }
     }
 }
 
 public OnPluginEnd()
 {
-    PrintColoredChatAll("\x07FFA07A[RGLQoL]\x01 version \x07FFA07A%s\x01 has been \x07FF40
+    PrintColoredChatAll("\x07FFA07A[RGLQoL]\x01 version \x07FFA07A%s\x01 has been \x07FF4040unloaded\x01.", PLUGIN_VERSION);
+}

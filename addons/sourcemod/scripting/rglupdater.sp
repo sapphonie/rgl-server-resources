@@ -8,18 +8,18 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME                     "RGL.gg Server Resources Updater"
-#define PLUGIN_VERSION                  "2.0.5b"
+#define PLUGIN_VERSION                  "2.0.6b"
 new String:UPDATE_URL[128]          =   "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 new bool:isBeta;
 new bool:updatePlug;
 
 public Plugin:myinfo =
 {
-    name        =  PLUGIN_NAME,
-    author      = "Stephanie, Aad",
-    description = "Automatically updates RGL.gg plugins and files",
-    version     =  PLUGIN_VERSION,
-    url         = "https://github.com/stephanieLGBT/rgl-server-resources"
+    name                            =  PLUGIN_NAME,
+    author                          = "Stephanie, Aad",
+    description                     = "Automatically updates RGL.gg plugins and files",
+    version                         =  PLUGIN_VERSION,
+    url                             = "https://github.com/stephanieLGBT/rgl-server-resources"
 }
 
 public OnPluginStart()
@@ -47,11 +47,11 @@ public OnPluginStart()
 
 public OnRGLBetaChanged(ConVar convar, char[] oldValue, char[] newValue)
 {
-    if (StrEqual(oldValue, newValue, false))
+    if (StringToInt(newValue) == 1)
     {
         return;
     }
-    else
+    else if (StringToInt(newValue) == 0)
     {
         isBeta = GetConVarBool(FindConVar("rgl_beta"));
         LogMessage("[RGLUpdater] rgl_beta cvar changed!");
