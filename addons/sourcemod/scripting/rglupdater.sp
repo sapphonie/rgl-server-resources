@@ -8,10 +8,9 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME                     "RGL.gg Server Resources Updater"
-#define PLUGIN_VERSION                  "2.0.9b"
-new String:UPDATE_URL[128]          =   "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
-new bool:isBeta;
-new bool:updatePlug;
+#define PLUGIN_VERSION                  "2.0.10b"
+String:UPDATE_URL[128]          =   "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
+bool:updatePlug;
 
 public Plugin:myinfo =
 {
@@ -26,6 +25,7 @@ public OnPluginStart()
 {
     LogMessage("[RGLUpdater] version %s has been loaded.", PLUGIN_VERSION);
     PrintColoredChatAll("\x07FFA07A[RGLUpdater]\x01 version \x07FFA07A%s\x01 has been \x073EFF3Eloaded\x01.", PLUGIN_VERSION);
+    updatePlug = false;
     CreateConVar
         (
             "rgl_beta",
@@ -51,28 +51,26 @@ public OnLibraryAdded(const String:name[])
 
 public OnRGLBetaChanged(ConVar convar, char[] oldValue, char[] newValue)
 {
-    if (StringToInt(newValue) == 1)
+    if (StrEqual(oldValue, newValue))
     {
         return;
     }
-    else if (StringToInt(newValue) == 0)
+    else
     {
-        isBeta = GetConVarBool(FindConVar("rgl_beta"));
         LogMessage("[RGLUpdater] rgl_beta cvar changed!");
-        if (isBeta)
+        if (StringToInt(newValue) == 1)
         {
             UPDATE_URL = "https://raw.githubusercontent.com/stephanieLGBT/rgl-server-resources/beta/updatefile.txt";
             LogMessage("[RGLUpdater] rgl_beta = 1");
             LogMessage("[RGLUpdater] Update url is %s.", UPDATE_URL);
-            LogMessage("[RGLUpdater] QUEUING UPDATE");
         }
-        else if (!isBeta)
+        else if (StringToInt(newValue) == 0)
         {
             UPDATE_URL = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
             LogMessage("[RGLUpdater] rgl_beta = 0");
             LogMessage("[RGLUpdater] Update url is %s.", UPDATE_URL);
-            LogMessage("[RGLUpdater] QUEUING UPDATE");
         }
+        LogMessage("[RGLUpdater] QUEUING UPDATE");
         Updater_RemovePlugin();
         Updater_AddPlugin(UPDATE_URL);
         Updater_ForceUpdate();
