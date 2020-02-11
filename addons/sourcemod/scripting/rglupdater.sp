@@ -7,9 +7,9 @@
 #define REQUIRE_EXTENSIONS
 #include <SteamWorks>
 
-#define PLUGIN_NAME                     "RGL.gg Server Resources Updater"
-#define PLUGIN_VERSION                  "2.0.10b"
-String:UPDATE_URL[128]          =   "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
+#define PLUGIN_NAME                   "RGL.gg Server Resources Updater"
+#define PLUGIN_VERSION                "2.0.10b"
+char UPDATE_URL[128]                = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
 bool:updatePlug;
 
 public Plugin:myinfo =
@@ -51,31 +51,24 @@ public OnLibraryAdded(const String:name[])
 
 public OnRGLBetaChanged(ConVar convar, char[] oldValue, char[] newValue)
 {
-    if (StrEqual(oldValue, newValue))
+    LogMessage("[RGLUpdater] rgl_beta cvar changed!");
+    if (StringToInt(newValue) == 1)
     {
-        return;
+        UPDATE_URL = "https://raw.githubusercontent.com/stephanieLGBT/rgl-server-resources/beta/updatefile.txt";
+        LogMessage("[RGLUpdater] rgl_beta = 1");
+        LogMessage("[RGLUpdater] Update url is %s.", UPDATE_URL);
     }
-    else
+    else if (StringToInt(newValue) == 0)
     {
-        LogMessage("[RGLUpdater] rgl_beta cvar changed!");
-        if (StringToInt(newValue) == 1)
-        {
-            UPDATE_URL = "https://raw.githubusercontent.com/stephanieLGBT/rgl-server-resources/beta/updatefile.txt";
-            LogMessage("[RGLUpdater] rgl_beta = 1");
-            LogMessage("[RGLUpdater] Update url is %s.", UPDATE_URL);
-        }
-        else if (StringToInt(newValue) == 0)
-        {
-            UPDATE_URL = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
-            LogMessage("[RGLUpdater] rgl_beta = 0");
-            LogMessage("[RGLUpdater] Update url is %s.", UPDATE_URL);
-        }
-        LogMessage("[RGLUpdater] QUEUING UPDATE");
-        Updater_RemovePlugin();
-        Updater_AddPlugin(UPDATE_URL);
-        Updater_ForceUpdate();
-        updatePlug = true;
+        UPDATE_URL = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
+        LogMessage("[RGLUpdater] rgl_beta = 0");
+        LogMessage("[RGLUpdater] Update url is %s.", UPDATE_URL);
     }
+    LogMessage("[RGLUpdater] QUEUING UPDATE");
+    Updater_RemovePlugin();
+    Updater_AddPlugin(UPDATE_URL);
+    Updater_ForceUpdate();
+    updatePlug = true;
 }
 
 public Updater_OnPluginUpdated()

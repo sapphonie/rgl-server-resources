@@ -3,16 +3,17 @@
 #include <sourcemod>
 #include <color_literals>
 #include <regex>
+#include <soap_tournament>
 // #include <nextmap>
 
 #define PLUGIN_NAME                 "RGL.gg QoL Tweaks"
-#define PLUGIN_VERSION              "1.3.7b"
+#define PLUGIN_VERSION              "1.3.8b"
 
 bool:CfgExecuted;
-bool:alreadyRestarting;
 bool:alreadyChanging;
 bool:IsSafe;
 bool:warnedStv;
+//bool:GameIsLive;
 isStvDone                           = -1;
 stvOn;
 formatVal;
@@ -20,7 +21,6 @@ slotVal;
 curplayers;
 Handle:g_hForceChange;
 Handle:g_hWarnServ;
-Handle:g_hyeetServ;
 Handle:g_hcheckStuff;
 Handle:g_hSafeToChangeLevel;
 
@@ -60,7 +60,7 @@ public OnPluginStart()
     HookEvent("teamplay_round_start", EventRoundStart);
     // hooks player fully disconnected events
 
-    // shoutouts to lange, borrowed this from soap_tournament.smx here: https://github.com/Lange/SOAP-TF2DM/blob/master/addons/sourcemod/scripting/soap_tournament.sp#L48
+    // shoutouts to lange, originally borrowed this from soap_tournament.smx here: https://github.com/Lange/SOAP-TF2DM/blob/master/addons/sourcemod/scripting/soap_tournament.sp#L48
 
     // Win conditions met (maxrounds, timelimit)
     HookEvent("teamplay_game_over", GameOverEvent);
@@ -70,13 +70,10 @@ public OnPluginStart()
     RegServerCmd("changelevel", changeLvl);
 }
 
-
-
 public OnMapStart()
 {
     delete g_hForceChange;
     delete g_hWarnServ;
-    delete g_hyeetServ;
     delete g_hSafeToChangeLevel;
     alreadyChanging = false;
     // this is to prevent server auto changing level
@@ -86,9 +83,7 @@ public OnMapStart()
 
 public OnClientPostAdminCheck(client)
 {
-    delete g_hyeetServ;
-    alreadyRestarting = false;
-    CreateTimer(15.0, prWelcomeClient, GetClientUserId(client));
+    CreateTimer(15.0, prWelcomeClient, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
 }
 
 public Action prWelcomeClient(Handle timer, int userid)
@@ -108,6 +103,17 @@ public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcas
     delete g_hSafeToChangeLevel;
 }
 
+//public void SOAP_StopDeathMatching()
+//{
+//    GameIsLive = true;
+//}
+//
+//public void SOAP_StartDeathMatching()
+//{
+//    GameIsLive = false;
+//}
+
+// checks stuff for restarting server
 public Action checkStuff(Handle timer)
 {
     // we could use tv_enable value here but it wouldn't be accurate if stv hasn't joined yet
@@ -133,50 +139,48 @@ public Action checkStuff(Handle timer)
     {
         CfgExecuted = false;
     }
-
-    // if the server isnt empty, don't restart!
+    // if the server isnt empty, don't restart! Duh
     if (curplayers > 0)
-    {
+    { 
         LogMessage("[RGLQoL] At least 1 player on server. Not restarting.");
         return;
     }
-
-    // if the rgl config hasnt been execed, don't restart!
     else if (!CfgExecuted)
+    // if the rgl isnt exec'd dont restart.
     {
         LogMessage("[RGLQoL] RGL config not executed. Not restarting.");
         return;
     }
-    // ok. the last person has left - restart the server
+    // if the stv hasnt ended aka if the GAME hasn't ended + 90 seconds, don't restart. If isStvDone is -1 or 1 then it's ok.
+    else if (isStvDone == 0)
+    {
+        LogMessage("[RGLQoL] STV is currently live! Not restarting.");
+        return;
+    }
+    // SANITY CHECK
+    //else if (GameIsLive)
+    //{
+    //    LogMessage("[RGLQoL] According to SOAP tournament, the game is live! Not restarting.");
+    //    return;
+    //}
+    // ok. if we got this far, restart the server
     else
     {
-        if (alreadyRestarting)
-        {
-            return;
-        }
-        else if (!alreadyRestarting)
-        {
-            LogMessage("[RGLQoL] Server empty. Waiting ~95 seconds for STV and issuing sv_shutdown.");
-            // wait 90 seconds + 5 (just in case) for stv  (worst case scenario)
-            g_hyeetServ = CreateTimer(95.0, yeetServ);
-            alreadyRestarting = true;
-        }
+        LogMessage("[RGLQoL] Server empty. Issuing sv_shutdown.");
+        // set the server to never shut down here unless it's FULLY empty with this convar...
+        SetConVarInt(FindConVar("sv_shutdown_timeout_minutes"), 0, false);
+        // ...and actually send an sv_shutdown. if MY player-on-server logic somehow fails...tf2's HOPEFULLY shouldn't
+        ServerCommand("sv_shutdown");
     }
-}
-
-// yeet
-public Action yeetServ(Handle timer)
-{
-    LogMessage("[RGLQoL] Issuing sv_shutdown.");
-    // set the server to never shut down here unless it's FULLY empty with this convar...
-    SetConVarInt(FindConVar("sv_shutdown_timeout_minutes"), 0, false);
-    // ...and actually send an sv_shutdown. if MY player-on-server logic somehow fails...tf2's HOPEFULLY shouldn't
-    ServerCommand("sv_shutdown");
 }
 
 public OnRGLChanged(ConVar convar, char[] oldValue, char[] newValue)
 {
-    if (StringToInt(newValue) == 1)
+    if (StrEqual(oldValue, newValue))
+    {
+        return;
+    }
+    else if (StringToInt(newValue) == 1)
     {
         AntiTrollStuff();
     }
@@ -208,7 +212,6 @@ public OnSTVChanged(ConVar convar, char[] oldValue, char[] newValue)
     }
 }
 
-// this section was influenced by f2's broken FixSTV plugin
 public OnServerCfgChanged(ConVar convar, char[] oldValue, char[] newValue)
 {
     AntiTrollStuff();
@@ -235,15 +238,12 @@ public void InvokePureCommandCheck(any ignored)
     }
 }
 
-
 public change30()
 {
-    LogMessage("[RGLQoL] test test 1");
     if (!alreadyChanging)
     {
-        LogMessage("[RGLQoL] test test 2");
-        g_hWarnServ = CreateTimer(5.0, WarnServ);
-        g_hForceChange = CreateTimer(30.0, ForceChange);
+        g_hWarnServ = CreateTimer(5.0, WarnServ, TIMER_FLAG_NO_MAPCHANGE);
+        g_hForceChange = CreateTimer(30.0, ForceChange, TIMER_FLAG_NO_MAPCHANGE);
         alreadyChanging = true;
     }
 }
@@ -251,12 +251,13 @@ public change30()
 public Action GameOverEvent(Handle event, const char[] name, bool dontBroadcast)
 {
     isStvDone = 0;
-    PrintColoredChatAll("\x07FFA07A[RGLQoL]\x01 Match ended. Wait 90 seconds to changelevel to avoid cutting off actively broadcsating STV. This can be overridden with a second changelevel command.");
-    g_hSafeToChangeLevel = CreateTimer(95.0, SafeToChangeLevel);
+    PrintColoredChatAll("\x07FFA07A[RGLQoL]\x01 Match ended. Wait 90 seconds to changelevel to avoid cutting off actively broadcasting STV. This can be overridden with a second changelevel command.");
+    g_hSafeToChangeLevel = CreateTimer(95.0, SafeToChangeLevel, TIMER_FLAG_NO_MAPCHANGE);
     // this is to prevent server auto changing level
     CreateTimer(5.0, unloadMapChooserNextMap);
 
     // create a repeating timer for auto restart, checks every 10 minutes if players have left server and autorestarts if so
+    // we put it on a gameover event because it assures that the server can't get restarted unless a gameover event occurs at least once
     if (g_hcheckStuff == null)
     {
         g_hcheckStuff = CreateTimer(120.0, checkStuff, _, TIMER_REPEAT);
@@ -272,7 +273,6 @@ public Action unloadMapChooserNextMap(Handle timer)
 public Action WarnServ(Handle timer)
 {
     LogMessage("[RGLQoL] An important cvar has changed. Forcing a map change in 25 seconds unless the map is manually changed before then.");
-    LogMessage("[RGLQoL] test test 3");
     PrintColoredChatAll("\x07FFA07A[RGLQoL]\x01 An important cvar has changed. Forcing a map change in 25 seconds unless the map is manually changed before then.");
     g_hWarnServ = null;
 }
@@ -323,7 +323,7 @@ public AntiTrollStuff()
     }
     else
     {
-        // ANTI TROLLING STUFF (prevents extra users from joining the server, used for casts)
+        // ANTI TROLLING STUFF (prevents extra users from joining the server, used for casts and also matches if you want to)
         char cfgVal[128];
         GetConVarString(FindConVar("servercfgfile"), cfgVal, 128);
         if ((StrContains(cfgVal, "6s", false) != -1) ||
@@ -344,7 +344,6 @@ public AntiTrollStuff()
             formatVal = 0;
             LogMessage("[RGLQoL] Config not executed! Cast AntiTroll is OFF!");
         }
-        LogMessage("%i %s", formatVal, cfgVal);
         if (formatVal != 0)
         {
             // this calculates reserved slots to leave just enough space for 12/12, 14/14 or 18/18 players on server
