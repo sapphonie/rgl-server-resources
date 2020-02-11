@@ -75,11 +75,11 @@ public Updater_OnPluginUpdated()
 {
     if (updatePlug)
     {
-        RequestFrame(reloadPlug);
+        CreateTimer(5.0, reloadPlug);
     }
 }
 
-public reloadPlug()
+public Action reloadPlug(Handle timer)
 {
     ServerCommand("sm plugins reload disabled/tf2Halftime");
     ServerCommand("sm plugins reload pause");
