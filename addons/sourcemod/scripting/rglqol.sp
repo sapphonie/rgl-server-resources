@@ -7,7 +7,7 @@
 // #include <nextmap>
 
 #define PLUGIN_NAME                 "RGL.gg QoL Tweaks"
-#define PLUGIN_VERSION              "1.3.8b"
+#define PLUGIN_VERSION              "1.3.9b"
 
 bool:CfgExecuted;
 bool:alreadyChanging;
@@ -79,6 +79,8 @@ public OnMapStart()
     // this is to prevent server auto changing level
     ServerCommand("sm plugins unload nextmap");
     ServerCommand("sm plugins unload mapchooser");
+    // this is to unload waitforstv which can break 5cp matches
+    ServerCommand("sm plugins unload waitforstv");
 }
 
 public OnClientPostAdminCheck(client)
@@ -286,7 +288,7 @@ public Action SafeToChangeLevel(Handle timer)
         // this is to prevent double printing
         IsSafe = true;
     }
-    delete g_hSafeToChangeLevel;
+    g_hSafeToChangeLevel = null;
 }
 
 public Action changeLvl(int args)
