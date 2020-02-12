@@ -9,7 +9,7 @@
 
 #define PLUGIN_NAME                   "RGL.gg Server Resources Updater"
 #define PLUGIN_VERSION                "2.0.10b"
-char UPDATE_URL[128]                = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
+char UPDATE_URL[128]                = "";
 bool:updatePlug;
 
 public Plugin:myinfo =
@@ -39,6 +39,7 @@ public OnPluginStart()
             1.0
         );
     HookConVarChange(FindConVar("rgl_beta"), OnRGLBetaChanged);
+    CheckRGLBeta();
 }
 
 public OnLibraryAdded(const String:name[])
@@ -52,23 +53,28 @@ public OnLibraryAdded(const String:name[])
 public OnRGLBetaChanged(ConVar convar, char[] oldValue, char[] newValue)
 {
     LogMessage("[RGLUpdater] rgl_beta cvar changed!");
-    if (StringToInt(newValue) == 1)
-    {
-        UPDATE_URL = "https://raw.githubusercontent.com/stephanieLGBT/rgl-server-resources/beta/updatefile.txt";
-        LogMessage("[RGLUpdater] rgl_beta = 1");
-        LogMessage("[RGLUpdater] Update url is %s.", UPDATE_URL);
-    }
-    else if (StringToInt(newValue) == 0)
-    {
-        UPDATE_URL = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
-        LogMessage("[RGLUpdater] rgl_beta = 0");
-        LogMessage("[RGLUpdater] Update url is %s.", UPDATE_URL);
-    }
+    CheckRGLBeta();
     LogMessage("[RGLUpdater] QUEUING UPDATE");
     Updater_RemovePlugin();
     Updater_AddPlugin(UPDATE_URL);
     Updater_ForceUpdate();
     updatePlug = true;
+}
+
+CheckRGLBeta()
+{
+    if (GetConVarBool(FindConVar("rgl_beta")))
+    {
+        UPDATE_URL = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
+        LogMessage("[RGLUpdater] rgl_beta = 0");
+        LogMessage("[RGLUpdater] Update url is %s.", UPDATE_URL);
+    }
+    else if (!GetConVarBool(FindConVar("rgl_beta")))
+    {
+        UPDATE_URL = "https://raw.githubusercontent.com/stephanieLGBT/rgl-server-resources/beta/updatefile.txt";
+        LogMessage("[RGLUpdater] rgl_beta = 1");
+        LogMessage("[RGLUpdater] Update url is %s.", UPDATE_URL);
+    }
 }
 
 public Updater_OnPluginUpdated()
