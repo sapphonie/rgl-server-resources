@@ -63,13 +63,13 @@ public OnRGLBetaChanged(ConVar convar, char[] oldValue, char[] newValue)
 
 CheckRGLBeta()
 {
-    if (GetConVarBool(FindConVar("rgl_beta")))
+    if (!GetConVarBool(FindConVar("rgl_beta")))
     {
         UPDATE_URL = "https://stephanielgbt.github.io/rgl-server-resources/updatefile.txt";
         LogMessage("[RGLUpdater] rgl_beta = 0");
         LogMessage("[RGLUpdater] Update url is %s.", UPDATE_URL);
     }
-    else if (!GetConVarBool(FindConVar("rgl_beta")))
+    else if (GetConVarBool(FindConVar("rgl_beta")))
     {
         UPDATE_URL = "https://raw.githubusercontent.com/stephanieLGBT/rgl-server-resources/beta/updatefile.txt";
         LogMessage("[RGLUpdater] rgl_beta = 1");
