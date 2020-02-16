@@ -24,7 +24,7 @@ If you have problems with the plugin, or if you have a suggestion, please messag
 
 ## Install Instructions
 
-0. [UPDATE YOUR SERVER'S SOURCEMOD VERSION TO 1.10 PLEASE, the plugin WILL NOT RUN on anything older!](https://www.sourcemod.net/downloads.php?branch=stable)
+0. ~~[UPDATE YOUR SERVER'S SOURCEMOD VERSION TO 1.10 PLEASE, the plugin WILL NOT RUN on anything older!](https://www.sourcemod.net/downloads.php?branch=stable)~~ This is no longer true, but you should still update your sourcemod to the latest version anyway!!!
 1. **Remove all old RGL.gg configs from your server.** (THIS IS IMPORTANT, if you do not do this things will break!)
 2. Download the latest zip from the [releases tab](https://github.com/stephanieLGBT/rgl-server-resources/releases/latest)
 3. Navigate to your server install folder in an (S)FTP client of your choice
