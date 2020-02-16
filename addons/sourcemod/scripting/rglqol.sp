@@ -3,17 +3,14 @@
 #include <sourcemod>
 #include <color_literals>
 #include <regex>
-#include <soap_tournament>
-// #include <nextmap>
 
 #define PLUGIN_NAME                 "RGL.gg QoL Tweaks"
-#define PLUGIN_VERSION              "1.3.9b"
+#define PLUGIN_VERSION              "1.4.0"
 
 bool:CfgExecuted;
 bool:alreadyChanging;
 bool:IsSafe;
 bool:warnedStv;
-//bool:GameIsLive;
 isStvDone                           = -1;
 stvOn;
 formatVal;
@@ -58,8 +55,6 @@ public OnPluginStart()
     PrintColoredChatAll("\x07FFA07A[RGLQoL]\x01 version \x07FFA07A%s\x01 has been \x073EFF3Eloaded\x01.", PLUGIN_VERSION);
     // hooks round start events
     HookEvent("teamplay_round_start", EventRoundStart);
-    // hooks player fully disconnected events
-
     // shoutouts to lange, originally borrowed this from soap_tournament.smx here: https://github.com/Lange/SOAP-TF2DM/blob/master/addons/sourcemod/scripting/soap_tournament.sp#L48
 
     // Win conditions met (maxrounds, timelimit)
@@ -105,16 +100,6 @@ public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcas
     delete g_hSafeToChangeLevel;
 }
 
-//public void SOAP_StopDeathMatching()
-//{
-//    GameIsLive = true;
-//}
-//
-//public void SOAP_StartDeathMatching()
-//{
-//    GameIsLive = false;
-//}
-
 // checks stuff for restarting server
 public Action checkStuff(Handle timer)
 {
@@ -143,7 +128,7 @@ public Action checkStuff(Handle timer)
     }
     // if the server isnt empty, don't restart! Duh
     if (curplayers > 0)
-    { 
+    {
         LogMessage("[RGLQoL] At least 1 player on server. Not restarting.");
         return;
     }
@@ -159,12 +144,6 @@ public Action checkStuff(Handle timer)
         LogMessage("[RGLQoL] STV is currently live! Not restarting.");
         return;
     }
-    // SANITY CHECK
-    //else if (GameIsLive)
-    //{
-    //    LogMessage("[RGLQoL] According to SOAP tournament, the game is live! Not restarting.");
-    //    return;
-    //}
     // ok. if we got this far, restart the server
     else
     {
@@ -178,11 +157,7 @@ public Action checkStuff(Handle timer)
 
 public OnRGLChanged(ConVar convar, char[] oldValue, char[] newValue)
 {
-    if (StrEqual(oldValue, newValue))
-    {
-        return;
-    }
-    else if (StringToInt(newValue) == 1)
+    if (StringToInt(newValue) == 1)
     {
         AntiTrollStuff();
     }
@@ -262,7 +237,7 @@ public Action GameOverEvent(Handle event, const char[] name, bool dontBroadcast)
     // we put it on a gameover event because it assures that the server can't get restarted unless a gameover event occurs at least once
     if (g_hcheckStuff == null)
     {
-        g_hcheckStuff = CreateTimer(120.0, checkStuff, _, TIMER_REPEAT);
+        g_hcheckStuff = CreateTimer(600.0, checkStuff, _, TIMER_REPEAT);
     }
 }
 

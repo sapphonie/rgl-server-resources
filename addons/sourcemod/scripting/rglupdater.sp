@@ -8,7 +8,7 @@
 #include <SteamWorks>
 
 #define PLUGIN_NAME                   "RGL.gg Server Resources Updater"
-#define PLUGIN_VERSION                "2.0.10b"
+#define PLUGIN_VERSION                "2.0.0"
 char UPDATE_URL[128]                = "";
 bool:updatePlug;
 
