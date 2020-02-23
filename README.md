@@ -181,7 +181,7 @@ Here are the configs you need to exec for specific modes and map types:
 <tr>
 <td align="left">5cp</td>
 <td align="left">rgl_mm_5cp</td>
-<td align="left">winlimit 3, no timelimit</td>
+<td align="left">winlimit 4, no timelimit</td>
 </tr>
 <tr>
 <td align="left">Stopwatch</td>

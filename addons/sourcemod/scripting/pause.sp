@@ -176,7 +176,7 @@ public Action:Cmd_Pause(client, const String:command[], args) {
 		new PauseState:oldState = g_iPauseState;
 		g_iPauseState = Paused;
 		CPrintToChatAllEx2(client, "{lightgreen}[Pause] {default}Game was paused by {teamcolor}%N", client);
-		CPrintToChatAllEx2(client, "{lightgreen} Updated version: doesn't allow uber building during pauses!");
+		CPrintToChatAllEx2(client, "{lightgreen}Updated version: doesn't allow uber building during pauses!");
 
 		//saves uber charge of every medic on server to the array
 		for (new i = 1; i <= MaxClients; i++) {
