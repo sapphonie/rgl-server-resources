@@ -1,4 +1,8 @@
-
+# New repo!
+We have a new repo for the RGL.gg Updater! Please click [here](https://github.com/RGLgg/server-resources-updater) to go to the new repo, thanks!
+This current repo is outdated so please make sure you're on the new repo! 
+---
+---
 # Server Resources for RGL.gg
 
 Hi! This github repository contains all of the **required** plugins, configs, maps, etc. for RGL league play. The configs were created from scratch, though they were inspired by the UGC, ETF2L, and CEVO configs. The autoupdater plugin was also created from scratch, but heavily inspired by Miggy's (RIP) [UGCUpdate](https://github.com/Miggthulu/UGCUpdate) and [IntegriTF2](https://github.com/Miggthulu/IntegriTF2) plugins.
